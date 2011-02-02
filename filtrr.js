@@ -17,83 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
  
- 
- 
- /* filtrr is a singleton class. 
-  * It can be attached directly to an <img> element or a <canvas> element.
-  */
- var filtrr = new function() {
-    
-	/**
-	 * Is it a string?
-	 *
-	 * @param srt The variable to be checked.
-	 **/
-	var isString = function(str)
-	{
-	    return (typeof str === "string") 
-	           || (!isNaN(str))          
-	           || (str.substring)
-	};
-    
-    /**
-     * Replaces an image element with a canvas.
-     *
-     * @param elemOrId The id of the image element or the actual DOM object.
-     * @callback The callback function to be executed once the image
-     *           has be loaded.
-     **/
-    this.img = function(elemOrId, callback) 
-    {
-        var imgElem = (isString(elemOrId))? document.getElementById(elemOrId) : elemOrId; 
-        if (imgElem) {
-            var img = new Image();
-            img.onload = function() 
-            {
-                var canvas = document.createElement("canvas");
-                var curleft = curtop = 0;
-                var temp = imgElem;
-                if (temp.offsetParent) {
-                    do {
-                        curleft += temp.offsetLeft;
-                        curtop  += temp.offsetTop;
-                    } while (temp = temp.offsetParent);
-                    canvas.style.top = (curtop - 8) + "px";
-                    canvas.style.left = (curleft - 8) + "px";
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    canvas.getContext("2d").drawImage(img, 0, 0);
-                    imgElem.offsetParent.appendChild(canvas);
-                    imgElem.style.display = "none";
-                    img = null;
-                    imgElem = null;
-                } 
-                callback(new filtr(canvas));
-            };
-            img.src = imgElem.getAttribute("src");
-        } else {
-            throw "Could not find image element with id: " + id;
-        }
-    };
-    
-    /**
-     * Creates a filtr object from a canvas.
-     *
-     * @param elemOrId The id of the canvas element or the actual DOM object.
-     * @callback The callback function to be executed once the canvas
-     *           has be loaded - just to be consistent with the image async loading.
-     **/
-    this.canvas = function(elemOrId, callback) 
-    {    
-        var canvasElem = (isString(elemOrId))? document.getElementById(elemOrId) : elemOrId; 
-        if (canvasElem) {
-            callback(new filtr(canvasElem));
-        } else {
-            throw "Could not find element with id: " + id;
-        }
-    };
- };
-    
  /* The filtr object contains all the image processing functions,
   * and it is returned as a parameter to the callback passed in filtrr.
   */
@@ -146,17 +69,17 @@
     this.canvas = function() 
     {
         return canvas;
-    }
+    };
     
     /** 
      * Return the imageData array in it's current state.  It is different
      * than getting the imageData from the canvas object because they
      * might not be drawn on the canvas yet.
      */
-	this.getCurrentImageData = function()
-	{
-	    return imageData;
-	}
+    this.getCurrentImageData = function()
+    {
+        return imageData;
+    };
     
     /*
      * The core image processing functions.
@@ -174,8 +97,9 @@
         apply : function(fn) 
         {    
             var data = imageData.data;
-            for (var i = 0; i < h; i++) {
-                for (var j = 0; j < w; j++) {
+            var i = 0, j = 0;
+            for (i = 0; i < h; i++) {
+                for (j = 0; j < w; j++) {
                     var index = (i*w*4) + (j*4);
                     var rgb = fn(
                         data[index],
@@ -204,30 +128,31 @@
             } else if (kernel.length === 0) {
                 throw "Kernel length was 0 in convolve function.";
             }
-            var inData  = imageData;
-            var outData = ctx.createImageData(inData);
-            var inDArray = imageData.data;
+            var inData    = imageData;
+            var outData   = ctx.createImageData(inData);
+            var outDArray = outData.data;
+            var inDArray  = imageData.data;
             var kh = parseInt(kernel.length / 2);
             var kw = parseInt(kernel[0].length / 2);
-            for (var i = 0; i < h; i++) {
-                for (var j = 0; j < w; j++) {
+            var i = 0, j = 0, n = 0, m = 0;
+            for (i = 0; i < h; i++) {
+                for (j = 0; j < w; j++) {
                     var outIndex = (i*w*4) + (j*4);
                     var r = 0, g = 0, b = 0;
-                    for (var n = -kh; n <= kh; n++) {
-                        for (var m = -kw; m <= kw; m++) {
+                    for (n = -kh; n <= kh; n++) {
+                        for (m = -kw; m <= kw; m++) {
                             if (i + n >= 0 && i + n < h) {
                                 if (j + m >= 0 && j + m < w) {
                                     var f = kernel[n + kh][m + kw];
-                                    if (f === 0) continue;
+                                    if (f === 0) {continue;}
                                     var inIndex = ((i+n)*w*4) + ((j+m)*4);
                                     r += inDArray[inIndex] * f;
-                                    g += inDArray[inIndex + 1] * f,
+                                    g += inDArray[inIndex + 1] * f;
                                     b += inDArray[inIndex + 2] * f;
                                 }
                             }
                         }
                     }
-                    var outDArray = outData.data;
                     outDArray[outIndex]     = safe(r);
                     outDArray[outIndex + 1] = safe(g);
                     outDArray[outIndex + 2] = safe(b);
@@ -238,27 +163,29 @@
         },
         
         /** 
-         * Edge detection. Three possible methods are offered - Simple (a simple horizontal edge detection).
+         * Edge detection. Three possible methods are offered - Simple (a simple horizontal edge detection),
          * Sobel and Canny.
          *
          * @param type The type of edge detector - possible values "simple", "sobel", "canny".
          */
         edgeDetection : function(type) {
             var inData  = imageData;
+            var inDArray = imageData.data;
+            var i = 0, j = 0, index = 0;
             if (type.toLowerCase() === "simple") {
-                
                 var outData = ctx.createImageData(inData);
-                for (var i = 0; i < h; i++) {
-                    for (var j = 1; j < w; j++) {
-                        var index = (i*w*4) + (j*4);
+                var outDArray = outData.data;
+                for (i = 0; i < h; i++) {
+                    for (j = 1; j < w; j++) {
+                        index = (i*w*4) + (j*4);
                         var leftIndex = (i*w*4) + ((j-1)*4);
-                        outData.data[index]     = safe(Math.abs(inData.data[index]     - inData.data[leftIndex]));
-                        outData.data[index + 1] = safe(Math.abs(inData.data[index + 1] - inData.data[leftIndex + 1]));
-                        outData.data[index + 2] = safe(Math.abs(inData.data[index + 2] - inData.data[leftIndex + 2]));
-                        outData.data[index + 3] = 255;
+                        outDArray[index]     = safe(Math.abs(inDArray[index]     - inDArray[leftIndex]));
+                        outDArray[index + 1] = safe(Math.abs(inDArray[index + 1] - inDArray[leftIndex + 1]));
+                        outDArray[index + 2] = safe(Math.abs(inDArray[index + 2] - inDArray[leftIndex + 2]));
+                        outDArray[index + 3] = 255;
                     }
                 }
-                imageData = outData;//ctx.putImageData(outData, 0, 0);
+                imageData = outData;
                         
             } else if (type.toLowerCase() === "sobel") {                
                 
@@ -272,29 +199,29 @@
                     [-2.0, 0.0, 2.0],
                     [-1.0, 0.0, 1.0]
                 ]);
-                for (var i = 0; i < h; i++) {
-                    for (var j = 0; j < w; j++) {
-                        var index = (i*w*4) + (j*4);
-                        var rH  = gH.data[index],
-                            rV  = gV.data[index],
-                            grH = gH.data[index + 1],
-                            grV = gV.data[index + 1],
-                            bH  = gH.data[index + 2],
-                            bV  = gV.data[index + 2];
-                        inData.data[index]     = Math.sqrt(rH * rH + rV * rV);
-                        inData.data[index + 1] = Math.sqrt(grH * grH + grV * grV);
-                        inData.data[index + 2] = Math.sqrt(bH * bH + bV * bV);
+                var gHArray = gH.data;
+                var gVArray = gV.data;
+                for (i = 0; i < h; i++) {
+                    for (j = 0; j < w; j++) {
+                        index = (i*w*4) + (j*4);
+                        var rH  = gHArray[index],
+                            rV  = gVArray[index],
+                            grH = gHArray[index + 1],
+                            grV = gVArray[index + 1],
+                            bH  = gHArray[index + 2],
+                            bV  = gVArray[index + 2];
+                        inDArray[index]     = Math.sqrt(rH * rH + rV * rV);
+                        inDArray[index + 1] = Math.sqrt(grH * grH + grV * grV);
+                        inDArray[index + 2] = Math.sqrt(bH * bH + bV * bV);
                     }
                 }
-                imageData = inData;//ctx.putImageData(inData, 0, 0);
+                imageData = inData;
                 
             } else if (type.toLowerCase() === "canny") {
-            
-            
+                // Not implemented yet.
             }
             return this;
         },
-        
         
         /** 
          * Adjusts the RGB values by a given factor.
@@ -312,7 +239,7 @@
                     g: safe(g * (1 + gS)),
                     b: safe(b * (1 + bS)),
                     a: a
-                }
+                };
             });
             rS = gS = bS = null;
             return this;
@@ -332,7 +259,7 @@
                     g: safe(g + t),
                     b: safe(b + t),
                     a: a
-                }
+                };
             });
             t = null;
             return this;
@@ -354,7 +281,7 @@
                     g: safe(gF),
                     b: safe(bF),
                     a: a
-                }
+                };
             });
             rf = gF = bF = null;
             return this;
@@ -374,7 +301,7 @@
                     g: g,
                     b: b,
                     a: safe(o * a)
-                }
+                };
             });
             o = null;
             return this;
@@ -395,7 +322,7 @@
                     g: safe(avg + t * (g - avg)),
                     b: safe(avg + t * (b - avg)),
                     a: a
-                }
+                };
             });
             t = null;
             return this;   
@@ -420,7 +347,7 @@
                     g: c,
                     b: c,
                     a: a
-                }
+                };
             });
             t = null;
             return this;
@@ -441,7 +368,7 @@
                     g: safe(Math.floor(g / step) * step),
                     b: safe(Math.floor(b / step) * step),
                     a: a
-                }
+                };
             });
             step = null;
             levels = null;
@@ -462,7 +389,7 @@
                     g: safe(Math.pow(g, value)),
                     b: safe(Math.pow(b, value)),
                     a: a
-                }
+                };
         
             });
             value = null;
@@ -481,8 +408,7 @@
                     g: safe(255 - g),
                     b: safe(255 - b),
                     a: a
-                }
-        
+                };
             });
             return this;
         },
@@ -500,7 +426,7 @@
                     g: safe(avg),
                     b: safe(avg),
                     a: a
-                }
+                };
             });
             return this;
         },
@@ -533,7 +459,7 @@
                     g: safe((g - minRGB[1]) * ((255 / (maxRGB[1] - minRGB[1])))),
                     b: safe((b - minRGB[2]) * ((255 / (maxRGB[2] - minRGB[2])))),
                     a: a
-                }   
+                };
             });
             minRGB = maxRGB = null;
             return this;
@@ -555,7 +481,7 @@
                     g: safe(g & mG),
                     b: safe(b & mB),
                     a: a
-                }
+                };
             });
             mR = mG = mB = null;
             return this;
@@ -573,7 +499,7 @@
                     g: safe((r * 0.349) + (g * 0.686) + (b * 0.168)),
                     b: safe((r * 0.272) + (g * 0.534) + (b * 0.131)),
                     a: a
-                }
+                };
             });
             return this;
         },
@@ -595,7 +521,7 @@
                     g: safe(g * calc(g / 255, val)),
                     b: safe(b * calc(b / 255, val)),
                     a: a        
-                }
+                };
             });
             val = null;
             return this;
@@ -618,7 +544,7 @@
                     g: safe(255 * calc(g / 255, val)),
                     b: safe(255 * calc(b / 255, val)),
                     a: a            
-                }
+                };
             });
             val = null;
             return this;
@@ -660,20 +586,23 @@
                 [4/273, 16/273, 26/273, 16/273, 4/273],
                 [7/273, 26/273, 41/273, 26/273, 7/273],
                 [4/273, 16/273, 26/273, 16/273, 4/273],             
-                [1/273, 4/273, 7/273, 4/273, 1/273],
+                [1/273, 4/273, 7/273, 4/273, 1/273]
             ]);   
             return this;
         }
     };
     
+    /* Blending modes. Each mode takes another filtr object representing the layer to be blended on top. */
     this.blend = {
     
-        apply : function(topFiltr, fn) {
+        apply : function(topFiltr, fn) 
+        {
             var blendData = topFiltr.getCurrentImageData();
             var blendDArray = blendData.data;
             var imageDArray = imageData.data;
-            for (var i = 0; i < h; i++) {
-                for (var j = 0; j < w; j++) {
+            var i = 0, j = 0;
+            for (i = 0; i < h; i++) {
+                for (j = 0; j < w; j++) {
                     var index = (i*w*4) + (j*4);
                     var rgba = fn(
                         {r: blendDArray[index],
@@ -692,113 +621,208 @@
                 }
             }
         },
-    
-        multiply: function(topFiltr) {
-            
-            this.apply(topFiltr, function(top, bottom){
+        
+        /**
+         * Multiply blend mode.
+         */
+        multiply: function(topFiltr) 
+        { 
+            this.apply(topFiltr, function(top, bottom)
+            {
                 return {
                     r: safe((top.r * bottom.r) / 255),
                     g: safe((top.g * bottom.g) / 255),
                     b: safe((top.b * bottom.b) / 255),
                     a: bottom.a 
-                }
+                };
             });
             return this;
         },
         
-        screen : function(topFiltr) {
-            this.apply(topFiltr, function(top, bottom){
+        /**
+         * Screen blend mode.
+         */
+        screen : function(topFiltr) 
+        {
+            this.apply(topFiltr, function(top, bottom)
+            {
                 return {
                     r: safe(255 - (((255 - top.r) * (255 - bottom.r)) / 255)),
                     g: safe(255 - (((255 - top.g) * (255 - bottom.g)) / 255)),
                     b: safe(255 - (((255 - top.b) * (255 - bottom.b)) / 255)),
                     a: bottom.a 
-                }
+                };
             });
-            return this;
-            
+            return this;    
         },
         
-        overlay : function(topFiltr) {
-            
+        /**
+         * Overaly blend mode - a combination of multiply and screen.
+         */
+        overlay : function(topFiltr) 
+        {
             function calc(b, t) {
                 return (b > 128) ? 255 - 2 * (255 - t) * (255 - b) / 255: (b * t * 2) / 255;
             }
             
-            this.apply(topFiltr, function(top, bottom){
-                
+            this.apply(topFiltr, function(top, bottom)
+            { 
                 return {
                     r: safe(calc(bottom.r, top.r)),
                     g: safe(calc(bottom.g, top.g)),
                     b: safe(calc(bottom.b, top.b)),
                     a: bottom.a
-                }
-            
+                };
             });
-        
+            return this;
         },
         
-        difference : function(topFiltr) {
-            
-            this.apply(topFiltr, function(top, bottom){
+        /**
+         * Difference blend mode - subtracts bottom from top.
+         */
+        difference : function(topFiltr) 
+        {
+            this.apply(topFiltr, function(top, bottom)
+            {
                 return {
                     r: safe(Math.abs(top.r - bottom.r)),
                     g: safe(Math.abs(top.g - bottom.g)),
                     b: safe(Math.abs(top.b - bottom.b)),
                     a: bottom.a 
-                }
+                };
             });
             return this;
-        
         },
         
-        addition : function(topFiltr) {
-        
-            this.apply(topFiltr, function(top, bottom){
+        /**
+         * Addition blend mode - adds top to bottom.
+         */
+        addition : function(topFiltr) 
+        {
+            this.apply(topFiltr, function(top, bottom)
+            {
                 return {
                     r: safe(top.r + bottom.r),
                     g: safe(top.g + bottom.g),
                     b: safe(top.b + bottom.b),
                     a: bottom.a 
-                }
+                };
             });
             return this;
-
         },
         
-        exclusion : function(topFiltr) {
-            
-            this.apply(topFiltr, function(top, bottom){
+        /**
+         * Exclusion blend mode - similar to difference with lower contrast.
+         */
+        exclusion : function(topFiltr) 
+        {
+            this.apply(topFiltr, function(top, bottom)
+            {
                 return {
                     r: safe(128 - 2 * (bottom.r - 128) * (top.r - 128) / 255),
                     g: safe(128 - 2 * (bottom.g - 128) * (top.g - 128) / 255),
                     b: safe(128 - 2 * (bottom.b - 128) * (top.b - 128) / 255),
                     a: bottom.a
                                 
-                }
+                };
             });
             return this;
-    
         },
-                    
-        softLight : function(topFiltr) {
-            
+        
+        /**
+         * Soft light blend mode - a softer version of Overlay.
+         */     
+        softLight : function(topFiltr) 
+        {
             function calc(b, t) {
                 return (b > 128) ? 255 - ((255 - b) * (255 - (t - 128))) / 255 : (b * (t + 128)) / 255;
             }
             
-            this.apply(topFiltr, function(top, bottom){
-                
+            this.apply(topFiltr, function(top, bottom)
+            {
                 return {
                     r: safe(calc(bottom.r, top.r)),
                     g: safe(calc(bottom.g, top.g)),
                     b: safe(calc(bottom.b, top.b)),
                     a: bottom.a
-                }
-            
+                };
             });
             return this;
-        
         }
     };    
+ };
+ 
+ /* filtrr is a singleton class. 
+  * It can be attached directly to an <img> element or a <canvas> element.
+  */
+ var filtrr = new function() {
+    
+    /**
+     * Is it a string?
+     *
+     * @param srt The variable to be checked.
+     **/
+    var isString = function(str)
+    {
+        return (typeof str === "string") 
+               || (!isNaN(str))          
+               || (str.substring);
+    };
+    
+    /**
+     * Replaces an image element with a canvas.
+     *
+     * @param elemOrId The id of the image element or the actual DOM object.
+     * @callback The callback function to be executed once the image
+     *           has be loaded.
+     **/
+    this.img = function(elemOrId, callback) 
+    {
+        var imgElem = (isString(elemOrId))? document.getElementById(elemOrId) : elemOrId; 
+        if (imgElem) {
+            var img = new Image();
+            img.onload = function() 
+            {
+                var canvas = document.createElement("canvas");
+                var curleft = 0, curtop = 0;
+                var temp = imgElem;
+                if (temp.offsetParent) {
+                    do {
+                        curleft += temp.offsetLeft;
+                        curtop  += temp.offsetTop;
+                    } while (temp = temp.offsetParent);
+                    canvas.style.top = (curtop - 8) + "px";
+                    canvas.style.left = (curleft - 8) + "px";
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    canvas.getContext("2d").drawImage(img, 0, 0);
+                    imgElem.offsetParent.appendChild(canvas);
+                    imgElem.style.display = "none";
+                    img = null;
+                    imgElem = null;
+                } 
+                callback(new filtr(canvas));
+            };
+            img.src = imgElem.getAttribute("src");
+        } else {
+            throw "Could not find image element with id: " + id;
+        }
+    };
+    
+    /**
+     * Creates a filtr object from a canvas.
+     *
+     * @param elemOrId The id of the canvas element or the actual DOM object.
+     * @callback The callback function to be executed once the canvas
+     *           has been loaded - just to be consistent with the image async loading.
+     **/
+    this.canvas = function(elemOrId, callback) 
+    {    
+        var canvasElem = (isString(elemOrId))? document.getElementById(elemOrId) : elemOrId; 
+        if (canvasElem) {
+            callback(new filtr(canvasElem));
+        } else {
+            throw "Could not find element with id: " + id;
+        }
+    };
  };
