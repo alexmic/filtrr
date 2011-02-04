@@ -130,9 +130,9 @@
             }
             var inData = imageData;
             if (!ctx.createImageData) {
-            	throw "createImageData is not supported."
+                throw "createImageData is not supported."
             }
-           	var outData   = ctx.createImageData(inData.width, inData.height);
+            var outData   = ctx.createImageData(inData.width, inData.height);
             var outDArray = outData.data;
             var inDArray  = imageData.data;
             var kh = parseInt(kernel.length / 2);
@@ -176,9 +176,9 @@
             var inDArray = imageData.data;
             var i = 0, j = 0, index = 0;
             if (type.toLowerCase() === "simple") {
-            	if (!ctx.createImageData) {
-            		throw "createImageData is not supported.";
-            	}
+                if (!ctx.createImageData) {
+                    throw "createImageData is not supported.";
+                }
                 var outData = ctx.createImageData(inData.width, inData.height);
                 var outDArray = outData.data;
                 for (i = 0; i < h; i++) {
@@ -781,25 +781,25 @@
      * @param obj The object in question.
      */
     var findPos = function(obj)
-  	{
-    	var curleft = 0;
-    	var curtop  = 0;
-    	if (obj.offsetParent) {
-        	while(true) {
-        	    curtop += obj.offsetTop;
-          		curleft += obj.offsetLeft;
-          		if(!obj.offsetParent) { break; }
-           		obj = obj.offsetParent;
-        	}
-    	} else {
-    		if (obj.x) {
-    			curleft += obj.x;
-    		} 
-    		if (obj.y) {
-    			curtop += obj.y;
-    		} 
-    	}
-    	return {top: curtop, left: curleft};
+    {
+        var curleft = 0;
+        var curtop  = 0;
+        if (obj.offsetParent) {
+            while(true) {
+			curtop += obj.offsetTop;
+			curleft += obj.offsetLeft;
+			if(!obj.offsetParent) { break; }
+				obj = obj.offsetParent;
+			}
+		} else {
+			if (obj.x) {
+				curleft += obj.x;
+			} 
+			if (obj.y) {
+				curtop += obj.y;
+			} 
+		}
+		return {top: curtop, left: curleft};
     }
     
     /**
@@ -826,11 +826,11 @@
                 canvas.style.left = Math.abs(pos.left - posP.left) + "px"; 
                 canvas.style.position = "absolute";               
                 if (imgElem.offsetParent) {
-                	imgElem.offsetParent.appendChild(canvas);
-					imgElem.style.display = "none";
+                    imgElem.offsetParent.appendChild(canvas);
+                    imgElem.style.display = "none";
                 }
                 img = null;
-            	imgElem = null;
+                imgElem = null;
                 callback(new filtr(canvas));
             };
             img.src = imgElem.getAttribute("src");
