@@ -128,8 +128,11 @@
             } else if (kernel.length === 0) {
                 throw "Kernel length was 0 in convolve function.";
             }
-            var inData    = imageData;
-            var outData   = ctx.createImageData(inData);
+            var inData = imageData;
+            if (!ctx.createImageData) {
+            	throw "createImageData is not supported."
+            }
+           	var outData   = ctx.createImageData(inData.width, inData.height);
             var outDArray = outData.data;
             var inDArray  = imageData.data;
             var kh = parseInt(kernel.length / 2);
@@ -173,7 +176,10 @@
             var inDArray = imageData.data;
             var i = 0, j = 0, index = 0;
             if (type.toLowerCase() === "simple") {
-                var outData = ctx.createImageData(inData);
+            	if (!ctx.createImageData) {
+            		throw "createImageData is not supported.";
+            	}
+                var outData = ctx.createImageData(inData.width, inData.height);
                 var outDArray = outData.data;
                 for (i = 0; i < h; i++) {
                     for (j = 1; j < w; j++) {
@@ -770,6 +776,33 @@
     };
     
     /**
+     * Find the position of the object in the document.
+     *
+     * @param obj The object in question.
+     */
+    var findPos = function(obj)
+  	{
+    	var curleft = 0;
+    	var curtop  = 0;
+    	if (obj.offsetParent) {
+        	while(true) {
+        	    curtop += obj.offsetTop;
+          		curleft += obj.offsetLeft;
+          		if(!obj.offsetParent) { break; }
+           		obj = obj.offsetParent;
+        	}
+    	} else {
+    		if (obj.x) {
+    			curleft += obj.x;
+    		} 
+    		if (obj.y) {
+    			curtop += obj.y;
+    		} 
+    	}
+    	return {top: curtop, left: curleft};
+    }
+    
+    /**
      * Replaces an image element with a canvas.
      *
      * @param elemOrId The id of the image element or the actual DOM object.
@@ -784,23 +817,20 @@
             img.onload = function() 
             {
                 var canvas = document.createElement("canvas");
-                var curleft = 0, curtop = 0;
-                var temp = imgElem;
-                if (temp.offsetParent) {
-                    do {
-                        curleft += temp.offsetLeft;
-                        curtop  += temp.offsetTop;
-                    } while (temp = temp.offsetParent);
-                    canvas.style.top = (curtop - 8) + "px";
-                    canvas.style.left = (curleft - 8) + "px";
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    canvas.getContext("2d").drawImage(img, 0, 0);
-                    imgElem.offsetParent.appendChild(canvas);
-                    imgElem.style.display = "none";
-                    img = null;
-                    imgElem = null;
-                } 
+                canvas.width = img.width;
+                canvas.height = img.height;
+                canvas.getContext("2d").drawImage(img, 0, 0);
+                var pos = findPos(imgElem);
+                var posP = findPos(imgElem.offsetParent);
+                canvas.style.top = Math.abs(pos.top - posP.top) + "px";
+                canvas.style.left = Math.abs(pos.left - posP.left) + "px"; 
+                canvas.style.position = "absolute";               
+                if (imgElem.offsetParent) {
+                	imgElem.offsetParent.appendChild(canvas);
+					imgElem.style.display = "none";
+                }
+                img = null;
+            	imgElem = null;
                 callback(new filtr(canvas));
             };
             img.src = imgElem.getAttribute("src");
