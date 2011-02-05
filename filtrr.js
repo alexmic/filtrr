@@ -442,7 +442,7 @@
          */
         bump : function() 
         {
-            this.convolve([
+            imageData = this.convolve([
                 [-1.0, -1.0,  0.0],
                 [-1.0,  1.0,  1.0],
                 [ 0.0,  1.0,  1.0]
@@ -786,20 +786,20 @@
         var curtop  = 0;
         if (obj.offsetParent) {
             while(true) {
-			curtop += obj.offsetTop;
-			curleft += obj.offsetLeft;
-			if(!obj.offsetParent) { break; }
-				obj = obj.offsetParent;
-			}
-		} else {
-			if (obj.x) {
-				curleft += obj.x;
-			} 
-			if (obj.y) {
-				curtop += obj.y;
-			} 
-		}
-		return {top: curtop, left: curleft};
+                curtop += obj.offsetTop;
+                curleft += obj.offsetLeft;
+                if(!obj.offsetParent) { break; }
+                obj = obj.offsetParent;
+            }
+        } else {
+            if (obj.x) { 
+                curleft += obj.x;
+            } 
+            if (obj.y) {
+                curtop += obj.y;
+            } 
+        }
+        return {top: curtop, left: curleft};
     }
     
     /**
