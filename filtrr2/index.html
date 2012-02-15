@@ -1,14 +1,19 @@
 <html>
     <head>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/></script>
-        <script type="text/javascript" src="filtrr2.js"></script>
+        <script type="text/javascript" src="src/filtrr2.js"></script>
+        <script type="text/javascript" src="src/blender.js"></script>
+        <script type="text/javascript" src="src/events.js"></script>
+        <script type="text/javascript" src="src/effects.js"></script>
+        <script type="text/javascript" src="src/util.js"></script>
     </head>
     <body>
         <img id="iii" style="position:absolute; left: 400px" src="pic.jpg"/>
         <script type="text/javascript">
-            Filtrr("#iii", "replace", function() {
-                this.tint([10, 1.2], [60, 1.5], [100, 0.4]).render();
+            var lomo = Filtrr("#iii", "replace", function() {
+                this.expose(5).sepia().invert().render();
             });
+
         </script>
     </body>
 </html>
