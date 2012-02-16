@@ -10,8 +10,9 @@
     <body>
         <img id="iii" style="position:absolute; left: 400px" src="pic.jpg"/>
         <script type="text/javascript">
-            var lomo = Filtrr("#iii", "replace", function() {
-                this.expose(5).sepia().invert().render();
+            var lomo = Filtrr("#iii", function() {
+                this.brighten(20).sharpen().alpha(20).invert().saturate(-40).expose(10).render();
+                //this.expose(5).sepia().invert().render();
             });
 
         </script>

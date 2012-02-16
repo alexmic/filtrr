@@ -61,9 +61,9 @@ var F = function(elem, callback)
                 elem.replaceWith(c);
 
                 // all done - call callback with this as a new 
-                // CoreEffects object.
+                // ImageProcessor object.
                 if (callback) {
-                    callback.call(new Filtrr.CoreEffects(this));
+                    callback.call(new Filtrr.ImageProcessor(this));
                 }
 
             }, this);

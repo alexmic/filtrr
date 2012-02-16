@@ -23,11 +23,77 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  **/
  
-   
-// ========================= CoreEffects ========================= //
+
+// ========================= Effect Store ========================= //
 
 
-Filtrr.CoreEffects = function(filtrr) 
+/**
+ * Holds all registered effects.
+ */
+Filtrr.EffectStore = (function() {
+    
+    var effects = {},
+        exports = {},
+        count   = 0;
+
+    exports.add = function(name, def)
+    {
+        effects[name] = def;  
+        count++;
+    };
+
+    exports.count = function()
+    {
+        return count;
+    };
+
+    exports.get = function(name)
+    {
+        return effects[name];
+    };
+
+    exports.getNames = function()
+    {
+        var names = [], n = null;
+        for (n in effects) {
+            if (effects.hasOwnProperty(n)) {
+                names.push(n);
+            }
+        }
+        return names;
+    };
+
+    return exports;
+
+}());
+
+
+// ========================= Effect Registration ========================= //
+
+/*
+ * Registers an effect. Registering an effect consists of a name
+ * and a function which will execute the effect. All registered 
+ * effects will be available on any ImageProcessor instance.
+ */
+Filtrr.effect = function(name, def)
+{
+    Filtrr.EffectStore.add(name, def);
+};
+
+
+// ========================= Effect Registration ========================= //
+
+/*
+ * The 'meat' of the framework. This is the context of the callback function
+ * which you pass into Filttr i.e
+ *
+ * Filtrr('#img', function() {
+ *    // 'this' will be an ImageProcessor instance.
+ * });
+ *
+ * It will contain all preset and user-defined effects.
+ */ 
+Filtrr.ImageProcessor = function(filtrr) 
 {
     var $canvas = filtrr.canvas, 
         canvas  = $canvas[0];
@@ -36,7 +102,7 @@ Filtrr.CoreEffects = function(filtrr)
         h   = canvas.height,
         ctx = canvas.getContext("2d");
     
-    // Shortcuts
+    // Shortcuts.
     var clamp = Filtrr.Util.clamp,
         dist  = Filtrr.Util.dist,
         normalize = Filtrr.Util.normalize;
@@ -46,11 +112,29 @@ Filtrr.CoreEffects = function(filtrr)
     // back to the canvas.
     var buffer = ctx.getImageData(0, 0, w, h);
 
-    // Current effect
-    var currEffect = null;
-
-    // Filtrr ref
+    // Filtrr ref.
     var _filtrr = filtrr;
+
+    // Copy over all registered effects and create
+    // proxy functions.
+    var names = Filtrr.EffectStore.getNames(),
+        len   = names.length, i = 0, n = null,
+        that  = this;
+    
+    for (i = 0; i < len; i++) {
+        n = names[i];
+        this[n] = (function(_n, _f) {
+
+            return $.proxy(function() {
+                var fx = Filtrr.EffectStore.get(_n);
+                _f.trigger(_n + ":preprocess");
+                fx.apply(this, arguments);
+                _f.trigger(_n + ":postprocess");
+                return this;
+            }, that);
+        
+        }(n, filtrr));
+    }
 
     // == Public API
     
@@ -72,7 +156,6 @@ Filtrr.CoreEffects = function(filtrr)
 
     this.process = function(procfn) 
     {    
-        _filtrr.trigger(currEffect + ":preprocess");
         var data = buffer.data;
         var i = 0, j = 0;
         for (i = 0; i < h; i++) {
@@ -99,19 +182,16 @@ Filtrr.CoreEffects = function(filtrr)
 
             }
         }
-        _filtrr.trigger(currEffect + ":postprocess");
-        currEffect = null;
         return this;
     };
 
 
-    this.convolve = function(effect, kernel) 
+    this.convolve = function(kernel) 
     {    
         if (!ctx.createImageData) {
             throw "createImageData is not supported."
         }
 
-        _filtrr.trigger(currEffect + ":preprocess");
         var temp  = ctx.createImageData(buffer.width, buffer.height),
             tempd = temp.data,
             bufferData = buffer.data,
@@ -144,222 +224,162 @@ Filtrr.CoreEffects = function(filtrr)
             }
         }
         buffer = temp;
-        _filtrr.trigger(currEffect + ":postprocess");
         return this;
     };
 
-    this.adjust = function(pr, pg, pb)
-    {   
-        currEffect = "adjust";
-        this.process(function(rgba) {
-            rgba.r *= 1 + pr;
-            rgba.g *= 1 + pg;
-            rgba.b *= 1 + pb;
-        });
-        return this;
-    };
+};
 
-    // [-100, 100]
-    this.brighten = function(p) 
+
+// ===================== Preset effects ====================== //
+
+
+Filtrr.effect("adjust", function(pr, pg, pb) {   
+    this.process(function(rgba) {
+        rgba.r *= 1 + pr;
+        rgba.g *= 1 + pg;
+        rgba.b *= 1 + pb;
+    });
+});
+
+Filtrr.effect("brighten",  function(p) {
+    p = Filtrr.Util.normalize(p, -255, 255, -100, 100);
+    this.process(function(rgba) {
+        rgba.r += p;
+        rgba.g += p;
+        rgba.b += p;
+    });
+});
+
+Filtrr.effect("alpha", function(p) {
+    p = Filtrr.Util.normalize(p, 0, 255, -100, 100);
+    this.process(function(rgba) {
+        rgba.a = p;
+    });
+});
+
+Filtrr.effect("saturate", function(p) {
+    p = Filtrr.Util.normalize(p, 0, 2, -100, 100);
+    this.process(function(rgba) {
+        var avg = (rgba.r + rgba.g + rgba.b) / 3;
+        rgba.r = avg + p * (rgba.r - avg);
+        rgba.g = avg + p * (rgba.g - avg);
+        rgba.b = avg + p * (rgba.b - avg);
+    });
+});
+
+Filtrr.effect("invert", function() {
+    this.process(function(rgba) {
+        rgba.r = 255 - rgba.r;
+        rgba.g = 255 - rgba.g;
+        rgba.b = 255 - rgba.b;
+    });    
+});
+
+Filtrr.effect("posterize", function(p) {    
+    p = Filtrr.Util.clamp(p, 1, 255);
+    var step = Math.floor(255 / p);
+    this.process(function(rgba) {
+        rgba.r = Math.floor(rgba.r / step) * step;
+        rgba.g = Math.floor(rgba.g / step) * step;
+        rgba.b = Math.floor(rgba.b / step) * step;
+    });
+});
+
+Filtrr.effect("gamma", function(p) {    
+    p = Filtrr.Util.normalize(p, 0, 2, -100, 100);
+    this.process(function(rgba) {
+        rgba.r = Math.pow(rgba.r, p);
+        rgba.g = Math.pow(rgba.g, p);
+        rgba.b = Math.pow(rgba.b, p);
+    });
+});
+
+Filtrr.effect("contrast", function(p) {
+    p = Filtrr.Util.normalize(p, 0, 2, -100, 100);
+    function c(f, c){
+        return (f - 0.5) * c + 0.5;
+    }
+    this.process(function(rgba) {
+        rgba.r = 255 * c(rgba.r / 255, p);
+        rgba.g = 255 * c(rgba.g / 255, p);
+        rgba.b = 255 * c(rgba.b / 255, p);
+    });
+});
+
+Filtrr.effect("sepia", function(p) {
+    this.process(function(rgba) {
+        var r = rgba.r, g = rgba.g, b = rgba.b;
+        rgba.r = (r * 0.393) + (g * 0.769) + (b * 0.189);
+        rgba.g = (r * 0.349) + (g * 0.686) + (b * 0.168);
+        rgba.b = (r * 0.272) + (g * 0.534) + (b * 0.131);
+    });    
+});
+
+Filtrr.effect("subtract", function(r, g, b) {
+    this.process(function(rgba)
+    {        
+        rgba.r -= r;
+        rgba.g -= g;
+        rgba.b -= b;
+    }); 
+});
+
+Filtrr.effect("fill", function(r, g, b) {
+    this.process(function(rgba)
     {
-        currEffect = "brighten";
-        p = normalize(p, -255, 255, -100, 100);
-        this.process(function(rgba) {
-            rgba.r += p;
-            rgba.g += p;
-            rgba.b += p;
-        });
-        return this;
-    };
+        rgba.r = r;
+        rgba.g = g;
+        rgba.b = b;
+    });
+});
 
-    // [-100, 100]
-    this.alpha = function(p) 
-    {
-        currEffect = "alpha";
-        p = normalize(p, 0, 255, -100, 100);
-        this.process(function(rgba) {
-            rgba.a = p;
-        });
-        return this;
-    };
-
-    // [-100, 100]
-    this.saturate = function(p) 
-    {    
-        currEffect = "saturate";
-        p = normalize(p, 0, 2, -100, 100);
-        this.process(function(rgba) {
-            var avg = (rgba.r + rgba.g + rgba.b) / 3;
-            rgba.r = avg + p * (rgba.r - avg);
-            rgba.g = avg + p * (rgba.g - avg);
-            rgba.b = avg + p * (rgba.b - avg);
-        });
-        return this;   
-    };
-
-    this.invert = function() 
-    {
-        currEffect = "invert";
-        this.process(function(rgba) {
-            rgba.r = 255 - rgba.r;
-            rgba.g = 255 - rgba.g;
-            rgba.b = 255 - rgba.b;
-        });
-        return this;
-    };
-
-    // [1, 255]
-    this.posterize = function(p) 
-    {    
-        currEffect = "posterize";
-        p = clamp(p, 1, 255);
-        var step = Math.floor(255 / p);
-        this.process(function(rgba) {
-            rgba.r = Math.floor(rgba.r / step) * step;
-            rgba.g = Math.floor(rgba.g / step) * step;
-            rgba.b = Math.floor(rgba.b / step) * step;
-        });
-        return this;
-    };
-
-    // [-100, 100]
-    this.gamma = function(p) 
-    {    
-        currEffect = "gamma";
-        p = normalize(p, 0, 2, -100, 100);
-        this.process(function(rgba) {
-            rgba.r = Math.pow(rgba.r, p);
-            rgba.g = Math.pow(rgba.g, p);
-            rgba.b = Math.pow(rgba.b, p);
-        });
-        return this;
-    };
-
-    // [-100, 100]
-    this.contrast = function(p) 
-    {    
-        currEffect = "contrast";
-        p = normalize(p, 0, 2, -100, 100);
-        function c(f, c){
-            return (f - 0.5) * c + 0.5;
-        }
-        this.process(function(rgba) {
-            rgba.r = 255 * c(rgba.r / 255, p);
-            rgba.g = 255 * c(rgba.g / 255, p);
-            rgba.b = 255 * c(rgba.b / 255, p);
-        });
-        return this;
-    };
-
-    this.sepia = function() 
-    {
-        currEffect = "sepia";
-        this.process(function(rgba) {
-            var r = rgba.r, g = rgba.g, b = rgba.b;
-            rgba.r = (r * 0.393) + (g * 0.769) + (b * 0.189);
-            rgba.g = (r * 0.349) + (g * 0.686) + (b * 0.168);
-            rgba.b = (r * 0.272) + (g * 0.534) + (b * 0.131);
-        });
-        return this;
-    };
-
-    this.subtract = function(r, g, b) 
-    {
-        currEffect = "subtract";
-        this.process(function(rgba)
-        {        
-            rgba.r -= r;
-            rgba.g -= g;
-            rgba.b -= b;
-        });
-        return this;
-    };
-
-    this.fill = function(r, g, b)
-    {
-        currEffect = "fill";
-        this.process(function(rgba)
-        {
-            rgba.r = r;
-            rgba.g = g;
-            rgba.b = b;
-        });
-        return this;
-    };
-
-    this.blur = function(t)
-    {
-        currEffect = "blur";
-        t = t || "simple";
-        if (t === "simple") {
-            this.convolve([
-                [1/9, 1/9, 1/9],
-                [1/9, 1/9, 1/9],
-                [1/9, 1/9, 1/9]
-            ]);
-        } else if (t === "gaussian") {
-            this.convolve([
-                [1/273, 4/273, 7/273, 4/273, 1/273],
-                [4/273, 16/273, 26/273, 16/273, 4/273],
-                [7/273, 26/273, 41/273, 26/273, 7/273],
-                [4/273, 16/273, 26/273, 16/273, 4/273],             
-                [1/273, 4/273, 7/273, 4/273, 1/273]
-            ]); 
-        }
-        return this;
-    };
-    
-    this.sharpen = function()
-    {
-        currEffect = "sharpen";
+Filtrr.effect("blur", function(t) {
+    t = t || "simple";
+    if (t === "simple") {
         this.convolve([
-            [0.0, -0.2,  0.0],
-            [-0.2, 1.8, -0.2],
-            [0.0, -0.2,  0.0]
+            [1/9, 1/9, 1/9],
+            [1/9, 1/9, 1/9],
+            [1/9, 1/9, 1/9]
         ]);
-        return this;
-    };
+    } else if (t === "gaussian") {
+        this.convolve([
+            [1/273, 4/273, 7/273, 4/273, 1/273],
+            [4/273, 16/273, 26/273, 16/273, 4/273],
+            [7/273, 26/273, 41/273, 26/273, 7/273],
+            [4/273, 16/273, 26/273, 16/273, 4/273],             
+            [1/273, 4/273, 7/273, 4/273, 1/273]
+        ]); 
+    } 
+});
 
-    this.curves = function(s, c1, c2, e)
+Filtrr.effect("sharpen", function() {
+    this.convolve([
+        [0.0, -0.2,  0.0],
+        [-0.2, 1.8, -0.2],
+        [0.0, -0.2,  0.0]
+    ]);
+});
+   
+Filtrr.effect("curves", function(s, c1, c2, e) {
+    var bezier = new Filtrr.Util.Bezier(s, c1, c2, e),
+        points = bezier.genColorTable();
+    this.process(function(rgba) 
     {
-        // This is a hack for now since curves might
-        // be used by other filters so they take 
-        // precedence.
-        if (!currEffect) {
-            currEffect = "curves";
-        }
-        var bezier = new Filtrr.Util.Bezier(s, c1, c2, e),
-            points = bezier.genColorTable();
-        this.process(function(rgba) 
-        {
-            rgba.r = points[rgba.r];
-            rgba.g = points[rgba.g];
-            rgba.b = points[rgba.b];
-        });
-        return this;
-    };
+        rgba.r = points[rgba.r];
+        rgba.g = points[rgba.g];
+        rgba.b = points[rgba.b];
+    });    
+});
 
-    this.expose = function(p)
-    {
-        currEffect = "expose";
-        var p  = normalize(p, -1, 1, -100, 100),
-            c1 = {x: 0, y: 255 * p},
-            c2 = {x: 255 - (255 * p), y: 255};
-        this.curves(
-            {x: 0, y: 0}, 
-            c1,
-            c2, 
-            {x: 255, y: 255}
-        );
-        return this;
-    };
-
-};
-
-
-// ========================= Presets ========================= //
-
-
-Filtrr.Presets = function() {
-    
-};
+Filtrr.effect("expose", function(p) {
+    var p  = Filtrr.Util.normalize(p, -1, 1, -100, 100),
+        c1 = {x: 0, y: 255 * p},
+        c2 = {x: 255 - (255 * p), y: 255};
+    this.curves(
+        {x: 0, y: 0}, 
+        c1,
+        c2, 
+        {x: 255, y: 255}
+    );
+});
+  
