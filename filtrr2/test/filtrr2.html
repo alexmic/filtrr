@@ -55,15 +55,14 @@
                 });
             });
 
-            test("Non existing DOM object.", function() {
-                stop();
+            asyncTest("Non existing DOM object.", function() {
                 raises(function() {
                     Filtrr(undefined, function() {});
                 });
                 start();
             });
-            test("Non existing DOM object.", function() {
-                stop();
+            
+            asyncTest("Non existing DOM object.", function() {
                 raises(function() {
                     Filtrr(null, function() {});
                 });
@@ -71,8 +70,7 @@
             });
 
 
-            test("Non existing DOM object.", function() {
-                stop();
+            asyncTest("Non existing DOM object.", function() {
                 raises(function() {
                     Filtrr($("#asfafa"), function() {});
                 });
