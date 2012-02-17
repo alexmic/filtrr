@@ -9,109 +9,136 @@
     <script type="text/javascript" src="../src/filtrr2.js"></script>
     <script type="text/javascript" src="../src/events.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function(){ 
 
-            var canvas = $("<canvas>"),
-                manip  = Manipulation(canvas);
-
-            test("clamp()", function() {
-                
-                equal(manip._ut.clamp(0), 0, "Min default value.");
-                equal(manip._ut.clamp(255), 255, "Max default value.");
-                equal(manip._ut.clamp(150), 150, "Random number with default values.");
-                equal(manip._ut.clamp(150, 0, 255), 150, "Random number with set values.");
-                equal(manip._ut.clamp(10, 50, 100), 50, "Less than min value.");
-                equal(manip._ut.clamp(50, 10, 20), 20, "More than max value.");
-
+            test("Registering events.", function() {
+                var events = new Filtrr.Events(),
+                    ev1c = 0,
+                    ev2c = 0;
+                events.on("ev1", function() {
+                     ev1c++; 
+                });
+                events.on("ev1", function() {
+                     ev1c++;
+                });
+                events.on("ev2", function() {
+                     ev2c++;
+                });
+                events.on("ev2", function() {
+                     ev2c++;
+                });
+                events.on("ev2", function() {
+                     ev2c++;
+                });
+                events.on("ev2", function() {
+                     ev2c++;
+                });
+                events.trigger("ev1");
+                events.trigger("ev2");
+                equal(ev1c, 2);
+                equal(ev2c, 4);
             });
 
-            test("dist()", function() {
-
-                equal(manip._ut.dist(0, 0), 0, "Zero distance with 0s.");
-                equal(manip._ut.dist(255, 255), 0, "Zero distance with random num.");
-                equal(manip._ut.dist(0, 10), 10, "Two positives.");
-                equal(manip._ut.dist(-10, -20), 10, "Two negatives.");
-                equal(manip._ut.dist(-10, 10), 20, "One positive, one negative.");
-                
+            test("Registering events with attributes.", function() {
+                var events = new Filtrr.Events();
+                events.on("ev1", function(a) {
+                    equal(a, 1);
+                });
+                events.on("ev1", function(a) {
+                    equal(a, 1);
+                });
+                events.on("ev2", function(b, c) {
+                    equal(b, 2);
+                    equal(c, 3);
+                });
+                events.on("ev2", function(b, c) {
+                    equal(b, 2);
+                    equal(c, 3);
+                });
+                events.trigger("ev1", 1);
+                events.trigger("ev2", 2, 3);
             });
 
-            test("normalize()", function() {
+            test("Registering events with context.", function() {
+                var events = new Filtrr.Events();
+                var ctxa = {
+                    a: 1
+                };
 
-                equal(manip._ut.normalize(50, 0, 1, 0, 100), 0.5, "src: All ranges positive.");
-                equal(manip._ut.normalize(50, 0, 10, 0, 100), 5, "src: All ranges positive.");
-                equal(manip._ut.normalize(50, 0, 1, 50, 100), 0, "src: All ranges positive.");
-                equal(manip._ut.normalize(100, 0, 1, 50, 100), 1, "src: All ranges positive.");
-                equal(manip._ut.normalize(75, 0, 1, 50, 100), 0.5, "src: All ranges positive.");
-                equal(manip._ut.normalize(150, 0, 1, 50, 100), 1, "src: All ranges positive.");
-
-                equal(manip._ut.normalize(0, 0, 1, -100, 100), 0.5, "src: Min negative, max positive.");
-                equal(manip._ut.normalize(100, 0, 10, -100, 100), 10, "src: Min negative, max positive.");
-                equal(manip._ut.normalize(-100, 0, 1, -100, 100), 0, "src: Min negative, max positive.");
-                equal(manip._ut.normalize(-1100, 0, 1, -100, 100), 0, "src: Min negative, max positive.");
-                equal(manip._ut.normalize(1000, 0, 1, -100, 100), 1, "src: Min negative, max positive.");
-                equal(manip._ut.normalize(5, 0, 1, -10, 10), 0.75, "src: Min negative, max positive.");
-
-                equal(manip._ut.normalize(-75, 0, 1, -100, -50), 0.5, "src: All ranges negative.");
-                equal(manip._ut.normalize(-100, 0, 10, -100, -50), 0, "src: All ranges negative.");
-                equal(manip._ut.normalize(-50, 0, 1, -100, -50), 1, "src: All ranges negative.");
-                equal(manip._ut.normalize(-500, 0, 1, -100, -50), 0, "src: All ranges negative.");
-                equal(manip._ut.normalize(-40, 0, 1, -100, -50), 1, "src: All ranges negative.");
-
-                equal(manip._ut.normalize(-100, 0, 1, -100, 0), 0, "src: Min negative, max 0.");
-                equal(manip._ut.normalize(0, 0, 1, -100, 0), 1, "src: Min negative, max 0");
-                equal(manip._ut.normalize(-1, 0, 1, -10, 0), 0.9, "src: Min negative, max 0");
-
-                equal(manip._ut.normalize(-100, -1, 1, -100, 100), -1, "dst: Min negative, max positive.");
-                equal(manip._ut.normalize(0, -1, 1, -100, 100), 0, "dst: Min negative, max positive");
-                equal(manip._ut.normalize(100, -1, 1, -100, 100), 1, "dst: Min negative, max positive");
-                equal(manip._ut.normalize(50, -1, 1, -100, 100), 0.5, "dst: Min negative, max positive");
-                equal(manip._ut.normalize(-50, -1, 1, -100, 100), -0.5, "dst: Min negative, max positive");
-
-                equal(manip._ut.normalize(-100, -10, 0, -100, 100), -10, "dst: Min negative, max 0.");
-                equal(manip._ut.normalize(0, -10, 0, -100, 100), -5, "dst: Min negative, max 0");
-                equal(manip._ut.normalize(100, -10, 0, -100, 100), 0, "dst: Min negative, max 0");
-                equal(manip._ut.normalize(50, -10, 0, -100, 100), -2.5, "dst: Min negative, max 0");
-                equal(manip._ut.normalize(-50, -10, 0, -100, 100), -7.5, "dst: Min negative, max 0");
-
+                var ctxb = {
+                    b: 2
+                };
+                events.on("ev1", function(ev) {
+                    console.log(this);
+                    equal(this.a, 1);
+                }, ctxa);
+                events.on("ev2", function(ev) {
+                    equal(this.b, 2);
+                }, ctxb);
+                events.trigger("ev1");
+                events.trigger("ev2");
             });
 
-            test("clone()", function() {
+            test("Unregistering events.", function() {
+                var events = new Filtrr.Events(),
+                    ev1c = 0,
+                    ev2c = 0;
+                var cb1 = function() {
+                    ev1c++; 
+                };
+                var cb2 = function() {
+                    ev1c++;
+                }
+                var cb3 = function() {
+                    ev1c++;
+                }
+                var cb4 = function() {
+                    ev2c++;
+                }
+                var cb5 = function() {
+                    ev2c++;
+                }
+                var cb6 = function() {
+                    ev2c++;
+                }
                 
-            });
+                events.on("ev1", cb1);
+                events.on("ev1", cb2);
+                events.on("ev1", cb3);
+                events.on("ev2", cb4);
+                events.on("ev2", cb5);
+                events.on("ev2", cb6);
 
-            test("render()", function() {
+                events.trigger("ev1");
+                events.trigger("ev2");
                 
-            });
+                equal(ev1c, 3);
+                equal(ev2c, 3);
+                
+                events.off("ev1", cb1);
+                events.off("ev2", cb4);
+                
+                events.trigger("ev1");
+                events.trigger("ev2");
+                
+                equal(ev1c, 5);
+                equal(ev2c, 5);
 
-            test("apply()", function() {
-                
-            });
+                events.off("ev1");
+                events.off("ev2");
 
-            test("adjust()", function() {
-                
-            });
+                events.trigger("ev1");
+                events.trigger("ev2");
 
-            test("bright()", function() {
-                
-            });
-
-            test("alpha()", function() {
-                
-            });
-
-            test("saturate()", function() {
-                
-            });
-
-            test("invert()", function() {
-                
+                equal(ev1c, 5);
+                equal(ev2c, 5);
             });
 
         });
     </script>
 </head>
 <body>
-    <h1 id="qunit-header">Filtrr Test Suite</h1>
+    <h1 id="qunit-header">Filtrr Events Test Suite</h1>
     <h2 id="qunit-banner"></h2>
     <div id="qunit-testrunner-toolbar"></div>
     <h2 id="qunit-userAgent"></h2>

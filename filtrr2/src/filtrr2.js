@@ -85,7 +85,7 @@ var F = function(elem, callback)
         this.canvas = elem;
         // all done - call callback with this as a new 
         // CoreEffects object.
-        callback.call(new Filtrr.CoreEffects(this));
+        callback.call(new Filtrr.ImageProcessor(this));
     } else {
         throw new Error("'" + name + "' is an invalid object.");
     }
