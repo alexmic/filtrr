@@ -31,19 +31,53 @@ Filtrr.Events = function()
 {
     var registry = {};        
     
-    this.on = function()
+    this.on = function(ev, callback, ctx)
     {
-        
+        if (!registry[ev]) {
+            registry[ev] = [];
+        }
+        if (ctx === undefined) {
+            ctx = null;
+        }
+        registry[ev].push({
+            cback: callback,
+            ctx: ctx
+        });
     };
 
-    this.off = function()
+    this.off = function(ev, callback)
     {
-            
+        var i = 0, cbacks = [], cb = null, offs = [];
+        if (registry[ev] && registry[ev].length > 0) {
+            if (!callback) {
+                registry[ev] = [];
+            } else {
+                cbacks = registry[ev];
+                for (i = 0; i < cbacks.length; i++) {
+                    if (cbacks.hasOwnProperty(i)) {
+                        cb = cbacks[i];
+                        if (cb.cback === callback) {
+                            delete cbacks[i];
+                        }
+                    }
+                }
+            }
+        }
     };
 
     this.trigger = function(ev)
     {
-        console.log(ev);
+        var cbacks = registry[ev],
+            i = null, cb = null,
+            args = [].slice.apply(arguments);
+        for (i in cbacks) {
+            if (cbacks.hasOwnProperty(i)) {
+                cb = cbacks[i];
+                if (cb) {
+                    cb.cback.apply(cb.ctx, args.slice(1));
+                }
+            }
+        }
     };
 };
      
