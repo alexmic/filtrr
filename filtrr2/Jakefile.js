@@ -10,11 +10,6 @@ var sys  = require('sys'),
 
 FILTRR2_VERSION = 0.1
 
-task('run_tests', [], function (params) {
-  console.log('This is the default task.');
-  console.log(sys.inspect(arguments));
-});
-
 task('build', [], function(params) {
     var fout = "dist/filtrr2-" + FILTRR2_VERSION + ".min.js",
         fin  = [
