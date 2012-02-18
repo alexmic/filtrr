@@ -5,4 +5,3 @@ with the more awesome filtrr2.
 
 Development is happening in '''filtrr/2'''. In the future I 
 will most likely remove filtrr/ completely.
->>>>>>> New readme for landing.
