@@ -104,6 +104,79 @@
             test("Re-initialize from jq canvas.", function() {
                 ok(Filtrr($("#test-canvas2")).ready());
             });
+
+            module("Correctness tests");
+
+            function check(f) {
+                var c = f.canvas, e = f.el;
+                ok(f.on);
+                ok(f.off);
+                ok(f.trigger);
+                ok(f.el);
+                ok(f.canvas);
+                ok(f.processor);
+                equal(c.height(), e.height());
+                equal(c.width(), e.width());
+                if (e[0].nodeName.toLowerCase() === "img") {
+                    equal(c.css("position"), "absolute");
+                }
+            }
+
+            asyncTest("Image id.", function() {
+                var f = Filtrr("#test-img11");
+                f.ready(function (){
+                    check(f);
+                    start();
+                });
+            });
+
+            asyncTest("Image css class.", function() {
+                var f = Filtrr(".test-img11");
+                f.ready(function (){
+                    check(f);
+                    start();
+                });
+            });
+
+            asyncTest("jQuery image.", function() {
+                var f = Filtrr($("#test-img21"));
+                f.ready(function (){
+                    check(f);
+                    start();
+                });
+            });
+
+            asyncTest("Re-initialize from canvas id.", function() {
+                var f = Filtrr("#test-canvas111");
+                f.ready(function (){
+                    check(f);
+                    start();
+                });
+            });
+
+            asyncTest("Re-initialize from canvas css class.", function() {
+                var f = Filtrr(".test-canvas1111");
+                f.ready(function (){
+                    check(f);
+                    start();
+                });
+            });
+
+            asyncTest("Re-initialize from canvas css class.", function() {
+                var f = Filtrr(".test-canvas1111");
+                f.ready(function (){
+                    check(f);
+                    start();
+                });
+            });
+
+            asyncTest("Re-initialize from jq canvas.", function() {
+                var f = Filtrr($("#test-canvas2111"));
+                f.ready(function (){
+                    check(f);
+                    start();
+                });
+            });
             
         });
     </script>
@@ -121,5 +194,11 @@
     <canvas style="visibility:hidden" id="test-canvas"></canvas>
     <canvas style="visibility:hidden" class="test-canvas1"></canvas>
     <canvas style="visibility:hidden" id="test-canvas2"></canvas>
+    <img style="visibility:hidden" id="test-img11" src="../pic.jpg" />
+    <img style="visibility:hidden" class="test-img11" src="../pic.jpg" />
+    <img style="visibility:hidden" id="test-img21" src="../pic.jpg" />
+    <canvas style="visibility:hidden" id="test-canvas111"></canvas>
+    <canvas style="visibility:hidden" class="test-canvas1111"></canvas>
+    <canvas style="visibility:hidden" id="test-canvas2111"></canvas>
 </body>
 </html>
