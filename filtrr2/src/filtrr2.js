@@ -27,20 +27,22 @@
 // ========================= F - Filtrr instance ========================= //
 
 
-var F = function(elem, callback)
+var F = function(el, callback)
 {   
-    var name   = elem[0].nodeName.toLowerCase(),
-        offset = elem.offset(),
+    var name   = el[0].nodeName.toLowerCase(),
+        offset = el.offset(),
+        events = null,
         repl   = function(pic) 
         {
             var img = new Image();
-            img.src = elem.attr("src");
+
+            img.src = el.attr("src");
             img.onload = $.proxy(function()
             {
                 var c = $("<canvas>", {
-                            'id'   : elem.attr('id'),
-                            'class': elem.attr('class'), 
-                            'style': elem.attr('style')
+                            'id'   : el.attr('id'),
+                            'class': el.attr('class'), 
+                            'style': el.attr('style')
                         })
                         .css({
                             width   : img.width,
@@ -48,44 +50,93 @@ var F = function(elem, callback)
                             top     : offset.top,
                             left    : offset.left,
                             position: "absolute" 
-                        });
-                var el = c[0];
+                        }),
+                    canv = c[0];
 
                 this.canvas = c;
                 
-                el.width  = img.width;
-                el.height = img.height;
-                el.getContext("2d").drawImage(img, 0, 0);
+                canv.width  = img.width;
+                canv.height = img.height;
+                canv.getContext("2d").drawImage(img, 0, 0);
                 
                 // Replace with canvas.
-                elem.replaceWith(c);
+                el.replaceWith(c);
 
-                // all done - call callback with this as a new 
-                // ImageProcessor object.
-                if (callback) {
-                    callback.call(new Filtrr.ImageProcessor(this));
+                // all done - call callback with a new 
+                // ImageProcessor object as context.
+                this.processor = new Filtrr.ImageProcessor(this);
+                if (_callback) {
+                    _callback.call(this.processor);
                 }
+                _ready = true;
 
             }, this);
-        };
-        
-    // Original element
-    this.elem = elem;
+        },
+
+        // State control.
+        _ready    = false,
+        _callback = callback || null;
+
+    // Original element, usually a picture.
+    this.el = el;
+
+    // Reference to the image processor.
+    this.processor = null;
 
     // Events
-    this.events  = new Filtrr.Events();
-    this.on      = this.events.on;
-    this.off     = this.events.off;
-    this.trigger = this.events.trigger;
+    events = new Filtrr.Events();
+    this.on  = events.on;
+    this.off = events.off;
+    this.trigger = events.trigger;
+
+    // == Public API
+
+    /*
+     * Register a callback to be called when Filtrr is ready. If
+     * it's already ready by the time of this call, the callback
+     * will immediately fire. If a callback was passed through
+     * the Filtrr constructor, then any callback passed through
+     * this method will be ignored.
+     */
+    this.ready = function(callback)
+    {
+        if (!callback) {
+            return _ready;
+        }
+        if (!_callback) {
+            _callback = callback;
+        }
+        if (_ready) {
+            _callback.call(this.ip);
+        }
+    };
+
+    /**
+     * Update Filtrr through callback. The callback
+     * is given the ImageProcessor as context. Used to 
+     * dynamically update the image with new filters. 
+     * This method will only execute if Filtrr is ready,
+     * otherwise the callback is ignored.
+     */
+    this.update = function(callback)
+    {
+        if (callback) {
+            if (_ready) {
+                callback.call(this.processor);        
+            }
+        };
+    };
 
     if (name === "img") {
         // Replace picture with canvas
-        repl.call(this, elem);  
+        repl.call(this, el);  
     } else if (name === "canvas") {
-        this.canvas = elem;
-        // all done - call callback with this as a new 
-        // CoreEffects object.
-        callback.call(new Filtrr.ImageProcessor(this));
+        this.canvas = el;
+        this.processor = new Filtrr.ImageProcessor(this);
+        if (_callback) {
+            _callback.call(this.processor);
+        }
+        _ready = true;
     } else {
         throw new Error("'" + name + "' is an invalid object.");
     }
@@ -97,23 +148,45 @@ var F = function(elem, callback)
 // ========================= Filtrr ========================= //
 
 
-var Filtrr = function(_elem, callback) 
+var Filtrr = (function() 
 {   
-    if (typeof _elem === 'undefined' || _elem === null) {
-        throw new Error("The element you gave Filtrr was not defined.");
-    }
+    var store = {};
 
-    var t = typeof _elem,
-        elem = _elem;
-    
-    if (t === 'string' || t === 'object' && _elem.constructor.toString().indexOf("String") > -1) {
-        // We have a selector object instead of a jQuery element.
-        elem = $(_elem);
-    }
+    return function(_el, callback) {
+        
+        var t, el, isSelector;
 
-    if (elem.length === 0) {
-        throw new Error("Filtrr cannot find your picture.");
-    }
+        if (typeof _el === 'undefined' || _el === null) {
+            throw new Error("The element you gave Filtrr was not defined.");
+        }
 
-    return new F(elem, callback);
-};
+        t  = typeof _el;
+        el = _el; 
+        isSelector = (t === 'string' 
+            || t === 'object' && _el.constructor.toString().indexOf("String") > -1);
+        
+        if (isSelector) {
+            key = _el;
+        } else {
+            key = _el.selector;
+        }
+
+        if (store[key]) {
+            return store[key];
+        } else {
+
+            if (isSelector) {
+                el = $(_el);
+            }
+
+            if (el.length === 0) {
+                throw new Error("Element not found.");
+            }
+
+            inst = new F(el, callback);
+            store[key] = inst;
+            return inst;
+        }
+    };
+
+}());

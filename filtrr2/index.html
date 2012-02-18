@@ -2,7 +2,6 @@
     <head>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/></script>
         <script type="text/javascript" src="src/filtrr2.js"></script>
-        <script type="text/javascript" src="src/blender.js"></script>
         <script type="text/javascript" src="src/events.js"></script>
         <script type="text/javascript" src="src/effects.js"></script>
         <script type="text/javascript" src="src/util.js"></script>
@@ -10,10 +9,52 @@
     <body>
         <img id="iii" style="position:absolute; left: 400px" src="pic.jpg"/>
         <script type="text/javascript">
-            var lomo = Filtrr("#iii", function() {
-                this.brighten(20).sharpen().alpha(20).invert().saturate(-40).expose(10).render();
-                //this.expose(5).sepia().invert().render();
+            var lomo = Filtrr($("#iii"));
+
+            lomo.on("lomo:preprocess", function(){ 
+                console.log("lomo:preprocess");
+            })
+
+            lomo.on("lomo:postprocess", function() {
+                console.log("lomo:postprocess");
             });
+
+            lomo.on("invert:preprocess", function(){ 
+                console.log("inver:preprocess");
+            })
+
+            lomo.on("invert:postprocess", function() {
+                console.log("invert:postprocess");
+            });
+
+            lomo.on("saturate:preprocess", function(){ 
+                console.log("saturate:preprocess");
+            })
+
+            lomo.on("saturate:postprocess", function() {
+                console.log("saturate:postprocess");
+            });
+
+            console.log(lomo.ready());
+
+            lomo.ready(function() {
+                console.log("hello");
+                this.lomo().render();
+            });
+
+            window.setTimeout(function() {
+                lomo.update(function() {
+                    this.invert().render();
+                })
+            }, 2000);
+
+            lomo = Filtrr("#iii");
+
+            window.setTimeout(function() {
+                lomo.update(function() {
+                    this.saturate(-100).render();
+                });
+            }, 4000);
 
         </script>
     </body>
