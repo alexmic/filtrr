@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Filtrr2 Initialization tests</title>
+    <title>Filtrr2 Tests</title>
     <link rel="stylesheet" href="../lib/qunit.css" type="text/css" media="screen" />
     <script type="text/javascript" src="../lib/jquery.min.js"/></script>
     <script type="text/javascript" src="../lib/qunit.js"></script>
@@ -10,9 +10,11 @@
     <script type="text/javascript" src="../src/util.js"></script>
     <script type="text/javascript" src="../src/events.js"></script>
     <script type="text/javascript" src="../src/effects.js"></script>    
-    <script type="text/javascript" src="../src/blender.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
+
+            module("Initialization tests");
+
             asyncTest("Initialize from image id.", function() {
                 Filtrr("#test-img", function() {
                    ok(true);
@@ -76,12 +78,38 @@
                 });
                 start();
             });
+
+            module("Re-initialization tests (is the store working?)");
+
+            test("Re-initialize from image id.", function() {
+                ok(Filtrr("#test-img").ready());
+            });
+
+            test("Re-initialize from image css class.", function() {
+                ok(Filtrr(".test-img1").ready());
+            });
+
+            test("Re-initialize from jq image.", function() {
+                ok(Filtrr($("#test-img2")).ready());
+            });
+
+            test("Re-initialize from canvas id.", function() {
+                ok(Filtrr("#test-canvas").ready());
+            });
+
+            test("Re-initialize from canvas css class.", function() {
+                ok(Filtrr(".test-canvas1").ready());
+            });
+
+            test("Re-initialize from jq canvas.", function() {
+                ok(Filtrr($("#test-canvas2")).ready());
+            });
             
         });
     </script>
 </head>
 <body>
-    <h1 id="qunit-header">Filtrr2 Initialization Test Suite</h1>
+    <h1 id="qunit-header">Filtrr2 Test Suite</h1>
     <h2 id="qunit-banner"></h2>
     <div id="qunit-testrunner-toolbar"></div>
     <h2 id="qunit-userAgent"></h2>

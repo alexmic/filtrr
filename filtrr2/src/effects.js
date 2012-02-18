@@ -30,7 +30,7 @@
 /**
  * Holds all registered effects.
  */
-Filtrr.EffectStore = (function() {
+Filtrr.FxStore = (function() {
     
     var effects = {},
         exports = {},
@@ -75,9 +75,9 @@ Filtrr.EffectStore = (function() {
  * and a function which will execute the effect. All registered 
  * effects will be available on any ImageProcessor instance.
  */
-Filtrr.effect = function(name, def)
+Filtrr.fx = function(name, def)
 {
-    Filtrr.EffectStore.add(name, def);
+    Filtrr.FxStore.add(name, def);
 };
 
 
@@ -90,6 +90,8 @@ Filtrr.effect = function(name, def)
  * Filtrr('#img', function() {
  *    // 'this' will be an ImageProcessor instance.
  * });
+ * 
+ * It is also the context of the update
  *
  * It will contain all preset and user-defined effects.
  */ 
@@ -102,13 +104,11 @@ Filtrr.ImageProcessor = function(filtrr)
         h   = canvas.height,
         ctx = canvas.getContext("2d");
     
-    // Shortcuts.
-    var clamp = Filtrr.Util.clamp,
-        dist  = Filtrr.Util.dist,
-        normalize = Filtrr.Util.normalize;
-
+    // Clamp shortcut.
+    var clamp = Filtrr.Util.clamp;
+   
     // Canvas image data buffer - all manipulations are applied
-    // here. Rendering the CoreEffects object will save the buffer
+    // here. Rendering the ImageProcessor object will save the buffer
     // back to the canvas.
     var buffer = ctx.getImageData(0, 0, w, h);
 
@@ -117,7 +117,7 @@ Filtrr.ImageProcessor = function(filtrr)
 
     // Copy over all registered effects and create
     // proxy functions.
-    var names = Filtrr.EffectStore.getNames(),
+    var names = Filtrr.FxStore.getNames(),
         len   = names.length, i = 0, n = null,
         that  = this;
     
@@ -126,7 +126,7 @@ Filtrr.ImageProcessor = function(filtrr)
         this[n] = (function(_n, _f) {
 
             return $.proxy(function() {
-                var fx = Filtrr.EffectStore.get(_n);
+                var fx = Filtrr.FxStore.get(_n);
                 _f.trigger(_n + ":preprocess");
                 fx.apply(this, arguments);
                 _f.trigger(_n + ":postprocess");
@@ -137,11 +137,6 @@ Filtrr.ImageProcessor = function(filtrr)
     }
 
     // == Public API
-    
-    this.clone = function()
-    {
-        //
-    };
 
     this.render = function(callback)
     {
@@ -233,7 +228,7 @@ Filtrr.ImageProcessor = function(filtrr)
 // ===================== Preset effects ====================== //
 
 
-Filtrr.effect("adjust", function(pr, pg, pb) {   
+Filtrr.fx("adjust", function(pr, pg, pb) {   
     this.process(function(rgba) {
         rgba.r *= 1 + pr;
         rgba.g *= 1 + pg;
@@ -241,7 +236,7 @@ Filtrr.effect("adjust", function(pr, pg, pb) {
     });
 });
 
-Filtrr.effect("brighten",  function(p) {
+Filtrr.fx("brighten",  function(p) {
     p = Filtrr.Util.normalize(p, -255, 255, -100, 100);
     this.process(function(rgba) {
         rgba.r += p;
@@ -250,14 +245,14 @@ Filtrr.effect("brighten",  function(p) {
     });
 });
 
-Filtrr.effect("alpha", function(p) {
+Filtrr.fx("alpha", function(p) {
     p = Filtrr.Util.normalize(p, 0, 255, -100, 100);
     this.process(function(rgba) {
         rgba.a = p;
     });
 });
 
-Filtrr.effect("saturate", function(p) {
+Filtrr.fx("saturate", function(p) {
     p = Filtrr.Util.normalize(p, 0, 2, -100, 100);
     this.process(function(rgba) {
         var avg = (rgba.r + rgba.g + rgba.b) / 3;
@@ -267,7 +262,7 @@ Filtrr.effect("saturate", function(p) {
     });
 });
 
-Filtrr.effect("invert", function() {
+Filtrr.fx("invert", function() {
     this.process(function(rgba) {
         rgba.r = 255 - rgba.r;
         rgba.g = 255 - rgba.g;
@@ -275,7 +270,7 @@ Filtrr.effect("invert", function() {
     });    
 });
 
-Filtrr.effect("posterize", function(p) {    
+Filtrr.fx("posterize", function(p) {    
     p = Filtrr.Util.clamp(p, 1, 255);
     var step = Math.floor(255 / p);
     this.process(function(rgba) {
@@ -285,7 +280,7 @@ Filtrr.effect("posterize", function(p) {
     });
 });
 
-Filtrr.effect("gamma", function(p) {    
+Filtrr.fx("gamma", function(p) {    
     p = Filtrr.Util.normalize(p, 0, 2, -100, 100);
     this.process(function(rgba) {
         rgba.r = Math.pow(rgba.r, p);
@@ -294,7 +289,7 @@ Filtrr.effect("gamma", function(p) {
     });
 });
 
-Filtrr.effect("contrast", function(p) {
+Filtrr.fx("contrast", function(p) {
     p = Filtrr.Util.normalize(p, 0, 2, -100, 100);
     function c(f, c){
         return (f - 0.5) * c + 0.5;
@@ -306,7 +301,7 @@ Filtrr.effect("contrast", function(p) {
     });
 });
 
-Filtrr.effect("sepia", function(p) {
+Filtrr.fx("sepia", function(p) {
     this.process(function(rgba) {
         var r = rgba.r, g = rgba.g, b = rgba.b;
         rgba.r = (r * 0.393) + (g * 0.769) + (b * 0.189);
@@ -315,7 +310,7 @@ Filtrr.effect("sepia", function(p) {
     });    
 });
 
-Filtrr.effect("subtract", function(r, g, b) {
+Filtrr.fx("subtract", function(r, g, b) {
     this.process(function(rgba)
     {        
         rgba.r -= r;
@@ -324,7 +319,7 @@ Filtrr.effect("subtract", function(r, g, b) {
     }); 
 });
 
-Filtrr.effect("fill", function(r, g, b) {
+Filtrr.fx("fill", function(r, g, b) {
     this.process(function(rgba)
     {
         rgba.r = r;
@@ -333,7 +328,7 @@ Filtrr.effect("fill", function(r, g, b) {
     });
 });
 
-Filtrr.effect("blur", function(t) {
+Filtrr.fx("blur", function(t) {
     t = t || "simple";
     if (t === "simple") {
         this.convolve([
@@ -352,7 +347,7 @@ Filtrr.effect("blur", function(t) {
     } 
 });
 
-Filtrr.effect("sharpen", function() {
+Filtrr.fx("sharpen", function() {
     this.convolve([
         [0.0, -0.2,  0.0],
         [-0.2, 1.8, -0.2],
@@ -360,7 +355,7 @@ Filtrr.effect("sharpen", function() {
     ]);
 });
    
-Filtrr.effect("curves", function(s, c1, c2, e) {
+Filtrr.fx("curves", function(s, c1, c2, e) {
     var bezier = new Filtrr.Util.Bezier(s, c1, c2, e),
         points = bezier.genColorTable();
     this.process(function(rgba) 
@@ -371,7 +366,7 @@ Filtrr.effect("curves", function(s, c1, c2, e) {
     });    
 });
 
-Filtrr.effect("expose", function(p) {
+Filtrr.fx("expose", function(p) {
     var p  = Filtrr.Util.normalize(p, -1, 1, -100, 100),
         c1 = {x: 0, y: 255 * p},
         c2 = {x: 255 - (255 * p), y: 255};
@@ -381,5 +376,9 @@ Filtrr.effect("expose", function(p) {
         c2, 
         {x: 255, y: 255}
     );
+});
+
+Filtrr.fx("lomo", function() {
+    this.brighten(10).sharpen(5).render(); 
 });
   
