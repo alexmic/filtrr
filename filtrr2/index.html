@@ -9,7 +9,7 @@
     <body>
         <img id="iii" style="position:absolute; left: 400px" src="pic.jpg"/>
         <script type="text/javascript">
-            var lomo = Filtrr($("#iii"));
+            var lomo = Filtrr2($("#iii"));
 
             lomo.on("lomo:preprocess", function(){ 
                 console.log("lomo:preprocess");
@@ -48,7 +48,7 @@
                 })
             }, 2000);
 
-            lomo = Filtrr("#iii");
+            lomo = Filtrr2("#iii");
 
             window.setTimeout(function() {
                 lomo.update(function() {

@@ -24,7 +24,7 @@
  **/
 
 
-// ========================= F - Filtrr instance ========================= //
+// ========================= F - Filtrr2 instance ========================= //
 
 
 var F = function(el, callback)
@@ -66,7 +66,7 @@ var F = function(el, callback)
 
                 // all done - call callback with a new 
                 // ImageProcessor object as context.
-                this.processor = new Filtrr.ImageProcessor(this);
+                this.processor = new Filtrr2.ImageProcessor(this);
                 if (_callback) {
                     _callback.call(this.processor);
                 }
@@ -86,7 +86,7 @@ var F = function(el, callback)
     this.processor = null;
 
     // Events
-    events = new Filtrr.Events();
+    events = new Filtrr2.Events();
     this.on  = events.on;
     this.off = events.off;
     this.trigger = events.trigger;
@@ -94,10 +94,10 @@ var F = function(el, callback)
     // == Public API
 
     /*
-     * Register a callback to be called when Filtrr is ready. If
+     * Register a callback to be called when Filtrr2 is ready. If
      * it's already ready by the time of this call, the callback
      * will immediately fire. If a callback was passed through
-     * the Filtrr constructor, then any callback passed through
+     * the Filtrr2 constructor, then any callback passed through
      * this method will be ignored.
      */
     this.ready = function(callback)
@@ -114,10 +114,10 @@ var F = function(el, callback)
     };
 
     /**
-     * Update Filtrr through callback. The callback
+     * Update Filtrr2 through callback. The callback
      * is given the ImageProcessor as context. Used to 
      * dynamically update the image with new filters. 
-     * This method will only execute if Filtrr is ready,
+     * This method will only execute if Filtrr2 is ready,
      * otherwise the callback is ignored.
      */
     this.update = function(callback)
@@ -134,7 +134,7 @@ var F = function(el, callback)
         repl.call(this, el);  
     } else if (name === "canvas") {
         this.canvas = el;
-        this.processor = new Filtrr.ImageProcessor(this);
+        this.processor = new Filtrr2.ImageProcessor(this);
         if (_callback) {
             _callback.call(this.processor);
         }
@@ -147,10 +147,10 @@ var F = function(el, callback)
 };
 
 
-// ========================= Filtrr ========================= //
+// ========================= Filtrr2 ========================= //
 
 
-var Filtrr = (function() 
+var Filtrr2 = (function() 
 {   
     var store = {};
 
@@ -159,7 +159,7 @@ var Filtrr = (function()
         var t, el, isSelector;
 
         if (typeof _el === 'undefined' || _el === null) {
-            throw new Error("The element you gave Filtrr was not defined.");
+            throw new Error("The element you gave Filtrr2 was not defined.");
         }
 
         t  = typeof _el;

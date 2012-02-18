@@ -27,7 +27,7 @@
 // ========================= Events ========================= //
 
 
-Filtrr.Events = function()
+Filtrr2.Events = function()
 {
     var registry = {};        
     
