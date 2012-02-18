@@ -27,7 +27,7 @@
 // ========================= Util ========================= //
 
 
-Filtrr.Util = (function()
+Filtrr2.Util = (function()
 {
     
     var exports = {},

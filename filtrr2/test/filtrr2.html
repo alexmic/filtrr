@@ -16,42 +16,42 @@
             module("Initialization tests");
 
             asyncTest("Initialize from image id.", function() {
-                Filtrr("#test-img", function() {
+                Filtrr2("#test-img", function() {
                    ok(true);
                    start(); 
                 });
             });
 
             asyncTest("Initialize from image css class.", function() {
-                Filtrr(".test-img1", function() {
+                Filtrr2(".test-img1", function() {
                    ok(true);
                    start(); 
                 });
             });
 
             asyncTest("Initialize from jq image.", function() {
-                Filtrr($("#test-img2"), function() {
+                Filtrr2($("#test-img2"), function() {
                    ok(true);
                    start(); 
                 });
             });
 
             asyncTest("Initialize from canvas id.", function() {
-                Filtrr("#test-canvas", function() {
+                Filtrr2("#test-canvas", function() {
                    ok(true);
                    start(); 
                 });
             });
 
             asyncTest("Initialize from canvas css class.", function() {
-                Filtrr(".test-canvas1", function() {
+                Filtrr2(".test-canvas1", function() {
                    ok(true);
                    start(); 
                 });
             });
 
             asyncTest("Initialize from jq canvas.", function() {
-                Filtrr($("#test-canvas2"), function() {
+                Filtrr2($("#test-canvas2"), function() {
                    ok(true);
                    start(); 
                 });
@@ -59,14 +59,14 @@
 
             asyncTest("Non existing DOM object.", function() {
                 raises(function() {
-                    Filtrr(undefined, function() {});
+                    Filtrr2(undefined, function() {});
                 });
                 start();
             });
             
             asyncTest("Non existing DOM object.", function() {
                 raises(function() {
-                    Filtrr(null, function() {});
+                    Filtrr2(null, function() {});
                 });
                 start();
             });
@@ -74,7 +74,7 @@
 
             asyncTest("Non existing DOM object.", function() {
                 raises(function() {
-                    Filtrr($("#asfafa"), function() {});
+                    Filtrr2($("#asfafa"), function() {});
                 });
                 start();
             });
@@ -82,27 +82,27 @@
             module("Re-initialization tests (is the store working?)");
 
             test("Re-initialize from image id.", function() {
-                ok(Filtrr("#test-img").ready());
+                ok(Filtrr2("#test-img").ready());
             });
 
             test("Re-initialize from image css class.", function() {
-                ok(Filtrr(".test-img1").ready());
+                ok(Filtrr2(".test-img1").ready());
             });
 
             test("Re-initialize from jq image.", function() {
-                ok(Filtrr($("#test-img2")).ready());
+                ok(Filtrr2($("#test-img2")).ready());
             });
 
             test("Re-initialize from canvas id.", function() {
-                ok(Filtrr("#test-canvas").ready());
+                ok(Filtrr2("#test-canvas").ready());
             });
 
             test("Re-initialize from canvas css class.", function() {
-                ok(Filtrr(".test-canvas1").ready());
+                ok(Filtrr2(".test-canvas1").ready());
             });
 
             test("Re-initialize from jq canvas.", function() {
-                ok(Filtrr($("#test-canvas2")).ready());
+                ok(Filtrr2($("#test-canvas2")).ready());
             });
 
             module("Correctness tests");
@@ -123,7 +123,7 @@
             }
 
             asyncTest("Image id.", function() {
-                var f = Filtrr("#test-img11");
+                var f = Filtrr2("#test-img11");
                 f.ready(function (){
                     check(f);
                     start();
@@ -131,7 +131,7 @@
             });
 
             asyncTest("Image css class.", function() {
-                var f = Filtrr(".test-img11");
+                var f = Filtrr2(".test-img11");
                 f.ready(function (){
                     check(f);
                     start();
@@ -139,7 +139,7 @@
             });
 
             asyncTest("jQuery image.", function() {
-                var f = Filtrr($("#test-img21"));
+                var f = Filtrr2($("#test-img21"));
                 f.ready(function (){
                     check(f);
                     start();
@@ -147,7 +147,7 @@
             });
 
             asyncTest("Re-initialize from canvas id.", function() {
-                var f = Filtrr("#test-canvas111");
+                var f = Filtrr2("#test-canvas111");
                 f.ready(function (){
                     check(f);
                     start();
@@ -155,7 +155,7 @@
             });
 
             asyncTest("Re-initialize from canvas css class.", function() {
-                var f = Filtrr(".test-canvas1111");
+                var f = Filtrr2(".test-canvas1111");
                 f.ready(function (){
                     check(f);
                     start();
@@ -163,7 +163,7 @@
             });
 
             asyncTest("Re-initialize from canvas css class.", function() {
-                var f = Filtrr(".test-canvas1111");
+                var f = Filtrr2(".test-canvas1111");
                 f.ready(function (){
                     check(f);
                     start();
@@ -171,7 +171,7 @@
             });
 
             asyncTest("Re-initialize from jq canvas.", function() {
-                var f = Filtrr($("#test-canvas2111"));
+                var f = Filtrr2($("#test-canvas2111"));
                 f.ready(function (){
                     check(f);
                     start();

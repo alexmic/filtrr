@@ -30,7 +30,7 @@
 /**
  * Holds all registered effects.
  */
-Filtrr.FxStore = (function() {
+Filtrr2.FxStore = (function() {
     
     var effects = {},
         exports = {},
@@ -75,9 +75,9 @@ Filtrr.FxStore = (function() {
  * and a function which will execute the effect. All registered 
  * effects will be available on any ImageProcessor instance.
  */
-Filtrr.fx = function(name, def)
+Filtrr2.fx = function(name, def)
 {
-    Filtrr.FxStore.add(name, def);
+    Filtrr2.FxStore.add(name, def);
 };
 
 
@@ -87,7 +87,7 @@ Filtrr.fx = function(name, def)
  * The 'meat' of the framework. This is the context of the callback function
  * which you pass into Filttr i.e
  *
- * Filtrr('#img', function() {
+ * Filtrr2('#img', function() {
  *    // 'this' will be an ImageProcessor instance.
  * });
  * 
@@ -95,7 +95,7 @@ Filtrr.fx = function(name, def)
  *
  * It will contain all preset and user-defined effects.
  */ 
-Filtrr.ImageProcessor = function(filtrr) 
+Filtrr2.ImageProcessor = function(filtrr) 
 {
     var $canvas = filtrr.canvas, 
         canvas  = $canvas[0];
@@ -105,19 +105,19 @@ Filtrr.ImageProcessor = function(filtrr)
         ctx = canvas.getContext("2d");
     
     // Clamp shortcut.
-    var clamp = Filtrr.Util.clamp;
+    var clamp = Filtrr2.Util.clamp;
    
     // Canvas image data buffer - all manipulations are applied
     // here. Rendering the ImageProcessor object will save the buffer
     // back to the canvas.
     var buffer = ctx.getImageData(0, 0, w, h);
 
-    // Filtrr ref.
+    // Filtrr2 ref.
     var _filtrr = filtrr;
 
     // Copy over all registered effects and create
     // proxy functions.
-    var names = Filtrr.FxStore.getNames(),
+    var names = Filtrr2.FxStore.getNames(),
         len   = names.length, i = 0, n = null,
         that  = this;
     
@@ -126,7 +126,7 @@ Filtrr.ImageProcessor = function(filtrr)
         this[n] = (function(_n, _f) {
 
             return $.proxy(function() {
-                var fx = Filtrr.FxStore.get(_n);
+                var fx = Filtrr2.FxStore.get(_n);
                 _f.trigger(_n + ":preprocess");
                 fx.apply(this, arguments);
                 _f.trigger(_n + ":postprocess");
@@ -228,7 +228,7 @@ Filtrr.ImageProcessor = function(filtrr)
 // ===================== Preset effects ====================== //
 
 
-Filtrr.fx("adjust", function(pr, pg, pb) {   
+Filtrr2.fx("adjust", function(pr, pg, pb) {   
     this.process(function(rgba) {
         rgba.r *= 1 + pr;
         rgba.g *= 1 + pg;
@@ -236,8 +236,8 @@ Filtrr.fx("adjust", function(pr, pg, pb) {
     });
 });
 
-Filtrr.fx("brighten",  function(p) {
-    p = Filtrr.Util.normalize(p, -255, 255, -100, 100);
+Filtrr2.fx("brighten",  function(p) {
+    p = Filtrr2.Util.normalize(p, -255, 255, -100, 100);
     this.process(function(rgba) {
         rgba.r += p;
         rgba.g += p;
@@ -245,15 +245,15 @@ Filtrr.fx("brighten",  function(p) {
     });
 });
 
-Filtrr.fx("alpha", function(p) {
-    p = Filtrr.Util.normalize(p, 0, 255, -100, 100);
+Filtrr2.fx("alpha", function(p) {
+    p = Filtrr2.Util.normalize(p, 0, 255, -100, 100);
     this.process(function(rgba) {
         rgba.a = p;
     });
 });
 
-Filtrr.fx("saturate", function(p) {
-    p = Filtrr.Util.normalize(p, 0, 2, -100, 100);
+Filtrr2.fx("saturate", function(p) {
+    p = Filtrr2.Util.normalize(p, 0, 2, -100, 100);
     this.process(function(rgba) {
         var avg = (rgba.r + rgba.g + rgba.b) / 3;
         rgba.r = avg + p * (rgba.r - avg);
@@ -262,7 +262,7 @@ Filtrr.fx("saturate", function(p) {
     });
 });
 
-Filtrr.fx("invert", function() {
+Filtrr2.fx("invert", function() {
     this.process(function(rgba) {
         rgba.r = 255 - rgba.r;
         rgba.g = 255 - rgba.g;
@@ -270,8 +270,8 @@ Filtrr.fx("invert", function() {
     });    
 });
 
-Filtrr.fx("posterize", function(p) {    
-    p = Filtrr.Util.clamp(p, 1, 255);
+Filtrr2.fx("posterize", function(p) {    
+    p = Filtrr2.Util.clamp(p, 1, 255);
     var step = Math.floor(255 / p);
     this.process(function(rgba) {
         rgba.r = Math.floor(rgba.r / step) * step;
@@ -280,8 +280,8 @@ Filtrr.fx("posterize", function(p) {
     });
 });
 
-Filtrr.fx("gamma", function(p) {    
-    p = Filtrr.Util.normalize(p, 0, 2, -100, 100);
+Filtrr2.fx("gamma", function(p) {    
+    p = Filtrr2.Util.normalize(p, 0, 2, -100, 100);
     this.process(function(rgba) {
         rgba.r = Math.pow(rgba.r, p);
         rgba.g = Math.pow(rgba.g, p);
@@ -289,8 +289,8 @@ Filtrr.fx("gamma", function(p) {
     });
 });
 
-Filtrr.fx("contrast", function(p) {
-    p = Filtrr.Util.normalize(p, 0, 2, -100, 100);
+Filtrr2.fx("contrast", function(p) {
+    p = Filtrr2.Util.normalize(p, 0, 2, -100, 100);
     function c(f, c){
         return (f - 0.5) * c + 0.5;
     }
@@ -301,7 +301,7 @@ Filtrr.fx("contrast", function(p) {
     });
 });
 
-Filtrr.fx("sepia", function(p) {
+Filtrr2.fx("sepia", function(p) {
     this.process(function(rgba) {
         var r = rgba.r, g = rgba.g, b = rgba.b;
         rgba.r = (r * 0.393) + (g * 0.769) + (b * 0.189);
@@ -310,7 +310,7 @@ Filtrr.fx("sepia", function(p) {
     });    
 });
 
-Filtrr.fx("subtract", function(r, g, b) {
+Filtrr2.fx("subtract", function(r, g, b) {
     this.process(function(rgba)
     {        
         rgba.r -= r;
@@ -319,7 +319,7 @@ Filtrr.fx("subtract", function(r, g, b) {
     }); 
 });
 
-Filtrr.fx("fill", function(r, g, b) {
+Filtrr2.fx("fill", function(r, g, b) {
     this.process(function(rgba)
     {
         rgba.r = r;
@@ -328,7 +328,7 @@ Filtrr.fx("fill", function(r, g, b) {
     });
 });
 
-Filtrr.fx("blur", function(t) {
+Filtrr2.fx("blur", function(t) {
     t = t || "simple";
     if (t === "simple") {
         this.convolve([
@@ -347,7 +347,7 @@ Filtrr.fx("blur", function(t) {
     } 
 });
 
-Filtrr.fx("sharpen", function() {
+Filtrr2.fx("sharpen", function() {
     this.convolve([
         [0.0, -0.2,  0.0],
         [-0.2, 1.8, -0.2],
@@ -355,8 +355,8 @@ Filtrr.fx("sharpen", function() {
     ]);
 });
    
-Filtrr.fx("curves", function(s, c1, c2, e) {
-    var bezier = new Filtrr.Util.Bezier(s, c1, c2, e),
+Filtrr2.fx("curves", function(s, c1, c2, e) {
+    var bezier = new Filtrr2.Util.Bezier(s, c1, c2, e),
         points = bezier.genColorTable();
     this.process(function(rgba) 
     {
@@ -366,8 +366,8 @@ Filtrr.fx("curves", function(s, c1, c2, e) {
     });    
 });
 
-Filtrr.fx("expose", function(p) {
-    var p  = Filtrr.Util.normalize(p, -1, 1, -100, 100),
+Filtrr2.fx("expose", function(p) {
+    var p  = Filtrr2.Util.normalize(p, -1, 1, -100, 100),
         c1 = {x: 0, y: 255 * p},
         c2 = {x: 255 - (255 * p), y: 255};
     this.curves(
@@ -378,7 +378,7 @@ Filtrr.fx("expose", function(p) {
     );
 });
 
-Filtrr.fx("lomo", function() {
+Filtrr2.fx("lomo", function() {
     this.brighten(10).sharpen(5).render(); 
 });
   
