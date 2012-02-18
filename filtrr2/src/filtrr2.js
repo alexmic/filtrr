@@ -34,6 +34,7 @@ var F = function(el, callback)
         events = null,
         repl   = function(pic) 
         {
+            console.log(offset);
             var img = new Image();
 
             img.src = el.attr("src");
@@ -60,7 +61,8 @@ var F = function(el, callback)
                 canv.getContext("2d").drawImage(img, 0, 0);
                 
                 // Replace with canvas.
-                el.replaceWith(c);
+                el.hide();
+                $("body").append(c);
 
                 // all done - call callback with a new 
                 // ImageProcessor object as context.
