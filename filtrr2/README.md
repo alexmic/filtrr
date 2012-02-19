@@ -27,11 +27,12 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ## Contents
 
 1. What's this?
-2. Demos
-3. Installation
-4. Forking, building and testing
-5. Usage
-6. Extending the framework
+2. Roadmap
+3. Demos
+4. Installation
+5. Forking, building and testing
+6. Usage
+7. Extending the framework
 
 ## What's this?
 
@@ -43,6 +44,16 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Don't ask. It's weird and I know it, but now I'm stuck with it. I would love to rename this as ```fxjs```.
 
+## Roadmap
+
+The current release of ```Filtrr2``` lacks the blending functions of ```Filtrr```. This is in the pipeline - I want to provide a nicer API than the previous version hence I didn't include it for now. 
+
+Other things that I have in mind:
+
+- Fisheye lens
+- Image borders
+- Vignette
+
 ## Demos
 
 Coming soon on a properly designed and fancy website! In the mean time check this out: http://alexmic.github.com/filtrr/.
@@ -51,7 +62,7 @@ Coming soon on a properly designed and fancy website! In the mean time check thi
 
 You'll find the latest minified version in ```dist/```. If you wish to use the non-minified files, you first need to load ```filtrr2.js``` and then the rest of the files (```events.js```, ```effects.js```, ```util.js```).
 
-**Important note #1** 
+#### Important note #1 
 
 ```Filtrr2``` depends on jQuery.
 
@@ -60,7 +71,7 @@ You'll find the latest minified version in ```dist/```. If you wish to use the n
 Fork away. Break it better. I would love contributions in the field of image processing like new and improved blur filters, or combinations of 
 existing filters (see below on how to extend the framework).
 
-#### Testing
+### Testing
 
 ```Filtrr2``` uses ```QUnit``` for testing. For now, you'll have to manually run the tests in your browser(s) by visiting ```test/filtrr2.html```, ```test/util.html```, ```test/effects.html``` (not done yet), ```test/events.html```.
 
@@ -68,7 +79,7 @@ existing filters (see below on how to extend the framework).
 
 I have plans on automating the test procedure using JsTestDriver or Selenium.
 
-#### Building
+### Building
 
 To build the project you will need node.js and jake. The ```Jakefile.js``` declares a build task which you can run: ```jake build```. The build task uses Google's Closure Compiler to minify all the files into one in ```dist/```. I've included the Compiler in the ```build/``` directory.
 
@@ -90,11 +101,11 @@ Filtrr2("#my-img", function() {
 
 So, what happens here? We pass in a jQuery selector to the ```Filtrr2``` constructor and a callback function to get called when ```Filtrr2``` is ready. In the callback, ```this``` refers to a ```Filtrr2``` instance (actually an instance of the ```F``` object) which holds all defined effecs up to that moment. As you can see, effect calls can be chained. This pattern should be enough for most use cases.
 
-**Important note #2**
+#### Important note #2
 
 For performance reasons, the effects are *lazily* applied on the canvas. ```Filtrr2``` will *not* draw anything until you call the ```render()``` method.
 
-**Important note #3**
+#### Important note #3
 
 The selector passed into ```Filtrr2``` as the first argument can be any valid jQuery selector string *or* jQuery object (```<img>``` or ```<canvas>```). Hence passing ```"#my-img"``` or ```$("#my-img")``` makes no difference.
 
@@ -140,7 +151,7 @@ my.ready(function() {
 
 If your use-case demands more fine-grained control over when effects are applied, then you can initialize ```Filtrr2``` without a callback function. Since we are dealing with images, initialization is always asynchronous, hence you have to use the ```ready()``` function. ```Ready()``` registers a callback to be called when ```Filtrr2``` is ready, or executes the callback immediately if ```Filtrr2``` is ready at the point of call. If you call ```ready()``` with no callback, it will report the readiness state of the ```Filtrr2``` instance.
 
-**Important note #4** 
+#### Important note #4 
 
 Calling ```ready()``` with a callback will replace any previously registered callback.
 
@@ -190,12 +201,12 @@ The pattern above lists all the events fired during the effect pipeline. For eac
 
 Two further events, ```prerender``` and ```postrender```, are triggered during rendering, and a ```finalize``` event is triggered when all is done.
 
-**Important note #5**
+#### Important note #5
 
 The effects are triggered *per-instance*, i.e they are not global events. If you want global events, you can instantiate a ```Filtrr2.Events``` object and use it as a mediator between all your ```Filtrr2``` instances. 
 
 
-**Important note #6** 
+#### Important note #6 
 
 There's a reason I didn't pass a callback into the ```Filtrr2``` constructor. If we are initializing the constructor with a canvas object then the callback will fire immediately since the canvas object does not have to be loaded. Hence, all event callbacks will be registered *after* the effects code has been executed. 
 
@@ -224,13 +235,22 @@ window.setTimeout(function() {
 
 The ```update()``` method on an ```F``` instance allows for manual updates to the current canvas drawing. The context of the callback function is the ```ImageProcessor``` instance of the ```F``` object. 
 
-**Important note #7** 
+#### Important note #7
 
 If ```Filtrr2``` is not ready when the ```update()``` method is called then the call will be ignored.
 
 ## Extending the framework
 
-You can very easily extend the framework with your own custom effects using the ```fx()``` method on the ```Filtrr2r``` object. In fact, in ```effects.js``` you will notice that all the predefined effects are defined this way as well. For example:
+You can very easily extend the framework with your own custom effects using the ```fx()``` method on the ```Filtrr2``` object. In fact, in ```effects.js``` you will notice that all the predefined effects are defined this way as well. 
+
+### Before diving in
+
+```Filtrr2``` tries to provide sensible ranges for every effect parameter. These usually lie between ```[-100, 100]```. You should try and keep your parameters in sensible ranges as well. There are two functions that will help you achieve that:
+
+- ```Filtrr2.Util.clamp(val, min, max)```: Ensures ```val``` is >= ```min``` and <= ```max```. If it's less then ```val = min```. If it's more then ```val = max```.
+- ```Filtrr2.Util.normalize(val, dmin, dmax, smin, smax)```: Normalizes a value in the source range ```[smin, smax]``` into the corresponding value in the destination range ```[dmin, dmax]```. So for example, it can normalize a value in the ```[-100, 100]``` range into a value in the ```[0, 2]``` range. This is very useful for giving meaningful ranges to the user, and then transforming the range into something more computationally meaningful in the effect method.
+
+### Creating your own effects
 
 ```js
 Filtrr2.fx('boostRed', function(p) {
@@ -297,7 +317,7 @@ my.ready(function() {
 });
 ```
 
-**Important note #8**
+#### Important note #8
 
 Since your pre-defined filters will be exposed as functions on an ```ImageProcessor``` instance, the normal JavaScript variable naming rules apply to your effect names as well. Any name that breaks those rules might cause issues.
 
