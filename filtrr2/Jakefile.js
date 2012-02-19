@@ -6,9 +6,10 @@
  */
 
 var sys  = require('sys'),
-    exec = require('child_process').exec;
+    exec = require('child_process').exec,
+    fs   = require('fs');
 
-FILTRR2_VERSION = 0.1
+FILTRR2_VERSION = "0.2"
 
 task('build', [], function(params) {
     var fout = "dist/filtrr2-" + FILTRR2_VERSION + ".min.js",
@@ -26,13 +27,40 @@ task('build', [], function(params) {
             fin,
             "--js_output_file",
             fout
+        ].join(" "),
+        tag = [
+            "git tag -a",
+            "'v" + FILTRR2_VERSION + "'",
+            "-m",
+            "'version " + FILTRR2_VERSION + "'"
         ].join(" ");
 
+    // Remove old build.
+    var oldBuilds = fs.readdirSync("dist");
+    for (var build in oldBuilds) {
+        if (oldBuilds.hasOwnProperty(build)) {
+            fs.unlinkSync("dist/" + oldBuilds[build]);
+        }
+    }
+    console.log("Removed old builds.")
+    
+    // Create new build.
     exec(cmd, function(error, stdout, stderr) {
         if (error === null) {
-            console.log("Build successful.");
+            console.log("New build successful.");
+            // Tag new build.
+            exec(tag, function(error, stdout, stderr) {
+                if (error === null) {
+                    console.log("New build tag successful.");
+                } else {
+                    console.log(error.message);
+                }
+            });
         } else {
-            console.log(error);
+            console.log(error.message);
         }
     });
+
+    
+    
 });

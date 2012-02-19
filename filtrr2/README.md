@@ -53,6 +53,7 @@ Other things that I have in mind:
 - Fisheye lens
 - Image borders
 - Vignette
+- Pseudo-async rendering so that the UI does not block.
 
 ## Demos
 

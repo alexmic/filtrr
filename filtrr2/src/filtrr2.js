@@ -27,7 +27,7 @@
 // ========================= F - Filtrr2 instance ========================= //
 
 
-var F = function(el, callback)
+var F = function(el, callback, timestamp)
 {   
     var name   = el[0].nodeName.toLowerCase(),
         offset = el.offset(),
@@ -80,6 +80,9 @@ var F = function(el, callback)
 
     // Original element, usually a picture.
     this.el = el;
+
+    // When was this created, mainly for testing purposes.
+    this.created = timestamp;
 
     // Reference to the image processor.
     this.processor = null;
@@ -152,8 +155,9 @@ var Filtrr2 = (function()
     var store = {};
 
     return function(_el, callback) {
-        
-        var t, el, isSelector;
+                    console.log(store)
+
+        var t, el, isSelector, timestamp;
 
         if (typeof _el === 'undefined' || _el === null) {
             throw new Error("The element you gave Filtrr2 was not defined.");
@@ -171,9 +175,8 @@ var Filtrr2 = (function()
         }
 
         if (store[key]) {
-            return store[key];
+            return store[key].F;
         } else {
-
             if (isSelector) {
                 el = $(_el);
             }
@@ -182,8 +185,12 @@ var Filtrr2 = (function()
                 throw new Error("Element not found.");
             }
 
-            inst = new F(el, callback);
-            store[key] = inst;
+            timestamp = new Date().getTime();
+            inst = new F(el, callback, timestamp);
+            store[key] = {
+                timestamp: timestamp,
+                F: inst
+            };
             return inst;
         }
     };

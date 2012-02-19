@@ -32,6 +32,9 @@ Filtrr2.Util = (function()
     
     var exports = {},
         
+        /*
+         * Ensures a value is between min and max.
+         */ 
         clamp = function(val, min, max) 
         {
             min = min || 0;
@@ -39,11 +42,18 @@ Filtrr2.Util = (function()
             return Math.min(max, Math.max(min, val));
         },
 
+        /*
+         * Calculates the absolute distance between two values.
+         */
         dist = function(x1, x2) 
         {
             return Math.sqrt(Math.pow(x2 - x1, 2));
         },
 
+        /*
+         * Projects a value in the source range into the corresponding
+         * value in the destination range.
+         */
         normalize = function(val, dmin, dmax, smin, smax)
         {
             var sdist = dist(smin, smax),

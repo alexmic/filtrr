@@ -167,7 +167,7 @@ Filtrr2.ImageProcessor = function(filtrr)
                 };
                 
                 // Process the tuple.
-                procfn(rgba);
+                procfn(rgba, j, i);
 
                 // Put back the data.
                 data[index]     = parseInt(clamp(rgba.r));
