@@ -24,19 +24,28 @@ ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+## Contents
+
+1. What's this?
+2. Demos
+3. Installation
+4. Forking, building and testing
+5. Usage
+6. Extending the framework
+
 ## What's this?
 
 ```Filtrr2``` is a JavaScript image manipulation library. Think of it as Instagram filters on the browser. It uses the ```<canvas>``` element to paint filtered pictures in the place of normal pictures on your website.
 
 ```Filtrr2``` is the successor to ```Filtrr``` which was a weekend hack thing, but it got some nice exposure when I decided to post it on Hacker News. It improves it on every aspect so if you are using ```Filtrr2```, then you should really upgrade.
 
-## Demos
-
-Coming soon on a properly designed and fancy website! In the mean time check this out: http://alexmic.github.com/filtrr/.
-
 #### What's up with the weird name?
 
 Don't ask. It's weird and I know it, but now I'm stuck with it. I would love to rename this as ```fxjs```.
+
+## Demos
+
+Coming soon on a properly designed and fancy website! In the mean time check this out: http://alexmic.github.com/filtrr/.
 
 ## Installation
 
