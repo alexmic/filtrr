@@ -65,6 +65,8 @@ To build the project (i.e create a minified version of it in ```/dist```) you wi
 
 ### Simple usage
 
+```js
+
     Filtrr2("#my-img", function() {
    
         this.brighten(50)
@@ -72,6 +74,7 @@ To build the project (i.e create a minified version of it in ```/dist```) you wi
             .render();
 
     });
+```
 
 So, what happens here? We pass in a jQuery selector to the ```Filtrr2``` constructor and a callback function to get called when ```Filtrr2``` is ready. In the callback, ```this``` refers to a ```Filtrr2``` instance (actually an instance of the ```F``` object) which holds all defined effecs up to that moment. As you can see, effect calls can be chained. This pattern should be enough for most use cases.
 
