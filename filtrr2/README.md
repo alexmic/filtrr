@@ -30,6 +30,10 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ```Filtrr2``` is the successor to ```Filtrr``` which was a weekend hack thing, but it got some nice exposure when I decided to post it on Hacker News. It improves it on every aspect so if you are using ```Filtrr2```, then you should really upgrade.
 
+## Demos
+
+Coming soon on a properly designed and fancy website! In the mean time check this out: http://alexmic.github.com/filtrr/.
+
 #### What's up with the weird name?
 
 Don't ask. It's weird and I know it, but now I'm stuck with it. I would love to rename this as ```fxjs```.
@@ -57,7 +61,7 @@ I have plans on automating the test procedure using JsTestDriver or Selenium.
 
 #### Building
 
-To build the project (i.e create a minified version of it in ```/dist```) you will need node.js and jake. The ```Jakefile.js``` declares a build task which you can run: ```jake build```.
+To build the project you will need node.js and jake. The ```Jakefile.js``` declares a build task which you can run: ```jake build```. The build task uses Google's Closure Compiler to minify all the files into one in ```dist/```. I've included the Compiler in the ```build/``` directory.
 
 ## Usage
 
