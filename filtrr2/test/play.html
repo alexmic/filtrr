@@ -16,6 +16,22 @@
                 
             });
 
+            Filtrr2.fx('boostRed', function(p) {
+
+                // clamp() is a utility method which forces a value
+                // to be between a specified range.
+                // Here we are forcing p to be between [0, 100].
+                p = Filtrr2.Util.clamp(p, 0, 100);
+
+                this.process(function(rgba) {
+
+                    // This is getting called on every pixel in the image.
+                    rgba.r += p;   
+
+                });
+
+            });
+
             var my = Filtrr2($("#iii"));
 
             my.on("age1960:preprocess", function() {
@@ -35,7 +51,7 @@
             });
 
             my.ready(function() {
-                this.age1960().render();
+                this.age1960().boostRed(10).render();
             });
 
 
