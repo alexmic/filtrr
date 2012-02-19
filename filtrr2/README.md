@@ -222,7 +222,10 @@ You can very easily extend the framework with your own custom effects using the 
 ```js
 Filtrr2.fx('boostRed', function(p) {
     
-    p = Filtrr2.Util.clamp(0, 0, 100);
+    // clamp() is a utility method which forces a value
+    // to be between a specified range.
+    // Here we are forcing p to be between [0, 100].
+    p = Filtrr2.Util.clamp(p, 0, 100);
 
     this.process(function(rgba) {
 
