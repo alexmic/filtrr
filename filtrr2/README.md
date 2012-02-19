@@ -66,14 +66,13 @@ To build the project (i.e create a minified version of it in ```/dist```) you wi
 ### Simple usage
 
 ```js
+Filtrr2("#my-img", function() {
 
-    Filtrr2("#my-img", function() {
-   
-        this.brighten(50)
-            .saturate(-50)
-            .render();
+    this.brighten(50)
+        .saturate(-50)
+        .render();
 
-    });
+});
 ```
 
 So, what happens here? We pass in a jQuery selector to the ```Filtrr2``` constructor and a callback function to get called when ```Filtrr2``` is ready. In the callback, ```this``` refers to a ```Filtrr2``` instance (actually an instance of the ```F``` object) which holds all defined effecs up to that moment. As you can see, effect calls can be chained. This pattern should be enough for most use cases.
@@ -88,13 +87,15 @@ The selector passed into ```Filtrr2``` as the first argument can be any valid jQ
 
 ### Storing a reference to Filtrr2
 
-    var my = Filtrr2("#my-img", function() {
-   
-        this.posterize(16)
-            .invert() 
-            .render();
+```js
+var my = Filtrr2("#my-img", function() {
 
-    });
+    this.posterize(16)
+        .invert() 
+        .render();
+
+});
+```
 
 Calling the ```Filtrr2``` constructor returns a reference to an ```F``` object instance. Assigning that to a variable will allow you to update your canvas manually through the ```processor``` property and bind functions to events through the ```Events``` API. The ```F``` object has the following public properties and methods:
 
