@@ -111,17 +111,19 @@ Calling the ```Filtrr2``` constructor returns a reference to an ```F``` object i
 
 ### Initializing without a callback
 
-    var my = Filtrr2($("#my-img"));
+```js
+var my = Filtrr2($("#my-img"));
 
-    my.ready(function() {
+my.ready(function() {
 
-        console.log("Filtrr2 is now ready.");
-        this.expose(10)
-            .sharpen()
-            .subtract(10, 20, 24)
-            .render()
+    console.log("Filtrr2 is now ready.");
+    this.expose(10)
+        .sharpen()
+        .subtract(10, 20, 24)
+        .render()
 
-    });
+});
+```
 
 If your use-case demands more fine-grained control over when effects are applied, then you can initialize ```Filtrr2``` without a callback function. Since we are dealing with images, initialization is always asynchronous, hence you have to use the ```ready()``` function. ```Ready()``` registers a callback to be called when ```Filtrr2``` is ready, or executes the callback immediately if ```Filtrr2``` is ready at the point of call. If you call ```ready()``` with no callback, it will report the readiness state of the ```Filtrr2``` instance.
 
@@ -131,43 +133,45 @@ Calling ```ready()``` with a callback will replace any previously registered cal
 
 ### Listening to events
 
-    var my = Filtrr2("#my-img");
-    
-    my.on("gamma:preprocess", function() {
-        // Do something..
-    });
+```js
+var my = Filtrr2("#my-img");
 
-    my.on("gamma:postprocess", function() {
-        // Do something..
-    });
+my.on("gamma:preprocess", function() {
+    // Do something..
+});
 
-    my.on("contrast:preprocess", function() {
-        // Do something..
-    });
+my.on("gamma:postprocess", function() {
+    // Do something..
+});
 
-    my.on("constrast:postpropess", function() {
-        // Do something..
-    });
+my.on("contrast:preprocess", function() {
+    // Do something..
+});
 
-    my.on("prerender", function() {
-        // Do something..
-    });
+my.on("constrast:postpropess", function() {
+    // Do something..
+});
 
-    my.on("postrender", function() {
-        // Do something..
-    });
+my.on("prerender", function() {
+    // Do something..
+});
 
-    my.on("finalize", function() {
-        // Do something..
-    });
+my.on("postrender", function() {
+    // Do something..
+});
 
-    my.ready(function() {
+my.on("finalize", function() {
+    // Do something..
+});
 
-        this.gamma(50)
-            .contrast(-40)
-            .render();
- 
-    });
+my.ready(function() {
+
+    this.gamma(50)
+        .contrast(-40)
+        .render();
+
+});
+```
 
 The pattern above lists all the events fired during the effect pipeline. For each applied effect, ```preprocess``` and ```postprocess``` events are triggered in the order the effects are applied. These events are prefixed with the name of the effect so you can target each step in the pipeline directly.
 
@@ -185,23 +189,25 @@ There's a reason I didn't pass a callback into the ```Filtrr2``` constructor. If
 
 ### Updating the image manually
 
-    var my = Filtrr2("#my-img", function() {
-   
-        this.brighten(50)
-            .saturate(-50)
-            .render();
+```js
+var my = Filtrr2("#my-img", function() {
+
+    this.brighten(50)
+        .saturate(-50)
+        .render();
+
+});
+
+window.setTimeout(function() {
+
+    my.update(function() {
+
+        this.saturate(-50).render();
 
     });
 
-    window.setTimeout(function() {
-
-        my.update(function() {
-
-            this.saturate(-50).render();
-
-        });
-
-    }, 2000);
+}, 2000);
+```
 
 The ```update()``` method on an ```F``` instance allows for manual updates to the current canvas drawing. The context of the callback function is the ```ImageProcessor``` instance of the ```F``` object. 
 
@@ -213,24 +219,26 @@ If ```Filtrr2``` is not ready when the ```update()``` method is called then the 
 
 You can very easily extend the framework with your own custom effects using the ```fx()``` method on the ```Filtrr2r``` object. In fact, in ```effects.js``` you will notice that all the predefined effects are defined this way as well. For example:
 
-    Filtrr2.fx('boostRed', function(p) {
-        
-        p = Filtrr2.Util.clamp(0, 0, 100);
+```js
+Filtrr2.fx('boostRed', function(p) {
+    
+    p = Filtrr2.Util.clamp(0, 0, 100);
 
-        this.process(function(rgba) {
+    this.process(function(rgba) {
 
-            // This is getting called on every pixel in the image.
-            rgba.r += p;   
-             
-        });
-
+        // This is getting called on every pixel in the image.
+        rgba.r += p;   
+         
     });
 
-    Filtrr2("#my-img", function() {
-   
-        this.boostRed(50).render();
+});
 
-    });
+Filtrr2("#my-img", function() {
+
+    this.boostRed(50).render();
+
+});
+```
 
 The ```process()``` method allows you to apply a transformation on the pixels of the image by. All custom-defined effects have to be created before any ```Filtrr2``` initialization otherwise they will not be available to use (obviously).
 
@@ -238,38 +246,40 @@ The normal events will be triggered when custom effects are in use as well.
 
 The real power comes when you combine existing effects - that's when you create nice Instagram-like filters:
 
-    Filtrr2.fx('age1960', function(p) {
-        
-        this.saturate(-70)
-            .contrast(30)
-            .expose(1)
-            .render();
-
-    });
-
-    var my = ("#my-img");
-
-    my.on("age1960:preprocess", function() {
-        console.log("age1960");
-    });
-
-    my.on("contrast:preprocess", function() {
-        console.log("contrast");
-    });
-
-    my.on("expose:preprocess", function() {
-        console.log("expose");
-    });
-
-    my.on("saturate:preprocess", function() {
-        console.log("saturate");
-    });
+```js
+Filtrr2.fx('age1960', function(p) {
     
-    my.ready(function() {
-   
-        this.age1960().render();
+    this.saturate(-70)
+        .contrast(30)
+        .expose(1)
+        .render();
 
-    });
+});
+
+var my = ("#my-img");
+
+my.on("age1960:preprocess", function() {
+    console.log("age1960");
+});
+
+my.on("contrast:preprocess", function() {
+    console.log("contrast");
+});
+
+my.on("expose:preprocess", function() {
+    console.log("expose");
+});
+
+my.on("saturate:preprocess", function() {
+    console.log("saturate");
+});
+
+my.ready(function() {
+
+    this.age1960().render();
+
+});
+```
 
 **Important note #8**
 
