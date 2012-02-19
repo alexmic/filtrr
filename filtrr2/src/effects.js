@@ -1,5 +1,5 @@
 /**
- * filtrr2.js - Javascript Image Processing Library
+ * effect2.js - Part of Filtrr2
  * 
  * Copyright (C) 2012 Alex Michael
  *
@@ -376,9 +376,5 @@ Filtrr2.fx("expose", function(p) {
         c2, 
         {x: 255, y: 255}
     );
-});
-
-Filtrr2.fx("lomo", function() {
-    this.brighten(10).sharpen(5).render(); 
 });
   

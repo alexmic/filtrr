@@ -1,5 +1,5 @@
 /**
- * filtrr2.js - Javascript Image Processing Library
+ * events.js - Part of Filtrr2
  * 
  * Copyright (C) 2012 Alex Michael
  *

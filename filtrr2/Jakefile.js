@@ -30,7 +30,7 @@ task('build', [], function(params) {
 
     exec(cmd, function(error, stdout, stderr) {
         if (error === null) {
-            console.log("Minify successful.");
+            console.log("Build successful.");
         } else {
             console.log(error);
         }

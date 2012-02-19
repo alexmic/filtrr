@@ -1,5 +1,5 @@
 /**
- * filtrr2.js - Javascript Image Processing Library
+ * filtrr2.js - Part of Filtrr2
  * 
  * Copyright (C) 2012 Alex Michael
  *
@@ -34,7 +34,6 @@ var F = function(el, callback)
         events = null,
         repl   = function(pic) 
         {
-            console.log(offset);
             var img = new Image();
 
             img.src = el.attr("src");
@@ -98,16 +97,14 @@ var F = function(el, callback)
      * it's already ready by the time of this call, the callback
      * will immediately fire. If a callback was passed through
      * the Filtrr2 constructor, then any callback passed through
-     * this method will be ignored.
+     * this method will override that.
      */
     this.ready = function(callback)
     {
         if (!callback) {
             return _ready;
         }
-        if (!_callback) {
-            _callback = callback;
-        }
+        _callback = callback;
         if (_ready) {
             _callback.call(this.ip);
         }
