@@ -54,6 +54,7 @@ Other things that I have in mind:
 - Image borders
 - Vignette
 - Pseudo-async rendering so that the UI does not block.
+- Exporting
 
 ## Demos
 

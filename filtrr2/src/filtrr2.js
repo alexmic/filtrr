@@ -129,6 +129,24 @@ var F = function(el, callback, timestamp)
         };
     };
 
+    /*
+     * 'Forces' a download of the current. If the 
+     * canvas is not ready this is a noop.
+     */
+    this.export = function(type)
+    {
+        var data, type = type || "png", mimetype = "image/" + type;
+        if (_ready) {
+            data = this.canvas[0].toDataURL(mimetype);
+            if (data.indexOf(mimetype) == -1) {
+                mimetype = "image/png";
+            }
+            // Force octet-stream.
+            data = data.replace(mimetype, "image/octet-stream")
+            window.location.href = data
+        }
+    };
+
     if (name === "img") {
         // Replace picture with canvas
         repl.call(this, el);  

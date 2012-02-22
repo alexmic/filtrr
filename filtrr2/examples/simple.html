@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/></script>
+        <script type="text/javascript" src="../src/filtrr2.js"></script>
+        <script type="text/javascript" src="../src/effects.js"></script>
+        <script type="text/javascript" src="../src/events.js"></script>
+        <script type="text/javascript" src="../src/util.js"></script>   
+    </head>
+    <body>
+        <img id="img" src="ldn.jpg"/>
+        <script type="text/javascript">
+            Filtrr2("#img", function() {
+                this.contrast(40)
+                    .saturate(-40)
+                    .adjust(0.4, 0, 0)
+                    .render();
+            })
+        </script>
+    </body>
+</html>
