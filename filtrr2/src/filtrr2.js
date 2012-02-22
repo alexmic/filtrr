@@ -172,8 +172,13 @@ var Filtrr2 = (function()
 {   
     var store = {};
 
+    // Check for canvas compatibility.
+
+    if ($("<canvas/>")[0].getContext("2d") == null) {
+        throw new Error("Canvas is not supported in this browser.");
+    }
+
     return function(_el, callback) {
-                    console.log(store)
 
         var t, el, isSelector, timestamp;
 
