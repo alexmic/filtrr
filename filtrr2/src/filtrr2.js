@@ -133,7 +133,7 @@ var F = function(el, callback, timestamp)
      * 'Forces' a download of the current. If the 
      * canvas is not ready this is a noop.
      */
-    this.export = function(type)
+    this.save = function(type)
     {
         var data, type = type || "png", mimetype = "image/" + type;
         if (_ready) {

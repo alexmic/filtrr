@@ -5,11 +5,10 @@
  * node.js and jake installed on your machine.
  */
 
-var sys  = require('sys'),
-    exec = require('child_process').exec,
-    fs   = require('fs');
+var exec  = require('child_process').exec,
+    fs    = require('fs');
 
-FILTRR2_VERSION = "0.2"
+FILTRR2_VERSION = "0.3"
 
 task('build', [], function(params) {
     var fout = "dist/filtrr2-" + FILTRR2_VERSION + ".min.js",

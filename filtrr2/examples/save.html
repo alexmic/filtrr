@@ -7,7 +7,7 @@
         <script type="text/javascript" src="../src/util.js"></script>   
     </head>
     <body>
-        <button id="export">Export</button>
+        <button id="save">Export</button>
         <img id="img" src="ldn.jpg"/>
         <script type="text/javascript">
             var my = Filtrr2("#img", function() {
@@ -17,10 +17,10 @@
                     .render();
             });
 
-            $("#export").click(function() {
-                my.export();
+            $("#save").click(function() {
+                my.save();
             });
-            
+
         </script>
     </body>
 </html>
