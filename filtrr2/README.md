@@ -54,7 +54,6 @@ Other things that I have in mind:
 - Image borders
 - Vignette
 - Pseudo-async rendering so that the UI does not block.
-- Exporting
 
 ## Demos
 
@@ -241,6 +240,25 @@ The ```update()``` method on an ```F``` instance allows for manual updates to th
 
 If ```Filtrr2``` is not ready when the ```update()``` method is called then the call will be ignored.
 
+### Exporting the current image
+
+```js
+var my = Filtrr2("#my-img", function() {
+
+    this.brighten(50)
+        .saturate(-50)
+        .render();
+
+});
+
+// Assume we have a button with id #save
+$("#save").click(function() {
+    my.save();
+});
+```
+
+This will cause the current image to be downloaded in your browser. This is tested in recent browsers and it seems to work fine, although the image has no name. The ```save()``` method can take a ```type``` parameter which can be either "png" or "jpeg" which specifies the image type. It defaults to "png". ```JPEG``` support is not implement by all browsers and will fallback to ```PNG```.
+
 ## Extending the framework
 
 You can very easily extend the framework with your own custom effects using the ```fx()``` method on the ```Filtrr2``` object. In fact, in ```effects.js``` you will notice that all the predefined effects are defined this way as well. 
@@ -294,7 +312,7 @@ Filtrr2.fx('age1960', function(p) {
 
 });
 
-var my = ("#my-img");
+var my = Filtrr2("#my-img");
 
 my.on("age1960:preprocess", function() {
     console.log("age1960");

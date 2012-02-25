@@ -130,7 +130,7 @@ var F = function(el, callback, timestamp)
     };
 
     /*
-     * 'Forces' a download of the current. If the 
+     * 'Forces' a download of the current image. If the 
      * canvas is not ready this is a noop.
      */
     this.save = function(type)
