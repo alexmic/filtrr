@@ -1,13 +1,55 @@
 <html>
     <head>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/></script>
+        <script type="text/javascript" src="../src/filtrr2.js"></script>
+        <script type="text/javascript" src="../src/effects.js"></script>
+        <script type="text/javascript" src="../src/events.js"></script>
+        <script type="text/javascript" src="../src/util.js"></script>
     </head>
     <body>
-        <img id="iii" style="position:absolute; left: 400px" src="pic.jpg"/>
+        <div style="position:relative">
+            <img id="img" src="ldn.jpg"/>
+        </div>
+        <div style="position:relative" id="events"></div>
         <script type="text/javascript">
+        var my = Filtrr2("#img"),
+            div = $("#events");
 
-            // TODO
-            
+        my.on("expose:preprocess", function() {
+            div.append("Pre-processing expose.<br>");
+        });
+
+        my.on("expose:postprocess", function() {
+            div.append("Post-processing expose.<br>");
+        });
+
+        my.on("saturate:preprocess", function() {
+            div.append("Pre-processing saturate.<br>");
+        });
+
+        my.on("saturate:postprocess", function() {
+            div.append("Post-processing saturate.<br>");
+        });
+
+        my.on("prerender", function() {
+            div.append("Pre-rendering.<br>");
+        });
+
+        my.on("postrender", function() {
+            div.append("Post-rendering.<br>");
+        });
+
+        my.on("finalize", function() {
+            my.canvas.css({
+                "border": "10px solid #C07F7F"
+            });
+        });
+
+        my.ready(function() {
+            this.expose(40)
+                .saturate(-40)
+                .render();
+        });
         </script>
     </body>
 </html>

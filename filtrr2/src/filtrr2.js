@@ -30,7 +30,7 @@
 var F = function(el, callback, timestamp)
 {   
     var name   = el[0].nodeName.toLowerCase(),
-        offset = el.offset(),
+        offset = el.position(),
         events = null,
         repl   = function(pic) 
         {
@@ -48,8 +48,7 @@ var F = function(el, callback, timestamp)
                             width   : img.width,
                             height  : img.height,
                             top     : offset.top,
-                            left    : offset.left,
-                            position: "absolute" 
+                            left    : offset.left
                         }),
                     canv = c[0];
 
@@ -61,7 +60,7 @@ var F = function(el, callback, timestamp)
                 
                 // Replace with canvas.
                 el.hide();
-                $("body").append(c);
+                el.parent().append(c);
 
                 // all done - call callback with a new 
                 // ImageProcessor object as context.
