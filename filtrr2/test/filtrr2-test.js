@@ -113,9 +113,7 @@ $(document).ready(function(){
         ok(f.processor);
         equal(c.height(), e.height());
         equal(c.width(), e.width());
-        if (e[0].nodeName.toLowerCase() === "img") {
-            equal(c.css("position"), "absolute");
-        }
+        equal(c.css("position"), e.css("position"));
     }
 
     asyncTest("Image id.", function() {

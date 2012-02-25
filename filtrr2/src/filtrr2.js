@@ -53,7 +53,7 @@ var F = function(el, callback, timestamp)
                     canv = c[0];
 
                 this.canvas = c;
-                
+
                 canv.width  = img.width;
                 canv.height = img.height;
                 canv.getContext("2d").drawImage(img, 0, 0);
@@ -86,9 +86,14 @@ var F = function(el, callback, timestamp)
     // Reference to the image processor.
     this.processor = null;
 
+    // Reference to the canvas element.
+    this.canvas = null;
+
     // Events
     events = new Filtrr2.Events();
-    this.on  = events.on;
+    this.on = $.proxy(function(ev, callback) {
+        events.on(ev, callback, this);
+    }, this);
     this.off = events.off;
     this.trigger = events.trigger;
 

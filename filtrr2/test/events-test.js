@@ -60,7 +60,6 @@ $(document).ready(function(){
             b: 2
         };
         events.on("ev1", function(ev) {
-            console.log(this);
             equal(this.a, 1);
         }, ctxa);
         events.on("ev2", function(ev) {
@@ -123,6 +122,17 @@ $(document).ready(function(){
 
         equal(ev1c, 5);
         equal(ev2c, 5);
+    });
+
+    test("Filtrr2 events context is F instance.", function() {
+        var my = Filtrr2("#events-img");
+        my.on("hello", function() {
+            ok(typeof this == 'object');
+            ok(this.constructor.toString().indexOf("F") > -1);
+            ok(this.el);
+            ok(this.ready);
+        });
+        my.trigger("hello");
     });
 
 });
