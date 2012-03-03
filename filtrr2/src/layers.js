@@ -25,28 +25,110 @@
 
 Filtrr2.Layers = function()
 {
+    // Clamp shortcut
+    var clamp = Filtrr2.Util.clamp;
 
-    var apply = function()
+    var apply = function(bottom, top, fn)
     {
+        var bottomData = bottom.buffer().data,
+            topData    = top.buffer().data,
+            i = 0, j = 0,
+            h = Math.min(bottom.dims().h, top.dims().h),
+            w = Math.min(bottom.dims().w, top.dims().w),
+            index, brgba, trgba;
+        
+        for (i = 0; i < h; i++) {
+            for (j = 0; j < w; j++) {
+                index = (i*w*4) + (j*4);
 
+                // Create bottom/top rgbas.
+                brgba = {
+                    r: bottomData[index],
+                    g: bottomData[index + 1],
+                    b: bottomData[index + 2],
+                    a: bottomData[index + 3]
+                };
+                trgba = {
+                    r: topData[index],
+                    g: topData[index + 1],
+                    b: topData[index + 2],
+                    a: topData[index + 3]
+                };
+                
+                // Execute blend.
+                fn(brgba, trgba);
+            
+                // Re-assign data.
+                bottomData[index]     = clamp(brgba.r);
+                bottomData[index + 1] = clamp(brgba.g);
+                bottomData[index + 2] = clamp(brgba.b);
+                bottomData[index + 3] = clamp(brgba.a);
+            }
+        }
     };
 
     var layers = {
         
-        multiply: function(bottom, top) {
-
+        multiply: function(bottom, top) 
+        {
+            apply(bottom, top, function(b, t)
+            {
+                b.r = (t.r * b.r) / 255;
+                b.g = (t.g * b.g) / 255;
+                b.b = (t.b * b.b) / 255;                
+            });
         },
 
-        screen: function(bottom, top) {
-
+        screen: function(bottom, top) 
+        {
+            apply(bottom, top, function(b, t)
+            {
+                b.r = 255 - (((255 - t.r) * (255 - b.r)) / 255);
+                b.g = 255 - (((255 - t.g) * (255 - b.g)) / 255);
+                b.b = 255 - (((255 - t.b) * (255 - b.b)) / 255);
+            });
         },
 
-        overlay: function(bottom, top) {
-
+        overlay: function(bottom, top) 
+        {
+            apply(bottom, top, function(b, t)
+            {
+                // TODO 
+            });
         }, 
 
-        softLight: function(bottom, top) {
+        softLight: function(bottom, top) 
+        {
+            apply(bottom, top, function(b, t)
+            {
+                // TODO
+            });
+        },
 
+        addition: function(bottom, top)
+        {
+            apply(bottom, top, function(b, t)
+            {
+                b.r += t.r;
+                b.g += t.g;
+                b.b += t.b;
+            });
+        },
+
+        exclusion: function(bottom, top)
+        {
+            apply(bottom, top, function(b, t)
+            {
+                // TODO
+            });
+        },
+
+        difference: function(bottom, top)
+        {
+            apply(bottom, top, function(b, t)
+            {
+                // TODO
+            });
         }
     };
 
@@ -55,7 +137,7 @@ Filtrr2.Layers = function()
     this.merge = function(type, bottom, top)
     {
         if (layers[type] != null) {
-            layers[type](bottom. top);
+            layers[type](bottom, top);
         } else {
             throw Error("Unknown layer blend type '" + type + "'.");
         }

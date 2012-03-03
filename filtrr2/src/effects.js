@@ -154,9 +154,20 @@ Filtrr2.ImageProcessor = function(F)
         return new Filtrr2.ImageProcessor(_F);
     };
 
+    this.buffer = function()
+    {
+        return buffer;
+    };
+
+    this.dims = function()
+    {
+        return {w: w, h: h};
+    };
+
     this.layer = function(type, top)
     {
         layers.merge(type, this, top);
+        return this;
     };
 
     this.render = function(callback)

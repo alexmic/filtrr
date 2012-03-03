@@ -11,14 +11,13 @@
         <img id="img" src="ldn.jpg"/>
         <script type="text/javascript">
             Filtrr2("#img", function() {
+                var dup = this.dup().invert();
+                
                 this.contrast(40)
                     .saturate(-40)
-                    .adjust(0.4, 0, 0);
-                var dup = this.dup();
-                console.log(dup);
-                dup.invert();
-                //this.render();
-                dup.render();
+                    .adjust(0.4, 0, 0)
+                    .layer("screen", dup)
+                    .render();
             });
 
 
