@@ -2,6 +2,7 @@
     <head>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/></script>
         <script type="text/javascript" src="../src/filtrr2.js"></script>
+        <script type="text/javascript" src="../src/layers.js"></script>
         <script type="text/javascript" src="../src/effects.js"></script>
         <script type="text/javascript" src="../src/events.js"></script>
         <script type="text/javascript" src="../src/util.js"></script>   
@@ -12,8 +13,12 @@
             Filtrr2("#img", function() {
                 this.contrast(40)
                     .saturate(-40)
-                    .adjust(0.4, 0, 0)
-                    .render();
+                    .adjust(0.4, 0, 0);
+                var dup = this.dup();
+                console.log(dup);
+                dup.invert();
+                //this.render();
+                dup.render();
             });
 
 

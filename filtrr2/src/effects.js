@@ -91,13 +91,13 @@ Filtrr2.fx = function(name, def)
  *    // 'this' will be an ImageProcessor instance.
  * });
  * 
- * It is also the context of the update
+ * It is also the context of the update function.
  *
  * It will contain all preset and user-defined effects.
  */ 
-Filtrr2.ImageProcessor = function(filtrr) 
+Filtrr2.ImageProcessor = function(F) 
 {
-    var $canvas = filtrr.canvas, 
+    var $canvas = F.canvas, 
         canvas  = $canvas[0];
  
     var w   = canvas.width,
@@ -112,8 +112,8 @@ Filtrr2.ImageProcessor = function(filtrr)
     // back to the canvas.
     var buffer = ctx.getImageData(0, 0, w, h);
 
-    // Filtrr2 ref.
-    var _filtrr = filtrr;
+    // F instance.
+    var _F = F;
 
     // Copy over all registered effects and create
     // proxy functions.
@@ -133,20 +133,32 @@ Filtrr2.ImageProcessor = function(filtrr)
                 return this;
             }, that);
         
-        }(n, filtrr));
+        }(n, _F));
     }
 
     // == Public API
 
+    // Returns a new ImageProcessor instance. It's important to note
+    // that the new instance's buffer will be a different copy than
+    // this instance's buffer since getImageData() always returns a 
+    // copy. But, any duplicate of this instance will share a reference
+    // to the canvas object, hence rendering a duplicate will alter
+    // the canvas element and potentially override any previous rendering
+    // by this instance (if called after a render() was already called.)
+    this.dup = function()
+    {
+        return new Filtrr2.ImageProcessor(_F);
+    };
+
     this.render = function(callback)
     {
-        _filtrr.trigger("prerender");
+        _F.trigger("prerender");
         ctx.putImageData(buffer, 0, 0);
-        _filtrr.trigger("postrender");
+        _F.trigger("postrender");
         if (callback) {
             callback.call(this);
         }
-        _filtrr.trigger("finalize");
+        _F.trigger("finalize");
     };
 
     this.process = function(procfn) 
