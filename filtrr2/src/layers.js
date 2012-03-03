@@ -1,5 +1,5 @@
 /**
- * filtrr2.js - Part of Filtrr2
+ * layers.js - Part of Filtrr2
  * 
  * Copyright (C) 2012 Alex Michael
  *
@@ -22,3 +22,43 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  **/
+
+Filtrr2.Layers = function()
+{
+
+    var apply = function()
+    {
+
+    };
+
+    var layers = {
+        
+        multiply: function(bottom, top) {
+
+        },
+
+        screen: function(bottom, top) {
+
+        },
+
+        overlay: function(bottom, top) {
+
+        }, 
+
+        softLight: function(bottom, top) {
+
+        }
+    };
+
+    // == Public API
+
+    this.merge = function(type, bottom, top)
+    {
+        if (layers[type] != null) {
+            layers[type](bottom. top);
+        } else {
+            throw Error("Unknown layer blend type '" + type + "'.");
+        }
+    };
+
+};

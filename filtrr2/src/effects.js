@@ -115,6 +115,9 @@ Filtrr2.ImageProcessor = function(F)
     // F instance.
     var _F = F;
 
+    // Layers instance.
+    var layers = new Filtrr2.Layers();
+
     // Copy over all registered effects and create
     // proxy functions.
     var names = Filtrr2.FxStore.getNames(),
@@ -144,10 +147,16 @@ Filtrr2.ImageProcessor = function(F)
     // copy. But, any duplicate of this instance will share a reference
     // to the canvas object, hence rendering a duplicate will alter
     // the canvas element and potentially override any previous rendering
-    // by this instance (if called after a render() was already called.)
+    // by this instance (if called after a render() was already called on
+    // this instance).
     this.dup = function()
     {
         return new Filtrr2.ImageProcessor(_F);
+    };
+
+    this.layer = function(type, top)
+    {
+        layers.merge(type, this, top);
     };
 
     this.render = function(callback)
