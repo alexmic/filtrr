@@ -8,20 +8,21 @@
         <script type="text/javascript" src="../src/util.js"></script>      
     </head>
     <body>
-        <img id="img" src="ldn.jpg"/>
+        <img src="megan_fox.jpg"/>
+        <img id="img" src="megan_fox.jpg"/>
         <script type="text/javascript">
             Filtrr2("#img", function() {
                 // Create a duplicate of the image and invert it.
-                var dup = this.dup().invert();
+                var dup = this.dup().expose(-35);
                 
                 // Add some effects on the image and then add the 
                 // duplicate as a layer on top of this image using
                 // the 'screen' blending method. Finally render
                 // the image.
                 this.contrast(40)
-                    .saturate(-40)
-                    .adjust(0.4, 0, 0)
-                    .layer("screen", dup)
+                    .saturate(-70)
+                    .adjust(0.2, 0.2, 0)
+                    .layer("softLight", dup)
                     .render();
             });
         </script>

@@ -9,12 +9,17 @@
     </head>
     <body>
         <button id="save">Export</button>
-        <img id="img" src="ldn.jpg"/>
+        <img src="megan_fox.jpg"/>
+        <img id="img" src="megan_fox.jpg"/>
         <script type="text/javascript">
             var my = Filtrr2("#img", function() {
-                this.contrast(40)
-                    .saturate(-40)
-                    .adjust(0.4, 0, 0)
+
+                var dup = this.dup()
+                              .expose(-20);
+
+                this.contrast(30)
+                    .saturate(-50)
+                    .layer('overlay', dup)
                     .render();
             });
 
