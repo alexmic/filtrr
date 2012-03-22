@@ -1,31 +1,40 @@
-/**
- * layers.js - Part of Filtrr2
- * 
- * Copyright (C) 2012 Alex Michael
- *
- * Permission is hereby granted, free of charge, to any person 
- * obtaining a copy of this software and associated documentation 
- * files (the "Software"), to deal in the Software without restriction, 
- * including without limitation the rights to use, copy, modify, 
- * merge, publish, distribute, sublicense, and/or sell copies of 
- * the Software, and to permit persons to whom the Software is 
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included 
- * in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
- * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- **/
+// 
+// Copyright (C) 2012 Alex Michael
+//
+// ### Licence 
 
+// Permission is hereby granted, free of charge, to any person 
+// obtaining a copy of this software and associated documentation 
+// files (the "Software"), to deal in the Software without restriction, 
+// including without limitation the rights to use, copy, modify, 
+// merge, publish, distribute, sublicense, and/or sell copies of 
+// the Software, and to permit persons to whom the Software is 
+// furnished to do so, subject to the following conditions:
+//  
+// The above copyright notice and this permission notice shall be included 
+// in all copies or substantial portions of the Software.
+//  
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+// OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+
+// ### Documentation
+
+// #### Filtrr2.Layers
+
+// This object mimics the functionality of Photoshop layers. 
+// It provides a single method: ```merge()```. This method takes
+// a top and a bottom layer to merge together. *The top layer is 
+// merged ontop of the bottom layer*.
+//
+// There are 7 pre-defined blending modes with which you can
+// blend layers.
 Filtrr2.Layers = function()
 {
-    // Clamp shortcut
     var clamp = Filtrr2.Util.clamp;
 
     var apply = function(bottom, top, fn)
@@ -91,17 +100,29 @@ Filtrr2.Layers = function()
 
         overlay: function(bottom, top) 
         {
+            var c = function(b, t) {
+                return (b > 128) ? 255 - 2 * (255 - t) * (255 - b) / 255: (b * t * 2) / 255;
+            };
+
             apply(bottom, top, function(b, t)
             {
-                // TODO 
+                b.r = c(b.r, t.r);
+                b.g = c(b.g, t.g);
+                b.b = c(b.b, t.b)
             });
         }, 
 
         softLight: function(bottom, top) 
         {
+            var c = function(b, t) {
+                return (b > 128) ? 255 - ((255 - b) * (255 - (t - 128))) / 255 : (b * (t + 128)) / 255;
+            };
+            
             apply(bottom, top, function(b, t)
             {
-                // TODO
+                b.r = c(b.r, t.r);
+                b.g = c(b.g, t.g);
+                b.b = c(b.b, t.b)
             });
         },
 
@@ -119,21 +140,27 @@ Filtrr2.Layers = function()
         {
             apply(bottom, top, function(b, t)
             {
-                // TODO
+                b.r = 128 - 2 * (b.r - 128) * (t.r - 128) / 255;
+                b.g = 128 - 2 * (b.g - 128) * (t.g - 128) / 255;
+                b.b = 128 - 2 * (b.b - 128) * (t.b - 128) / 255;
             });
         },
 
         difference: function(bottom, top)
         {
+            var abs = Math.abs;
             apply(bottom, top, function(b, t)
             {
-                // TODO
+                b.r = abs(t.r - b.r);
+                b.g = abs(t.g - b.g);
+                b.b = abs(t.b - b.b);
             });
         }
     };
 
-    // == Public API
-
+    // Merges two layers. Takes a ```type``` parameter and 
+    // a bottom and top layer. The ```type``` parameter specifies
+    // the blending mode.
     this.merge = function(type, bottom, top)
     {
         if (layers[type] != null) {

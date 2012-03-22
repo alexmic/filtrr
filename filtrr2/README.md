@@ -84,6 +84,10 @@ I have plans on automating the test procedure using JsTestDriver or Selenium.
 
 To build the project you will need node.js and jake. The ```Jakefile.js``` declares a build task which you can run: ```jake build```. The build task uses Google's Closure Compiler to minify all the files into one in ```dist/```. I've included the Compiler in the ```build/``` directory.
 
+### Documentation
+
+Documentation is generated using Docco. If you'd like to build documentation for your updated version go [here](http://jashkenas.github.com/docco/) and follow the instructions.
+
 ## Usage
 
 ```Filtrr2``` aims to be really easy to use out of the box, but offers more advanced usage patterns if you want to dig deeper. Let's visit a few of those patterns:

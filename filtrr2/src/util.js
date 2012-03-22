@@ -1,40 +1,54 @@
-/**
- * filtrr2.js - Part of Filtrr2
- * 
- * Copyright (C) 2012 Alex Michael
- *
- * Permission is hereby granted, free of charge, to any person 
- * obtaining a copy of this software and associated documentation 
- * files (the "Software"), to deal in the Software without restriction, 
- * including without limitation the rights to use, copy, modify, 
- * merge, publish, distribute, sublicense, and/or sell copies of 
- * the Software, and to permit persons to whom the Software is 
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included 
- * in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
- * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- **/
- 
+// 
+// Copyright (C) 2012 Alex Michael
+//
+// ### Licence 
 
-// ========================= Util ========================= //
+// Permission is hereby granted, free of charge, to any person 
+// obtaining a copy of this software and associated documentation 
+// files (the "Software"), to deal in the Software without restriction, 
+// including without limitation the rights to use, copy, modify, 
+// merge, publish, distribute, sublicense, and/or sell copies of 
+// the Software, and to permit persons to whom the Software is 
+// furnished to do so, subject to the following conditions:
+//  
+// The above copyright notice and this permission notice shall be included 
+// in all copies or substantial portions of the Software.
+//  
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+// OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
+// ### Documentation
 
+// #### Filtrr2.Util
+
+// Common toolkit amongst modules. Exports 3 methods and 1 class.
+//         
+// ``` clamp(val, min, max) ```
+// 
+// Ensures a value is between min and max.
+// 
+// ``` dist(x1, x2) ```
+//
+// Calculates the absolute distance between two values.
+//
+// ``` normalize(val, dmin, dmax, smin, smax) ```
+//
+// Projects a value in the source range into the corresponding
+// value in the destination range.
+//
+// ``` Bezier(C1, C2, C3, C4) ```
+//
+// A Bezier curve implementation.
 Filtrr2.Util = (function()
 {
     
     var exports = {},
         
-        /*
-         * Ensures a value is between min and max.
-         */ 
         clamp = function(val, min, max) 
         {
             min = min || 0;
@@ -42,18 +56,11 @@ Filtrr2.Util = (function()
             return Math.min(max, Math.max(min, val));
         },
 
-        /*
-         * Calculates the absolute distance between two values.
-         */
         dist = function(x1, x2) 
         {
             return Math.sqrt(Math.pow(x2 - x1, 2));
         },
 
-        /*
-         * Projects a value in the source range into the corresponding
-         * value in the destination range.
-         */
         normalize = function(val, dmin, dmax, smin, smax)
         {
             var sdist = dist(smin, smax),
@@ -63,12 +70,9 @@ Filtrr2.Util = (function()
             return dmin + (val-smin) * ratio;
         },
 
-        // Adapted from (with special thanks)
-
-        //====================================\\
-        // 13thParallel.org Beziér Curve Code \\
-        //   by Dan Pupius (www.pupius.net)   \\
-        //====================================\\
+        // **Adapted from (with special thanks)** <br>
+        // 13thParallel.org Beziér Curve Code <br>
+        // *by Dan Pupius (www.pupius.net)*
         Bezier = function(C1, C2, C3, C4)
         {
             var C1 = C1, C2 = C2, C3 = C3, C4 = C4;
@@ -85,6 +89,11 @@ Filtrr2.Util = (function()
                 }
             };
 
+            // Creates a color table for 1024 points. To create the table
+            // 1024 bezier points are calculated with t = i/1024 in every
+            // loop iteration and map is created for [x] = y. This is then
+            // used to project a color RGB value (x) to another color RGB
+            // value (y).
             this.genColorTable = function() 
             {
                 var points = {};

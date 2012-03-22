@@ -8,8 +8,24 @@
 var exec  = require('child_process').exec,
     fs    = require('fs');
 
-FILTRR2_VERSION = "0.4"
+// Increment this version number for new builds.
+FILTRR2_VERSION = "0.4.1"
 
+// Generates Docco documentation. Navigate into the filtrr2 
+// directory first and run this task. The newly created
+// documentation will be in docs/.
+task('docs', [], function(params) {
+    exec("docco src/*.js", function(error, stdout, stderr) {
+        if (error === null) {
+            console.log("Documentation generated in docs/.");
+        } else {
+            console.log(error.message);
+        }
+    });
+});
+
+// Builds a new version of the project and then subsequently tags
+// it. You should be in the filtrr2 directory when calling this task.
 task('build', [], function(params) {
     var fout = "dist/filtrr2-" + FILTRR2_VERSION + ".min.js",
         fin  = [

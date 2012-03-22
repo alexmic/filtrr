@@ -5,23 +5,25 @@
         <script type="text/javascript" src="../src/layers.js"></script>
         <script type="text/javascript" src="../src/effects.js"></script>
         <script type="text/javascript" src="../src/events.js"></script>
-        <script type="text/javascript" src="../src/util.js"></script>     
+        <script type="text/javascript" src="../src/util.js"></script>      
     </head>
     <body>
-        <button id="save">Export</button>
         <img id="img" src="ldn.jpg"/>
         <script type="text/javascript">
-            var my = Filtrr2("#img", function() {
+            Filtrr2("#img", function() {
+                // Create a duplicate of the image and invert it.
+                var dup = this.dup().invert();
+                
+                // Add some effects on the image and then add the 
+                // duplicate as a layer on top of this image using
+                // the 'screen' blending method. Finally render
+                // the image.
                 this.contrast(40)
                     .saturate(-40)
                     .adjust(0.4, 0, 0)
+                    .layer("screen", dup)
                     .render();
             });
-
-            $("#save").click(function() {
-                my.save();
-            });
-
         </script>
     </body>
 </html>

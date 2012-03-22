@@ -1,35 +1,35 @@
-/**
- * effect2.js - Part of Filtrr2
- * 
- * Copyright (C) 2012 Alex Michael
- *
- * Permission is hereby granted, free of charge, to any person 
- * obtaining a copy of this software and associated documentation 
- * files (the "Software"), to deal in the Software without restriction, 
- * including without limitation the rights to use, copy, modify, 
- * merge, publish, distribute, sublicense, and/or sell copies of 
- * the Software, and to permit persons to whom the Software is 
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included 
- * in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
- * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- **/
- 
+// 
+// Copyright (C) 2012 Alex Michael
+//
+// ### Licence 
 
-// ========================= Effect Store ========================= //
+// Permission is hereby granted, free of charge, to any person 
+// obtaining a copy of this software and associated documentation 
+// files (the "Software"), to deal in the Software without restriction, 
+// including without limitation the rights to use, copy, modify, 
+// merge, publish, distribute, sublicense, and/or sell copies of 
+// the Software, and to permit persons to whom the Software is 
+// furnished to do so, subject to the following conditions:
+//  
+// The above copyright notice and this permission notice shall be included 
+// in all copies or substantial portions of the Software.
+//  
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+// OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
+// ### Documentation
 
-/**
- * Holds all registered effects.
- */
+// #### Filtrr2.FxStore
+
+// A placeholder object for all registered effects. Provides
+// an API for adding new effects and accessing them by
+// name. All effects added via the ```Filtrr2.fx()``` method end up
+// into the ```FxStore```.
 Filtrr2.FxStore = (function() {
     
     var effects = {},
@@ -67,34 +67,31 @@ Filtrr2.FxStore = (function() {
 
 }());
 
+// #### Filtrr2.fx
 
-// ========================= Effect Registration ========================= //
-
-/*
- * Registers an effect. Registering an effect consists of a name
- * and a function which will execute the effect. All registered 
- * effects will be available on any ImageProcessor instance.
- */
+// Registers an effect. Registering an effect consists of a name
+// and a function which will execute the effect. All registered 
+// effects will be available on any ImageProcessor instance.
+// This method is merely a nice wrapper around the ```Filtrr2.FxStore.add```
+// method.
 Filtrr2.fx = function(name, def)
 {
     Filtrr2.FxStore.add(name, def);
 };
 
 
-// ========================= Effect Registration ========================= //
+// #### Filtrr2.ImageProcessor
 
-/*
- * The 'meat' of the framework. This is the context of the callback function
- * which you pass into Filttr i.e
- *
- * Filtrr2('#img', function() {
- *    // 'this' will be an ImageProcessor instance.
- * });
- * 
- * It is also the context of the update function.
- *
- * It will contain all preset and user-defined effects.
- */ 
+// The *meat* of the framework. This is the context of the callback function
+// which you pass into the ```Filttr2``` constructor i.e
+//
+//     Filtrr2('#img', function() {
+//         // 'this' will be an ImageProcessor instance.
+//     });
+//
+// It is also the context of the update function and it always
+// contains all preset and user-defined effects *up to the point
+// of it's creation*.
 Filtrr2.ImageProcessor = function(F) 
 {
     var $canvas = F.canvas, 
@@ -104,19 +101,16 @@ Filtrr2.ImageProcessor = function(F)
         h   = canvas.height,
         ctx = canvas.getContext("2d");
     
-    // Clamp shortcut.
-    var clamp = Filtrr2.Util.clamp;
-   
-    // Canvas image data buffer - all manipulations are applied
-    // here. Rendering the ImageProcessor object will save the buffer
-    // back to the canvas.
-    var buffer = ctx.getImageData(0, 0, w, h);
+    var clamp = Filtrr2.Util.clamp,
 
-    // F instance.
-    var _F = F;
-
-    // Layers instance.
-    var layers = new Filtrr2.Layers();
+        // Canvas image data buffer - all manipulations are applied
+        // here. Rendering the ImageProcessor object will save the buffer
+        // back to the canvas.
+        buffer = ctx.getImageData(0, 0, w, h),
+        
+        //
+        _F = F,
+        layers = new Filtrr2.Layers();
 
     // Copy over all registered effects and create
     // proxy functions.
@@ -138,8 +132,6 @@ Filtrr2.ImageProcessor = function(F)
         
         }(n, _F));
     }
-
-    // == Public API
 
     // Returns a new ImageProcessor instance. It's important to note
     // that the new instance's buffer will be a different copy than
@@ -164,12 +156,23 @@ Filtrr2.ImageProcessor = function(F)
         return {w: w, h: h};
     };
 
+    // Put another layer on top of this ImageProcessor. The other
+    // layer needs to be another ImageProcessor object, usually
+    // created by using the ```dup()``` method.
     this.layer = function(type, top)
     {
         layers.merge(type, this, top);
         return this;
     };
 
+    // Puts the modified context data buffer back
+    // into the context which causes the image
+    // to be redrawn. This extra step exists for 
+    // performance reasons because we don't want to
+    // be writing the data buffer on every effect 
+    // application in the case of chained effects.
+    // The render method takes a callback which is 
+    // called after it is finished.
     this.render = function(callback)
     {
         _F.trigger("prerender");
@@ -181,6 +184,13 @@ Filtrr2.ImageProcessor = function(F)
         _F.trigger("finalize");
     };
 
+    // Performs a pixel-by-pixel manipulation on the 
+    // data buffer pixels. This means that ```procfn``` is 
+    // called *on every pixel* in the data buffer and its
+    // result is used to replace the existing valus in the 
+    // buffer in-place. 
+    // The values returned from ```procfn``` are clamped 
+    // so that they are in the range [0,255].
     this.process = function(procfn) 
     {    
         var data = buffer.data;
@@ -212,7 +222,15 @@ Filtrr2.ImageProcessor = function(F)
         return this;
     };
 
-
+    // Performs a kerner convolution manipulation on the data
+    // buffer. This is mostly used in masks i.e blurring or 
+    // sharpening. It is a *very* intensive operation and will
+    // be slow on big images! 
+    // It creates a temporary data buffer where it writes the
+    // new data. We can't modify the original buffer in-place 
+    // because each new pixel value depends on the original
+    // neighbouring values of that pixel (i.e the values residing)
+    // inside the kernel.
     this.convolve = function(kernel) 
     {    
         if (!ctx.createImageData) {
@@ -256,10 +274,12 @@ Filtrr2.ImageProcessor = function(F)
 
 };
 
+// #### Pre-defined effects
 
-// ===================== Preset effects ====================== //
+// ```Filtrr2``` comes with 15 pre-defined effects. Reading the code
+// below is a good tutorial on how to create your own effects.
 
-
+// #### Adjust [No Range]
 Filtrr2.fx("adjust", function(pr, pg, pb) {   
     this.process(function(rgba) {
         rgba.r *= 1 + pr;
@@ -268,6 +288,7 @@ Filtrr2.fx("adjust", function(pr, pg, pb) {
     });
 });
 
+// #### Brighten [-100, 100]
 Filtrr2.fx("brighten",  function(p) {
     p = Filtrr2.Util.normalize(p, -255, 255, -100, 100);
     this.process(function(rgba) {
@@ -277,6 +298,7 @@ Filtrr2.fx("brighten",  function(p) {
     });
 });
 
+// #### Alpha [-100, 100]
 Filtrr2.fx("alpha", function(p) {
     p = Filtrr2.Util.normalize(p, 0, 255, -100, 100);
     this.process(function(rgba) {
@@ -284,6 +306,7 @@ Filtrr2.fx("alpha", function(p) {
     });
 });
 
+// #### Saturate [-100, 100]
 Filtrr2.fx("saturate", function(p) {
     p = Filtrr2.Util.normalize(p, 0, 2, -100, 100);
     this.process(function(rgba) {
@@ -294,6 +317,7 @@ Filtrr2.fx("saturate", function(p) {
     });
 });
 
+// #### Invert
 Filtrr2.fx("invert", function() {
     this.process(function(rgba) {
         rgba.r = 255 - rgba.r;
@@ -302,6 +326,7 @@ Filtrr2.fx("invert", function() {
     });    
 });
 
+// #### Posterize [1, 255]
 Filtrr2.fx("posterize", function(p) {    
     p = Filtrr2.Util.clamp(p, 1, 255);
     var step = Math.floor(255 / p);
@@ -312,6 +337,7 @@ Filtrr2.fx("posterize", function(p) {
     });
 });
 
+// #### Gamma [-100, 100]
 Filtrr2.fx("gamma", function(p) {    
     p = Filtrr2.Util.normalize(p, 0, 2, -100, 100);
     this.process(function(rgba) {
@@ -321,6 +347,7 @@ Filtrr2.fx("gamma", function(p) {
     });
 });
 
+// #### Constrast [-100, 100]
 Filtrr2.fx("contrast", function(p) {
     p = Filtrr2.Util.normalize(p, 0, 2, -100, 100);
     function c(f, c){
@@ -333,7 +360,8 @@ Filtrr2.fx("contrast", function(p) {
     });
 });
 
-Filtrr2.fx("sepia", function(p) {
+// #### Sepia
+Filtrr2.fx("sepia", function() {
     this.process(function(rgba) {
         var r = rgba.r, g = rgba.g, b = rgba.b;
         rgba.r = (r * 0.393) + (g * 0.769) + (b * 0.189);
@@ -342,6 +370,7 @@ Filtrr2.fx("sepia", function(p) {
     });    
 });
 
+// #### Subtract [0, 255]
 Filtrr2.fx("subtract", function(r, g, b) {
     this.process(function(rgba)
     {        
@@ -351,6 +380,7 @@ Filtrr2.fx("subtract", function(r, g, b) {
     }); 
 });
 
+// #### Subtract [0, 255]
 Filtrr2.fx("fill", function(r, g, b) {
     this.process(function(rgba)
     {
@@ -360,6 +390,7 @@ Filtrr2.fx("fill", function(r, g, b) {
     });
 });
 
+// #### Blur ['simple', 'gaussian']
 Filtrr2.fx("blur", function(t) {
     t = t || "simple";
     if (t === "simple") {
@@ -379,6 +410,7 @@ Filtrr2.fx("blur", function(t) {
     } 
 });
 
+// #### Sharpen
 Filtrr2.fx("sharpen", function() {
     this.convolve([
         [0.0, -0.2,  0.0],
@@ -386,7 +418,8 @@ Filtrr2.fx("sharpen", function() {
         [0.0, -0.2,  0.0]
     ]);
 });
-   
+
+// #### Curves
 Filtrr2.fx("curves", function(s, c1, c2, e) {
     var bezier = new Filtrr2.Util.Bezier(s, c1, c2, e),
         points = bezier.genColorTable();
@@ -398,6 +431,7 @@ Filtrr2.fx("curves", function(s, c1, c2, e) {
     });    
 });
 
+// #### Expose [-100, 100]
 Filtrr2.fx("expose", function(p) {
     var p  = Filtrr2.Util.normalize(p, -1, 1, -100, 100),
         c1 = {x: 0, y: 255 * p},

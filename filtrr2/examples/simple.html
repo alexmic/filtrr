@@ -10,18 +10,13 @@
     <body>
         <img id="img" src="ldn.jpg"/>
         <script type="text/javascript">
-            Filtrr2("#img", function() {
-                var dup = this.dup().invert();
-                
+            Filtrr2("#img", function() {                
                 this.contrast(40)
                     .saturate(-40)
+                    .sepia()
                     .adjust(0.4, 0, 0)
-                    .layer("screen", dup)
                     .render();
             });
-
-
-
         </script>
     </body>
 </html>
