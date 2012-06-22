@@ -1,244 +1,260 @@
+<html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>alexmic | demos | filtrr</title>
-	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">	
-	<link rel="stylesheet" href="screen.css"  type="text/css" media="screen, projection" />
-	<link rel="stylesheet" href="styles.css"  type="text/css" media="screen, projection" />
-	<link rel="stylesheet" href="filtrr_styles.css"  type="text/css" media="screen, projection" />	
-	<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
-    <!--[if IE]>
-	    <link rel="stylesheet" href="/assets/css/ie.css" type="text/css" media="screen, projection" />
-	<![endif]-->
+  
+  <title>Filtrr.js</title>
+  
+  <link rel="stylesheet/less" type="text/css" href="less/filtrr.less">
+  <script src="js/less-1.3.0.min.js" type="text/javascript"></script>
+  
+  <script type="text/javascript" src="http://use.typekit.com/qml0uqd.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
 </head>
+
 <body>
-	<div class="container">
-		<h1 id="hi">filtrr.</h1>
-<h3 class="quiet"> by alex michael </h3>
-<div class="ruler pink"></div>
-<div style="text-align:center;">
-	<div id="app-wrap">
-		<div id="left-wrap">
-			<div id="bigpic-cntr">
-				<div style="display:none" id="loader">Working</div>
-				<img id="bigpic" src="filtrr_back.jpg" />
-			</div>			
-			<div id="effects-cntr">
-				<!--div class="faded" style="width:1000px"></div-->
-				<div id="overflow-cntr">
-					<div class="ef-cntr">
-						<img id="e1" src="Slice-1.jpg" />
-						<div class="filter-tag">Filter 1</div>
-					</div>
-					<div class="ef-cntr">
-						<img id="e2" src="Slice-2.jpg" />
-						<div class="filter-tag">Filter 2</div>
-					</div>
-					<div class="ef-cntr">
-						<img id="e3" src="Slice-3.jpg" />
-						<div class="filter-tag">Filter 3</div>
-					</div>
-					<div class="ef-cntr">
-						<img id="e4" src="Slice-4.jpg" />
-						<div class="filter-tag">Filter 4</div>
-					</div>
-					<div class="ef-cntr">
-						<img id="e5" src="Slice-5.jpg" />
-						<div class="filter-tag">Filter 5</div>
-					</div>
-					<div class="ef-cntr">
-						<img id="e6" src="Slice-6.jpg" />
-						<div class="filter-tag">Filter 6</div>
-					</div>
-					<div class="ef-cntr">
-						<img id="e7" src="Slice-7.jpg" />
-						<div class="filter-tag">Filter 7</div>
-					</div>
-					<div class="ef-cntr">
-						<img id="e8" src="Slice-8.jpg" />
-						<div class="filter-tag">Filter 8</div>
-					</div>
-					<div class="ef-cntr">
-						<img id="e9" src="Slice-9.jpg" />
-						<div class="filter-tag">Filter 9</div>
-					</div>
-					<div class="ef-cntr">
-						<img id="e10" src="Slice-10.jpg" />
-						<div class="filter-tag">Filter 10</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script type="text/javascript" src="jquery.min.js"></script>
-	<script type="text/javascript" src="filtrr.js"></script>
-	<script type="text/javascript">
-		
-		/* Predefine our effects as functions for easy calling. */
-		var EFFECTS = {
-			
-			e1 : function() {
-			
-				/* This is the starting point to apply filtrr on your images.
-				 * Using the img() function you can pass in an id or the img element,
-				 * and a callback function, to be called when the image has been loaded.
-				 * The callback function is given a filtr parameter which is a wrapper around
-				 * the canvas element, and contains all the filter and blending methods. 
-				 */
-				filtrr.img("bigpic", function(filtr) {
-				
-					/* filtr.duplicate() can be used to get a duplicate of the filtr object
-					 * so you can blend many together.*/
-					var topFiltr = filtr.duplicate();
-					
-					/* filtr.core contains all the core filters. Filter calls can be chained.
-					 * filtr.blend contains all the blending modes. */
-					topFiltr.core.saturation(0).blur();
-					
-					/* Here we are blending the topFiltr on top of the filtr object. */
-					filtr.blend.multiply(topFiltr);
-					
-					/* All filters after a blending, will apply on the blended filtr object */
-					filtr.core.tint([60, 35, 10], [170, 140, 160]).contrast(0.8).brightness(10);
-					
-					/* You need to call put() on a filtr object to see your filter applied on 
-					 * the image. This is explained in the commented version of filtrr.js */
-					filtr.put();
-					
-					/* filtr also gives a reference to the underlying canvas object using filtr.canvas().
-					 * This is very useful in drawing frames or other images on top - so for example you 
-					 * can draw the white frame as in my example, or a wrinkly pattern.
-					 */
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					
-					/* Here I'm just removing the 'Working..' loader. */
-					$("#loader").fadeOut(100);
-				});	
-			},
-			
-			e2 : function() {
-				filtrr.img("bigpic", function(filtr) {
-					filtr.core.saturation(0.3).posterize(70).tint([50, 35, 10], [190, 190, 230]);	
-					filtr.put();
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					$("#loader").fadeOut(100);
-				});
-			},
-			
-			e3 : function() {
-				filtrr.img("bigpic", function(filtr) {
-					filtr.core.tint([60, 35, 10], [170, 170, 230]).contrast(0.8);
-					filtr.put();
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					$("#loader").fadeOut(100);
-				});
-			},
-			
-			e4 : function() {
-				filtrr.img("bigpic", function(filtr) {
-					filtr.core.grayScale().tint([60,60,30], [210, 210, 210]);
-					filtr.put();
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					$("#loader").fadeOut(100);
-				});
-			},
-			
-			e5 : function() {
-				filtrr.img("bigpic", function(filtr) {
-					filtr.core.tint([30, 40, 30], [120, 170, 210])
-							  .contrast(0.75)
-							  .bias(1)
-						      .saturation(0.6)
-						      .brightness(20);
-					filtr.put();
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					$("#loader").fadeOut(100);
-				});
-			},
-			
-			e6 : function() {
-				filtrr.img("bigpic", function(filtr) {
-					filtr.core.saturation(0.4).contrast(0.75).tint([20, 35, 10], [150, 160, 230]);
-					filtr.put();
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					$("#loader").fadeOut(100);
-				});
-			},
-			
-			e7 : function() {
-				filtrr.img("bigpic", function(filtr) {
-					var topFiltr = filtr.duplicate();
-					topFiltr.core.tint([20, 35, 10], [150, 160, 230]).saturation(0.6);
-					filtr.core.adjust(0.1,0.7,0.4).saturation(0.6).contrast(0.8);
-					filtr.blend.multiply(topFiltr);
-					filtr.put();
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					$("#loader").fadeOut(100);
-				});
-			},
-			
-			e8 : function() {
-				filtrr.img("bigpic", function(filtr) {
-					
-					/* In this example we are creating 3 different duplicate layers. Each one is filtered
-					 * and then blended on the filtr object. Note that you could say blend topFiltr1 and 
-					 * topFiltr2 together and then blend the resuln on filtr.
-					 */
-					var topFiltr = filtr.duplicate();				
-					var topFiltr1 = filtr.duplicate();
-					var topFiltr2 = filtr.duplicate();
-					topFiltr2.core.fill(167, 118, 12);
-					topFiltr1.core.gaussianBlur();
-					topFiltr.core.saturation(0);
-					filtr.blend.overlay(topFiltr);
-					filtr.blend.softLight(topFiltr1);
-					filtr.blend.softLight(topFiltr2);
-					filtr.core.saturation(0.5).contrast(0.86);
-					filtr.put();
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					$("#loader").fadeOut(100);
-				});
-			},
-			
-			e9 : function() {
-				filtrr.img("bigpic", function(filtr) {
-					var topFiltr = filtr.duplicate();
-					var topFiltr1 = filtr.duplicate();
-					topFiltr1.core.fill(226, 217, 113).saturation(0.2);
-					topFiltr.core.gaussianBlur().saturation(0.2);
-					topFiltr.blend.multiply(topFiltr1);
-					filtr.core.saturation(0.2).tint([30, 45, 40], [110, 190, 110]);
-					filtr.blend.multiply(topFiltr);
-					filtr.core.brightness(20).sharpen().contrast(1.1);
-					filtr.put();
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					$("#loader").fadeOut(100);
-				});
-			},
-			
-			e10 : function() {
-				filtrr.img("bigpic", function(filtr) {
-					filtr.core.sepia().bias(0.6);
-					filtr.put();
-					filtr.canvas().getContext("2d").drawImage(whiteFrame, 0, 0);
-					$("#loader").fadeOut(100);
-				});	
-			}
-		};
-		
-		/* Preload the frame image which we will draw around the filtered images for a more vintage look. */
-		var whiteFrame = new Image();
-		whiteFrame.src = "whiteframe.png";
-		$("#overflow-cntr img").click(function(){
-			$this = $(this);
-			$("#loader").show();
-			$("#bigpic-cntr canvas").remove();	
-			$("#bigpic-cntr #bigpic").css("display", "block");
-			window.setTimeout(function(){
-				EFFECTS[$this.attr("id")]();
-				}, 30);
-		});	
-	</script>
-</div>	</div>
+
+    <a href="http://github.com/alexmic/filtrr/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+
+  <header>
+  
+    <div class="container">
+    
+      <h1>Filtrr.js</h1>
+      
+      <h2>Insta-hipster-o-matic images in 6.8kb of js. Version 2.0!</h2>
+      
+      <a href="" class="download">Download Filtrr</a>
+      
+      <div id="github">
+          
+          <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=alexmic&repo=filtrr&type=fork&count=true"
+            allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe>
+         
+          
+          <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=alexmic&repo=filtrr&type=watch&count=true"
+            allowtransparency="true" frameborder="0" scrolling="0" width="105px" height="20px"></iframe>
+            
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="alexmic">Tweet</a>
+      
+      </div>
+      
+    </div>
+  
+  </header>
+  
+  <div id="example">
+  
+    
+    <div class="container">
+    
+        <h2>See it in action!</h2>
+        
+        <p>Filtrr.js makes Instagram style retro picture effects easy. No Photoshop required.</p>
+        
+      <div id="image">
+        
+        <img src="" alt="" />
+              
+      </div>
+      
+      <ul id="thumbs" class="clearfix">
+      
+        <li>
+          <img src="" alt="" />
+        
+        </li>
+        
+        <li>
+          <img src="" alt="" />
+        
+        </li>
+        
+        
+        <li class="active">
+          <img src="" alt="" />
+        
+        </li>
+        
+        
+        <li>
+          <img src="" alt="" />
+        
+        </li>
+        
+        <li>
+          <img src="" alt="" />
+        
+        </li>
+        
+        <li>
+          <img src="" alt="" />
+        
+        </li>
+        
+        <li>
+          <img src="" alt="" />
+        
+        </li>
+        
+        <li>
+          <img src="" alt="" />
+        
+        </li>
+        
+      
+      </ul>
+    
+    </div>
+    
+  </div>
+
+  <div id="steps">
+  
+    <div class="container clearfix">
+  
+      <h3>Using Filtrr</h3>
+      
+      <p>Designer friendly. Only the most basic JS knowledge needed.</p>
+      
+      <ol>
+      
+        <li>
+          
+            <h4>Step 1</h4>          
+          <a href="" class="download">Download Filtrr</a>
+          <b>Or <a href="">fork filtrr.js</a> on Github</b>
+          
+        
+        </li>
+        
+        <li>
+          
+          <h4>Step 2</h4>
+          
+          <p>Reference the <code>filtrr.js</code> file in your html document</p>
+          
+          <pre id="script"><code> <span class="tag">&lt;<span class="tag-name">script</span> type="<span class="string">text/javascript</span>" src="<span class="string">filtrr.js</span>"&gt;</span><span class="tag">&lt;/<span class="tag-name">script</span>&gt;</span></code></pre>
+        
+        </li>
+        
+        <li>
+        
+            <h4>Step 3</h4>
+            
+            <p>Call the <code>.filtrr()</code> function on the relevant image</p>
+          
+          <pre id="function"><code> <span class="tag-name">function</span>({
+    $("<span class="string">#loader</span>").filtrr(<span class="string">100</span>);
+  }); </code></pre>
+        
+        </li>
+        
+        <li>
+          
+          <h4>Step 4</h4>
+          
+          <p>Launch your website/app, then <a href="mailto:alex@flitrr.me">drop me a line</a> to let me know how filtrr.js worked for you.</p>
+        
+        </li>
+        
+        
+        <li>
+        
+            <h4>More questions?</h4>
+            
+            <p>Check out the <a href="">README.md</a></p>    
+        
+        </li>
+        
+        
+      
+      </ol>
+    
+    </div>
+  
+  </div>
+  
+  <div id="gallery">
+  
+    <div class="container">
+      
+      <h5>Filtrr.js in the wild</h5>
+      
+      
+      <ul class="clearfix">
+          
+          <li><a href="">
+              
+              <img src="" alt="" width="192" height="192"/>
+                  
+              <p>Website name</p>
+          
+          </a></li>
+          
+          <li><a href="">
+              
+              <img src="" alt="" width="192" height="192"/>
+                  
+              <p>Website name</p>
+          
+          </a></li>
+          
+          <li><a href="">
+              
+              <img src="" alt="" width="192" height="192"/>
+                  
+              <p>Website name</p>
+          
+          </a></li>
+          
+          <li><a href="">
+              
+              <img src="" alt="" width="192" height="192"/>
+                  
+              <p>Website name</p>
+          
+          </a></li>
+          
+                
+      </ul>
+      
+      <p>Submit your site by mailing a link to <a href="mailto:examples@filtrr.me">examples@filtrr.me</a></p>
+    
+    </div>
+  
+  </div>
+  
+  <footer>
+    
+    <nav class="container clearfix">
+      
+      <ul>
+        
+        <li>Check out the Github repo</li>
+        <li>Other projects by @alexismic</li>
+        <li>Page design by <a href="http://gearoidorourke.com">Gearoid</a></li>
+      
+      </ul>
+      
+      <div id="alex">
+          
+          <img src="ing/alex.jpg" alt="" />
+          
+          <h4>Made by Alex</h4>
+          
+          <p>Alex's bio, Stuff n stuff</p>
+          
+          <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=alexmic&type=follow&count=true"
+            allowtransparency="true" frameborder="0" scrolling="0" width="165px" height="20px"></iframe>
+      
+      </div>
+    
+    </nav>
+  
+  </footer>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
 </body>
+
 </html>
