@@ -350,7 +350,8 @@ border-bottom: 2px dashed rgba(80, 50, 20, .35);
       
   ul {
       padding: 0 50px 0 30px;
-      margin-bottom: 20px;
+      margin: 0 auto 20px auto;
+      width: 440px;
       
       li {
           background: #ffffff;
@@ -381,15 +382,25 @@ border-bottom: 2px dashed rgba(80, 50, 20, .35);
 footer {
  background-color: rgba(80, 50, 20, .35); 
  color: #ffffff;
- 
+ text-shadow: 1px 1px 0px rgb(114, 72, 30);
+     nav a {
+      color: white;
+      text-decoration: none;
+
+     }
+
+     nav a:hover {
+      text-decoration: underline;
+     }
      nav ul {
-         padding: 20px 60px;
-         float: left;
          width: 400px;
+         height: 40px;
+         margin: 0 auto;
+         position: relative;
          
          li {
-             border-bottom: 1px solid rgba(255, 255, 255, .15);
-             padding: 10px;
+             float: left;
+             margin: 0px 10px;
              }
          
          }
