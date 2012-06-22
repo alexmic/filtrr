@@ -2,7 +2,7 @@
 
 <head>
   
-  <title>Filtrr.js</title>
+  <title>Filtrr2.js</title>
   
   <link rel="stylesheet/less" type="text/css" href="less/filtrr.less">
   <script src="js/less-1.3.0.min.js" type="text/javascript"></script>
@@ -14,17 +14,15 @@
 
 <body>
 
-    <a href="http://github.com/alexmic/filtrr/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
-
   <header>
   
     <div class="container">
     
-      <h1>Filtrr.js</h1>
+      <h1>Filtrr2.js</h1>
       
-      <h2>Insta-hipster-o-matic images in 6.8kb of js. Version 2.0!</h2>
+      <h2>Insta-hipster-o-matic images in <em>6.8kb</em> of JavaScript.</h2>
       
-      <a href="" class="download">Download Filtrr</a>
+      <a href="https://github.com/alexmic/filtrr/zipball/master" class="download">Download latest</a>
       
       <div id="github">
           
@@ -49,8 +47,6 @@
     <div class="container">
     
         <h2>See it in action!</h2>
-        
-        <p>Filtrr.js makes Instagram style retro picture effects easy. No Photoshop required.</p>
         
       <div id="image">
         
@@ -113,28 +109,23 @@
   
     <div class="container clearfix">
   
-      <h3>Using Filtrr</h3>
-      
-      <p>Designer friendly. Only the most basic JS knowledge needed.</p>
-      
+      <h3>Using Filtrr2</h3>
+            
       <ol>
       
         <li>
           
-            <h4>Step 1</h4>          
-          <a href="" class="download">Download Filtrr</a>
-          <b>Or <a href="">fork filtrr.js</a> on Github</b>
-          
-        
+          <h4>Step 1</h4>      
+          <p>Download this awesomeness from Github.</p>
+          <a href="https://github.com/alexmic/filtrr/zipball/master" class="download">Download latest</a>        
         </li>
         
         <li>
           
           <h4>Step 2</h4>
           
-          <p>Reference the <code>filtrr.js</code> file in your html document</p>
-          
-          <pre id="script"><code> <span class="tag">&lt;<span class="tag-name">script</span> type="<span class="string">text/javascript</span>" src="<span class="string">filtrr.js</span>"&gt;</span><span class="tag">&lt;/<span class="tag-name">script</span>&gt;</span></code></pre>
+          <p>Filtrr2 depends on jQuery so be sure to add it <em>before</em>. Then add the script to your document.</p>
+          <pre id="script"><code><span class="tag">&lt;<span class="tag-name">script</span> type="<span class="string">text/javascript</span>" src="<span class="string">filtrr2.js</span>"&gt;</span><span class="tag">&lt;/<span class="tag-name">script</span>&gt;</span></code></pre>
         
         </li>
         
@@ -142,11 +133,15 @@
         
             <h4>Step 3</h4>
             
-            <p>Call the <code>.filtrr()</code> function on the relevant image</p>
+            <p>Prettify your images.</p>
           
-          <pre id="function"><code> <span class="tag-name">function</span>({
-    $("<span class="string">#loader</span>").filtrr(<span class="string">100</span>);
-  }); </code></pre>
+          <pre id="function"><code>Filtrr2(<span class="string">"#my-img"</span>, <span class="tag-name">function</span>() {
+
+    this.brighten(<span class="string">40</span>)
+        .saturate(<span class="string">50</span>)
+        .render();
+          
+});</code></pre>
         
         </li>
         
@@ -154,17 +149,15 @@
           
           <h4>Step 4</h4>
           
-          <p>Launch your website/app, then <a href="mailto:alex@flitrr.me">drop me a line</a> to let me know how filtrr.js worked for you.</p>
+          <p>Launch your product, then <a href="mailto:hi@alexmic.net">drop me a line</a> to let me know how it worked for you.</p>
         
         </li>
         
         
         <li>
         
-            <h4>More questions?</h4>
-            
-            <p>Check out the <a href="">README.md</a></p>    
-        
+            <h4>Documentation</h4>
+            <p>The <a target="_blank" href="https://github.com/alexmic/filtrr/blob/master/filtrr2/README.md">Github README</a> file contains most of what you'll need.<p>
         </li>
         
         
