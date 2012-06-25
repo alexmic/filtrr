@@ -22,8 +22,6 @@
       
       <h2>Insta-hipster-o-matic images in <em>6.8kb</em> of JavaScript.</h2>
       
-      <a href="https://github.com/alexmic/filtrr/zipball/master" class="download">Download latest</a>
-      
       <div id="github">
           
           <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=alexmic&repo=filtrr&type=fork&count=true"
@@ -42,65 +40,17 @@
   </header>
   
   <div id="example">
-  
     
     <div class="container">
     
         <h2>See it in action!</h2>
         
-      <div id="image">
-        
-        <img src="" alt="" />
-              
-      </div>
+          <div id="image">
+            <img src="/img/pier.jpg" alt="" />
+          </div>
+
+        </div>
       
-      <ul id="thumbs" class="clearfix">
-      
-        <li>
-          <img src="" alt="" />
-        
-        </li>
-        
-        <li>
-          <img src="" alt="" />
-        
-        </li>
-        
-        
-        <li class="active">
-          <img src="" alt="" />
-        
-        </li>
-        
-        
-        <li>
-          <img src="" alt="" />
-        
-        </li>
-        
-        <li>
-          <img src="" alt="" />
-        
-        </li>
-        
-        <li>
-          <img src="" alt="" />
-        
-        </li>
-        
-        <li>
-          <img src="" alt="" />
-        
-        </li>
-        
-        <li>
-          <img src="" alt="" />
-        
-        </li>
-        
-      
-      </ul>
-    
     </div>
     
   </div>
@@ -216,8 +166,24 @@
     </nav>
   
   </footer>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="https://raw.github.com/alexmic/filtrr/master/filtrr2/src/filtrr2.js"></script>
+  <script type="text/javascript" src="https://raw.github.com/alexmic/filtrr/master/filtrr2/src/effects.js"></script>
+  <script type="text/javascript" src="https://raw.github.com/alexmic/filtrr/master/filtrr2/src/events.js"></script>
+  <script type="text/javascript" src="https://raw.github.com/alexmic/filtrr/master/filtrr2/src/util.js"></script>
+  <script type="text/javascript" src="https://raw.github.com/alexmic/filtrr/master/filtrr2/src/layers.js"></script>
+  <script type="text/javascript">
+    Filtrr2("#image img", function() {
+       var dup = this.dup().expose(-35);
+               
+        this.contrast(40)
+            .saturate(-70)
+            .adjust(0.2, 0.2, 0)
+            .layer("softLight", dup)
+            .render();
+    });
+  </script>
 </body>
 
 </html>
