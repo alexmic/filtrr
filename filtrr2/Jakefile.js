@@ -9,7 +9,7 @@ var exec  = require('child_process').exec,
     fs    = require('fs');
 
 // Increment this version number for new builds.
-FILTRR2_VERSION = "0.4.3"
+FILTRR2_VERSION = "0.4.4"
 
 // Generates Docco documentation. Navigate into the filtrr2 
 // directory first and run this task. The newly created
@@ -30,9 +30,10 @@ task('build', [], function(params) {
     var fout = "dist/filtrr2-" + FILTRR2_VERSION + ".min.js",
         fin  = [
             "src/filtrr2.js",
-            "src/events.js",
             "src/effects.js",
-            "src/util.js"
+            "src/util.js",
+            "src/events.js",
+            "src/layers.js"
         ].join(" "),
         cmd = [
             "java",
