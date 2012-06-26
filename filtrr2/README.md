@@ -91,7 +91,8 @@ Code documentation is generated using Docco. If you'd like to build documentatio
 
 ## Built-in goodness
 
-```Filtrr2``` comes with a number of built-in effects and blending modes for you to use in your projects.
+```Filtrr2``` comes with a number of built-in effects and blending modes for you to use in your projects. Many of these take a range of values or parameters. Refer to the code
+or the ```doccc``` documentation for information on these.
 
 ### Effects
 
