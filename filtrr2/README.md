@@ -28,11 +28,12 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 1. What's this?
 2. Roadmap
-3. Demos
+3. Examples
 4. Installation
 5. Forking, building and testing
-6. Usage
-7. Extending the framework
+6. Built-in goodness
+7. Usage
+8. Extending the framework
 
 ## What's this?
 
@@ -55,9 +56,9 @@ Other things that I have in mind:
 - Vignette
 - Pseudo-async rendering so that the UI does not block.
 
-## Demos
+## Examples
 
-Coming soon on a properly designed and fancy website! In the mean time check this out: http://alexmic.github.com/filtrr/.
+You can find some examples in the  ```examples/``` directory.
 
 ## Installation
 
@@ -86,7 +87,39 @@ To build the project you will need node.js and jake. The ```Jakefile.js``` decla
 
 ### Documentation
 
-Documentation is generated using Docco. If you'd like to build documentation for your updated version go [here](http://jashkenas.github.com/docco/) and follow the instructions.
+Code documentation is generated using Docco. If you'd like to build documentation for your updated version go [here](http://jashkenas.github.com/docco/) and follow the instructions. This document should be enough for covering usage patterns.
+
+## Built-in goodness
+
+```Filtrr2``` comes with a number of built-in effects and blending modes for you to use in your projects.
+
+### Effects
+
+1. Brighten 
+2. Saturate
+3. Gamma
+4. Adjust
+5. Expose
+6. Curves
+7. Sharpen
+8. Blur
+9. Fill
+10. Subtract
+11. Sepia
+12. Contrast
+13. Posterize
+14. Invert
+15. Alpha
+
+### Blending modes
+
+1. Multiply 
+2. Screen
+3. Overlay
+4. Soft Light
+5. Addition
+6. Exclusion
+7. Difference
 
 ## Usage
 
@@ -104,7 +137,7 @@ Filtrr2("#my-img", function() {
 });
 ```
 
-So, what happens here? We pass in a jQuery selector to the ```Filtrr2``` constructor and a callback function to get called when ```Filtrr2``` is ready. In the callback, ```this``` refers to a ```Filtrr2``` instance (actually an instance of the ```F``` object) which holds all defined effecs up to that moment. As you can see, effect calls can be chained. This pattern should be enough for most use cases.
+So, what happens here? We pass in a jQuery selector to the ```Filtrr2``` constructor and a callback function to get called when ```Filtrr2``` is ready. In the callback, ```this``` refers to a ```ImageProcessor``` instance which holds all defined effecs up to that moment. More about this object later on. As you can see, effect calls can be chained. This pattern should be enough for most use cases.
 
 #### Important note #2
 
@@ -263,6 +296,32 @@ $("#save").click(function() {
 
 This will cause the current image to be downloaded in your browser. This is tested in recent browsers and it seems to work fine, although the image has no name. The ```save()``` method can take a ```type``` parameter which can be either "png" or "jpeg" which specifies the image type. It defaults to "png". ```JPEG``` support is not implement by all browsers and will fallback to ```PNG```.
 
+### Using layers
+
+```js
+Filtrr2("#img", function() {
+    
+    var dup = this.dup().expose(-35);
+                
+    this.contrast(40)
+        .saturate(-70)
+        .adjust(0.2, 0.2, 0)
+        .layer("softLight", dup)
+        .render();
+});
+```
+
+Layers work in the same way as Photoshop layers. Using the ```dup()``` method we 
+get a duplicate of the current ```ImageProcessor``` instance. The duplicate holds
+it's own pixel buffer copy *but* it shares a canvas reference with all other instances
+created from the original ```ImageProcessor```. Hence any duplicate can render things
+on the original canvas. 
+
+We can then apply effects on the original and the duplicate instances and then we
+can blend them together using the ```layer()``` method. The layer on which this method
+is called is going to be the *bottom* layer. The layer passed as the (second) parameter to this method will be the top layer. The first parameter to the ```layer()``` method
+is the blending mode.
+
 ## Extending the framework
 
 You can very easily extend the framework with your own custom effects using the ```fx()``` method on the ```Filtrr2``` object. In fact, in ```effects.js``` you will notice that all the predefined effects are defined this way as well. 
@@ -344,6 +403,3 @@ my.ready(function() {
 #### Important note #8
 
 Since your pre-defined filters will be exposed as functions on an ```ImageProcessor``` instance, the normal JavaScript variable naming rules apply to your effect names as well. Any name that breaks those rules might cause issues.
-
-
-
