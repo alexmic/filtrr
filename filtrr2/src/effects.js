@@ -101,12 +101,32 @@ Filtrr2.ImageProcessor = function(F)
         h   = canvas.height,
         ctx = canvas.getContext("2d");
     
+    // Returns a copy of the ImageData object passed 
+    // as a parameter.
+    var copyImageData = function(imageData)
+    {
+        var copy = ctx.createImageData(imageData),
+            // Store some references for quicker processing.
+            cData = copy.data,
+            imData = imageData.data,
+            len = imData.length,
+            i = 0;
+        // Copy over all pixel values to the copy buffer.
+        for (i = 0; i < len; i++) {
+            cData[i] = imData[i];
+        }
+        return copy;
+    };  
+
     var clamp = Filtrr2.Util.clamp,
 
         // Canvas image data buffer - all manipulations are applied
         // here. Rendering the ImageProcessor object will save the buffer
         // back to the canvas.
         buffer = ctx.getImageData(0, 0, w, h),
+
+        // Save a clean copy of the buffer to enable resetting.
+        originalBuffer = copyImageData(buffer),
         
         //
         _F = F,
@@ -154,6 +174,14 @@ Filtrr2.ImageProcessor = function(F)
     this.dims = function()
     {
         return {w: w, h: h};
+    };
+
+    // Resets the buffer to the original buffer by creating
+    // a copy of it.
+    this.reset = function() 
+    {
+        buffer = copyImageData(originalBuffer);
+        return this;
     };
 
     // Put another layer on top of this ImageProcessor. The other

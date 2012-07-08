@@ -170,6 +170,7 @@ Calling the ```Filtrr2``` constructor returns a reference to an ```F``` object i
 - ```trigger()```: Triggers an event.
 - ```ready()```: Register a callback to fire when ```Filtrr2``` is ready.
 - ```update()```: Update the canvas with new effects.
+- ```reset()```: Reset the image to its original state.
 
 
 ### Initializing without a callback
@@ -277,6 +278,26 @@ The ```update()``` method on an ```F``` instance allows for manual updates to th
 #### Important note #7
 
 If ```Filtrr2``` is not ready when the ```update()``` method is called then the call will be ignored.
+
+### Resetting the image
+
+```js
+var my = Filtrr2("#my-img", function() {
+
+    this.brighten(50)
+        .saturate(-50)
+        .render();
+
+});
+
+window.setTimeout(function() {
+
+    my.reset().render();
+
+}, 2000);
+```
+
+The ```reset()``` method on an ```F``` instance allows for resetting the image to its *original* state. It is actually a proxy method to the ```ImageProcessor```'s ```reset()``` method, hence you could actually write ```my.processor.reset()``` instead. This method does not draw on the canvas hence you need to call ```render()``` if you want to set the resetting effect. Since it returns a reference to the ```ImageProcessor``` additional effects can be chained after it.
 
 ### Exporting the current image
 
