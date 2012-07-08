@@ -12,11 +12,7 @@
         <img id="img" src="megan_fox.jpg"/>
         <script type="text/javascript">
             Filtrr2("#img", function() {                
-                this.contrast(40)
-                    .saturate(-40)
-                    .sepia()
-                    .adjust(0.4, 0, 0)
-                    .render();
+                this.bias(100).render();
             });
         </script>
     </body>

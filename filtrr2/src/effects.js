@@ -370,7 +370,7 @@ Filtrr2.fx("sepia", function() {
     });    
 });
 
-// #### Subtract [0, 255]
+// #### Subtract [No Range]
 Filtrr2.fx("subtract", function(r, g, b) {
     this.process(function(rgba)
     {        
@@ -380,7 +380,7 @@ Filtrr2.fx("subtract", function(r, g, b) {
     }); 
 });
 
-// #### Subtract [0, 255]
+// #### Fill [No Range]
 Filtrr2.fx("fill", function(r, g, b) {
     this.process(function(rgba)
     {
@@ -393,13 +393,13 @@ Filtrr2.fx("fill", function(r, g, b) {
 // #### Blur ['simple', 'gaussian']
 Filtrr2.fx("blur", function(t) {
     t = t || "simple";
-    if (t === "simple") {
+    if (t == "simple") {
         this.convolve([
             [1/9, 1/9, 1/9],
             [1/9, 1/9, 1/9],
             [1/9, 1/9, 1/9]
         ]);
-    } else if (t === "gaussian") {
+    } else if (t == "gaussian") {
         this.convolve([
             [1/273, 4/273, 7/273, 4/273, 1/273],
             [4/273, 16/273, 26/273, 16/273, 4/273],
