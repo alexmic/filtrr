@@ -152,6 +152,16 @@ var F = function(el, callback, timestamp)
         }
     };
 
+    // Resets the internal buffer of the object. This does
+    // reset the actual canvas. Therefore, you need to call
+    // render() for the reset to take place. 
+    this.reset = function()
+    {
+        if (_ready) {
+            return this.processor.reset();
+        }
+    };
+
     // If this is an image we need to replace it with
     // a canvas element.
     if (name == "img") {
