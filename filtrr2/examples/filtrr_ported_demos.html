@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/></script>
+        <script type="text/javascript" src="../src/filtrr2.js"></script>
+        <script type="text/javascript" src="../src/layers.js"></script>
+        <script type="text/javascript" src="../src/effects.js"></script>
+        <script type="text/javascript" src="../src/events.js"></script>
+        <script type="text/javascript" src="../src/util.js"></script>   
+    </head>
+    <body>
+        <img src="megan_fox.jpg"/>
+        <img id="img0" src="megan_fox.jpg"/>
+        <img id="img1" src="megan_fox.jpg"/>
+        <img id="img2" src="megan_fox.jpg"/>
+        <script type="text/javascript">
+            // This is a port of some of the old Filtrr demos to Filtrr2.
+            var i = 0
+              , effects = [
+                function() {
+                    var layer = this.dup();
+                    layer.expose(-10).saturate(-30);
+                    this.adjust(0, 0, 0.7)
+                        .layer("overlay", layer)
+                        .render();
+                },
+                function() {
+                    var layer1 = this.dup()
+                      , layer2 = this.dup()
+                      , layer3 = this.dup();
+
+                    layer3.fill(167, 118, 12);
+                    layer2.blur("gaussian");
+                    layer1.saturate(-50);
+
+                    this.layer("overlay", layer1)
+                        .layer("softLight", layer2)
+                        .layer("softLight", layer3)
+                        .saturate(-40)
+                        .contrast(10)
+                        .render();
+                },
+                function() {
+                    this.sepia().expose(-20).render();
+                }
+              ];
+
+            for (i = 0; i < 3; i++) {
+                window.setTimeout(
+                    (function(i) {
+                        Filtrr2("#img" + i, effects[i]);
+                    })(i),
+                    0
+                );
+            } 
+        </script>
+    </body>
+</html>
