@@ -152,14 +152,12 @@ var F = function(el, callback, timestamp)
         }
     };
 
-    // Resets the internal buffer of the object. This does
+    // Resets the internal buffer of the object. This doesn't
     // reset the actual canvas. Therefore, you need to call
     // render() for the reset to take place. 
     this.reset = function()
     {
-        if (_ready) {
-            return this.processor.reset();
-        }
+        if (_ready) return this.processor.reset();
     };
 
     // If this is an image we need to replace it with
@@ -194,6 +192,8 @@ var F = function(el, callback, timestamp)
 // internal cache of F instances keyd on selector. The timestamp
 // on the cache entries serves no particular purpose - it's mainly
 // for testing.
+// The constructor can take an array of options. The only one supported
+// so far is 'store' which if false, will not cache this
 var Filtrr2 = (function() 
 {   
     var store = {};
@@ -203,9 +203,11 @@ var Filtrr2 = (function()
         throw new Error("Canvas is not supported in this browser.");
     }
 
-    return function(_el, callback) {
+    return function(_el, callback, options) {
 
-        var t, el, isSelector, timestamp;
+        var t, el, isSelector, timestamp, key, inst;
+
+        if (options == null) options = {store: true};
 
         if (typeof _el === 'undefined' || _el === null) {
             throw new Error("The element you gave Filtrr2 was not defined.");
@@ -239,10 +241,12 @@ var Filtrr2 = (function()
 
             timestamp = new Date().getTime();
             inst = new F(el, callback, timestamp);
-            store[key] = {
-                timestamp: timestamp,
-                F: inst
-            };
+            if (options.store) {
+                store[key] = {
+                    timestamp: timestamp,
+                    F: inst
+                };
+            }
             return inst;
         }
     };

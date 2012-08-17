@@ -58,7 +58,6 @@ $(document).ready(function(){
         start();
     });
 
-
     asyncTest("Non existing DOM object.", function() {
         raises(function() {
             Filtrr2($("#asfafa"), function() {});
@@ -100,6 +99,24 @@ $(document).ready(function(){
         var f = Filtrr2($("#test-canvas2"));
         ok(f.ready());
         ok(new Date().getTime() > f.created);
+    });
+
+    // Check no-store.
+    test("Initialize instances with no-store.", function() {
+        var f1 = Filtrr2("#test-img-ns", function(){}, {
+            store: false
+        });
+        var f2 = Filtrr2("#test-img-ns", function(){});
+
+        // Stored once so always in store.
+        var f3 = Filtrr2("#test-img-ns", function(){}, {
+            store: false
+        });
+        var f4 = Filtrr2("#test-img-ns", function(){});
+        
+        ok(f1 != f2);
+        ok(f2 == f3);
+        ok(f3 == f4);
     });
 
     function check(f) {
