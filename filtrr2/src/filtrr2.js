@@ -50,7 +50,7 @@ var F = function(el, callback, timestamp)
         img.onload = $.proxy(function()
         {
             var c = $("<canvas>", {
-                        'id'   : el.attr('id'),
+                        'id'   : "filtrr2-" + el.attr('id'),
                         'class': el.attr('class'), 
                         'style': el.attr('style')
                     })

@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/></script>
+        <script type="text/javascript" src="../src/filtrr2.js"></script>
+        <script type="text/javascript" src="../src/layers.js"></script>
+        <script type="text/javascript" src="../src/effects.js"></script>
+        <script type="text/javascript" src="../src/events.js"></script>
+        <script type="text/javascript" src="../src/util.js"></script>   
+    </head>
+    <body>
+        <img src="megan_fox.jpg"/>
+        <img id="img" src="megan_fox.jpg"/>
+        <script type="text/javascript">
+            var opts = {
+                store: false
+            };
+
+            // Render some filters.
+            var f = Filtrr2("#img", function() {
+                this.contrast(40)
+                    .saturate(-70)
+                    .render();
+            }, opts);
+
+            // Wait about 3 seconds, remove the 
+            // canvas and create a new instance.
+            window.setTimeout(function() {
+                $("#filtrr2-img").remove();
+                $("#img").show();
+                f = Filtrr2("#img", function() {
+                    this.saturate(100).render();
+                });
+
+            }, 3000);
+
+        </script>
+    </body>
+</html>
