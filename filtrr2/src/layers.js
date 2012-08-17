@@ -112,17 +112,19 @@ Filtrr2.Layers = function()
             });
         }, 
 
+        // Thanks to @olivierlesnicki for suggesting a better algoritm.
         softLight: function(bottom, top) 
         {
             var c = function(b, t) {
-                return (b > 128) ? 255 - ((255 - b) * (255 - (t - 128))) / 255 : (b * (t + 128)) / 255;
+                b /= 255; 
+                t /= 255;
+                return (t < 0.5) ? 255*((1-2*t)*b*b + 2*t*b) : 255*((1-(2*t-1))*b+(2*t-1)*Math.pow(b, 0.5));
             };
-            
             apply(bottom, top, function(b, t)
             {
                 b.r = c(b.r, t.r);
                 b.g = c(b.g, t.g);
-                b.b = c(b.b, t.b)
+                b.b = c(b.b, t.b) 
             });
         },
 
