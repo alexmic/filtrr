@@ -106,13 +106,11 @@ canvas is not ready this is a noop.</p>             </td>             <td class=
             <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Force octet-stream.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="nx">data</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">mimetype</span><span class="p">,</span> <span class="s2">&quot;image/octet-stream&quot;</span><span class="p">)</span>
             <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">data</span>
         <span class="p">}</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Resets the internal buffer of the object. This does
+    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Resets the internal buffer of the object. This doesn't
 reset the actual canvas. Therefore, you need to call
 render() for the reset to take place. </p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">reset</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_ready</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">processor</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
-        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">_ready</span><span class="p">)</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">processor</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
     <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>If this is an image we need to replace it with
 a canvas element.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">==</span> <span class="s2">&quot;img&quot;</span><span class="p">)</span> <span class="p">{</span>
     
@@ -134,15 +132,19 @@ immediately.</p>             </td>             <td class="code">               <
 and gets the element if it's a selector. Also maintains an 
 internal cache of F instances keyd on selector. The timestamp
 on the cache entries serves no particular purpose - it's mainly
-for testing.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">Filtrr2</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> 
+for testing.
+The constructor can take an array of options. The only one supported
+so far is 'store' which if false, will not cache this</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">Filtrr2</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> 
 <span class="p">{</span>   
     <span class="kd">var</span> <span class="nx">store</span> <span class="o">=</span> <span class="p">{};</span></pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Check for canvas compatibility.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;canvas/&gt;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">&quot;2d&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Canvas is not supported in this browser.&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 
-    <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">_el</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">_el</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
 
-        <span class="kd">var</span> <span class="nx">t</span><span class="p">,</span> <span class="nx">el</span><span class="p">,</span> <span class="nx">isSelector</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">t</span><span class="p">,</span> <span class="nx">el</span><span class="p">,</span> <span class="nx">isSelector</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">inst</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">options</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span><span class="nx">store</span><span class="o">:</span> <span class="kc">true</span><span class="p">};</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">_el</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">||</span> <span class="nx">_el</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;The element you gave Filtrr2 was not defined.&quot;</span><span class="p">);</span>
@@ -167,10 +169,12 @@ for testing.</p>             </td>             <td class="code">               <
 
             <span class="nx">timestamp</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">();</span>
             <span class="nx">inst</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">F</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">);</span>
-            <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="nx">timestamp</span><span class="o">:</span> <span class="nx">timestamp</span><span class="p">,</span>
-                <span class="nx">F</span><span class="o">:</span> <span class="nx">inst</span>
-            <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">store</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="nx">timestamp</span><span class="o">:</span> <span class="nx">timestamp</span><span class="p">,</span>
+                    <span class="nx">F</span><span class="o">:</span> <span class="nx">inst</span>
+                <span class="p">};</span>
+            <span class="p">}</span>
             <span class="k">return</span> <span class="nx">inst</span><span class="p">;</span>
         <span class="p">}</span>
     <span class="p">};</span>
