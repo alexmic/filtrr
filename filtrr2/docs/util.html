@@ -1,103 +1,199 @@
-<!DOCTYPE html>  <html> <head>   <title>util.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="effects.html">                 effects.js               </a>                                           <a class="source" href="events.html">                 events.js               </a>                                           <a class="source" href="filtrr2.html">                 filtrr2.js               </a>                                           <a class="source" href="layers.html">                 layers.js               </a>                                           <a class="source" href="util.html">                 util.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               util.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Copyright (C) 2012 Alex Michael</p>
+<!DOCTYPE html>
 
-<h3>Licence</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Permission is hereby granted, free of charge, to any person 
+<html>
+<head>
+  <title>util.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="effects.html">
+                effects.js
+              </a>
+            
+              
+              <a class="source" href="events.html">
+                events.js
+              </a>
+            
+              
+              <a class="source" href="filtrr2.html">
+                filtrr2.js
+              </a>
+            
+              
+              <a class="source" href="layers.html">
+                layers.js
+              </a>
+            
+              
+              <a class="source" href="util.html">
+                util.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>util.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Copyright (C) 2012 Alex Michael</p>
+<h3>Licence</h3>
+<p>Permission is hereby granted, free of charge, to any person 
 obtaining a copy of this software and associated documentation 
-files (the "Software"), to deal in the Software without restriction, 
+files (the &quot;Software&quot;), to deal in the Software without restriction, 
 including without limitation the rights to use, copy, modify, 
 merge, publish, distribute, sublicense, and/or sell copies of 
 the Software, and to permit persons to whom the Software is 
 furnished to do so, subject to the following conditions:</p>
-
 <p>The above copyright notice and this permission notice shall be included 
 in all copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, 
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
 ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
-OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>Documentation</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h4>Filtrr2.Util</h4>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Common toolkit amongst modules. Exports 3 methods and 1 class.</p>
-
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>
+<h3>Documentation</h3>
+<h4>Filtrr2.Util</h4>
+<p>Common toolkit amongst modules. Exports 3 methods and 1 class.</p>
 <p><code>clamp(val, min, max)</code></p>
-
 <p>Ensures a value is between min and max.</p>
-
 <p><code>dist(x1, x2)</code></p>
-
 <p>Calculates the absolute distance between two values.</p>
-
 <p><code>normalize(val, dmin, dmax, smin, smax)</code></p>
-
 <p>Projects a value in the source range into the corresponding
 value in the destination range.</p>
-
 <p><code>Bezier(C1, C2, C3, C4)</code></p>
+<p>A Bezier curve implementation.</p>
 
-<p>A Bezier curve implementation.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span>
-<span class="p">{</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.Util = (<span class="keyword">function</span>()
+{
     
-    <span class="kd">var</span> <span class="nx">exports</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="keyword">var</span> exports = {},
         
-        <span class="nx">clamp</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">min</span><span class="p">,</span> <span class="nx">max</span><span class="p">)</span> 
-        <span class="p">{</span>
-            <span class="nx">min</span> <span class="o">=</span> <span class="nx">min</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
-            <span class="nx">max</span> <span class="o">=</span> <span class="nx">max</span> <span class="o">||</span> <span class="mi">255</span><span class="p">;</span>
-            <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">max</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">min</span><span class="p">,</span> <span class="nx">val</span><span class="p">));</span>
-        <span class="p">},</span>
+        clamp = <span class="keyword">function</span>(val, min, max) 
+        {
+            min = min || <span class="number">0</span>;
+            max = max || <span class="number">255</span>;
+            <span class="keyword">return</span> Math.min(max, Math.max(min, val));
+        },
 
-        <span class="nx">dist</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">)</span> 
-        <span class="p">{</span>
-            <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
-        <span class="p">},</span>
+        dist = <span class="keyword">function</span>(x1, x2) 
+        {
+            <span class="keyword">return</span> Math.sqrt(Math.pow(x2 - x1, <span class="number">2</span>));
+        },
 
-        <span class="nx">normalize</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">dmin</span><span class="p">,</span> <span class="nx">dmax</span><span class="p">,</span> <span class="nx">smin</span><span class="p">,</span> <span class="nx">smax</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">sdist</span> <span class="o">=</span> <span class="nx">dist</span><span class="p">(</span><span class="nx">smin</span><span class="p">,</span> <span class="nx">smax</span><span class="p">),</span>
-                <span class="nx">ddist</span> <span class="o">=</span> <span class="nx">dist</span><span class="p">(</span><span class="nx">dmin</span><span class="p">,</span> <span class="nx">dmax</span><span class="p">),</span>
-                <span class="nx">ratio</span> <span class="o">=</span> <span class="nx">ddist</span> <span class="o">/</span> <span class="nx">sdist</span><span class="p">,</span>
-                <span class="nx">val</span>   <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">smin</span><span class="p">,</span> <span class="nx">smax</span><span class="p">);</span>
-            <span class="k">return</span> <span class="nx">dmin</span> <span class="o">+</span> <span class="p">(</span><span class="nx">val</span><span class="o">-</span><span class="nx">smin</span><span class="p">)</span> <span class="o">*</span> <span class="nx">ratio</span><span class="p">;</span>
-        <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p><strong>Adapted from (with special thanks)</strong> <br>
+        normalize = <span class="keyword">function</span>(val, dmin, dmax, smin, smax)
+        {
+            <span class="keyword">var</span> sdist = dist(smin, smax),
+                ddist = dist(dmin, dmax),
+                ratio = ddist / sdist,
+                val   = clamp(val, smin, smax);
+            <span class="keyword">return</span> dmin + (val-smin) * ratio;
+        },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p><strong>Adapted from (with special thanks)</strong> <br>
 13thParallel.org Beziér Curve Code <br>
-<em>by Dan Pupius (www.pupius.net)</em></p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">Bezier</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">C1</span><span class="p">,</span> <span class="nx">C2</span><span class="p">,</span> <span class="nx">C3</span><span class="p">,</span> <span class="nx">C4</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">C1</span> <span class="o">=</span> <span class="nx">C1</span><span class="p">,</span> <span class="nx">C2</span> <span class="o">=</span> <span class="nx">C2</span><span class="p">,</span> <span class="nx">C3</span> <span class="o">=</span> <span class="nx">C3</span><span class="p">,</span> <span class="nx">C4</span> <span class="o">=</span> <span class="nx">C4</span><span class="p">;</span>
-            <span class="kd">var</span> <span class="nx">B1</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">t</span><span class="p">){</span> <span class="k">return</span> <span class="nx">t</span><span class="o">*</span><span class="nx">t</span><span class="o">*</span><span class="nx">t</span><span class="p">;</span> <span class="p">}</span>
-            <span class="kd">var</span> <span class="nx">B2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">t</span><span class="p">){</span> <span class="k">return</span> <span class="mi">3</span><span class="o">*</span><span class="nx">t</span><span class="o">*</span><span class="nx">t</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nx">t</span><span class="p">);</span> <span class="p">}</span>
-            <span class="kd">var</span> <span class="nx">B3</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">t</span><span class="p">){</span> <span class="k">return</span> <span class="mi">3</span><span class="o">*</span><span class="nx">t</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nx">t</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nx">t</span><span class="p">);</span> <span class="p">}</span>
-            <span class="kd">var</span> <span class="nx">B4</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">t</span><span class="p">){</span> <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nx">t</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nx">t</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nx">t</span><span class="p">);</span> <span class="p">}</span>
+<em>by Dan Pupius (www.pupius.net)</em></p>
 
-            <span class="kd">var</span> <span class="nx">getPoint</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="k">return</span> <span class="p">{</span>
-                    <span class="nx">x</span><span class="o">:</span> <span class="nx">C1</span><span class="p">.</span><span class="nx">x</span><span class="o">*</span><span class="nx">B1</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">+</span> <span class="nx">C2</span><span class="p">.</span><span class="nx">x</span><span class="o">*</span><span class="nx">B2</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">+</span> <span class="nx">C3</span><span class="p">.</span><span class="nx">x</span><span class="o">*</span><span class="nx">B3</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">+</span> <span class="nx">C4</span><span class="p">.</span><span class="nx">x</span><span class="o">*</span><span class="nx">B4</span><span class="p">(</span><span class="nx">t</span><span class="p">),</span>
-                    <span class="nx">y</span><span class="o">:</span> <span class="nx">C1</span><span class="p">.</span><span class="nx">y</span><span class="o">*</span><span class="nx">B1</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">+</span> <span class="nx">C2</span><span class="p">.</span><span class="nx">y</span><span class="o">*</span><span class="nx">B2</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">+</span> <span class="nx">C3</span><span class="p">.</span><span class="nx">y</span><span class="o">*</span><span class="nx">B3</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">+</span> <span class="nx">C4</span><span class="p">.</span><span class="nx">y</span><span class="o">*</span><span class="nx">B4</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
-                <span class="p">}</span>
-            <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Creates a color table for 1024 points. To create the table
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Bezier = <span class="keyword">function</span>(C1, C2, C3, C4)
+        {
+            <span class="keyword">var</span> C1 = C1, C2 = C2, C3 = C3, C4 = C4;
+            <span class="keyword">var</span> B1 = <span class="keyword">function</span>(t){ <span class="keyword">return</span> t*t*t; }
+            <span class="keyword">var</span> B2 = <span class="keyword">function</span>(t){ <span class="keyword">return</span> <span class="number">3</span>*t*t*(<span class="number">1</span>-t); }
+            <span class="keyword">var</span> B3 = <span class="keyword">function</span>(t){ <span class="keyword">return</span> <span class="number">3</span>*t*(<span class="number">1</span>-t)*(<span class="number">1</span>-t); }
+            <span class="keyword">var</span> B4 = <span class="keyword">function</span>(t){ <span class="keyword">return</span> (<span class="number">1</span>-t)*(<span class="number">1</span>-t)*(<span class="number">1</span>-t); }
+
+            <span class="keyword">var</span> getPoint = <span class="keyword">function</span>(t)
+            {
+                <span class="keyword">return</span> {
+                    x: C1.x*B1(t) + C2.x*B2(t) + C3.x*B3(t) + C4.x*B4(t),
+                    y: C1.y*B1(t) + C2.y*B2(t) + C3.y*B3(t) + C4.y*B4(t)
+                }
+            };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Creates a color table for 1024 points. To create the table
 1024 bezier points are calculated with t = i/1024 in every
 loop iteration and map is created for [x] = y. This is then
 used to project a color RGB value (x) to another color RGB
-value (y).</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="k">this</span><span class="p">.</span><span class="nx">genColorTable</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> 
-            <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="p">{};</span>
-                <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span> <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">1024</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
-                <span class="p">{</span>
-                    <span class="kd">var</span> <span class="nx">point</span> <span class="o">=</span> <span class="nx">getPoint</span><span class="p">(</span><span class="nx">i</span><span class="o">/</span><span class="mi">1024</span><span class="p">);</span>
-                    <span class="nx">points</span><span class="p">[</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">point</span><span class="p">.</span><span class="nx">x</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">point</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
-                <span class="p">};</span>
-                <span class="k">return</span> <span class="nx">points</span><span class="p">;</span>
-            <span class="p">};</span>
-        <span class="p">};</span>
+value (y).</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.genColorTable = <span class="keyword">function</span>() 
+            {
+                <span class="keyword">var</span> points = {};
+                <span class="keyword">var</span> i; <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">1024</span>; i++)
+                {
+                    <span class="keyword">var</span> point = getPoint(i/<span class="number">1024</span>);
+                    points[parseInt(point.x)] = parseInt(point.y);
+                };
+                <span class="keyword">return</span> points;
+            };
+        };
     
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">clamp</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">;</span>
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">dist</span>  <span class="o">=</span> <span class="nx">dist</span><span class="p">;</span>
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">normalize</span> <span class="o">=</span> <span class="nx">normalize</span><span class="p">;</span>
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">Bezier</span> <span class="o">=</span> <span class="nx">Bezier</span><span class="p">;</span>
+    exports.clamp = clamp;
+    exports.dist  = dist;
+    exports.normalize = normalize;
+    exports.Bezier = Bezier;
 
-    <span class="k">return</span> <span class="nx">exports</span><span class="p">;</span>
+    <span class="keyword">return</span> exports;
 
-<span class="p">}());</span>
-     
-
-</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+}());</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

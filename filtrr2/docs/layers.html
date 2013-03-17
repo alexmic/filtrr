@@ -1,154 +1,301 @@
-<!DOCTYPE html>  <html> <head>   <title>layers.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="effects.html">                 effects.js               </a>                                           <a class="source" href="events.html">                 events.js               </a>                                           <a class="source" href="filtrr2.html">                 filtrr2.js               </a>                                           <a class="source" href="layers.html">                 layers.js               </a>                                           <a class="source" href="util.html">                 util.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               layers.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Copyright (C) 2012 Alex Michael</p>
+<!DOCTYPE html>
 
-<h3>Licence</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Permission is hereby granted, free of charge, to any person 
+<html>
+<head>
+  <title>layers.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="effects.html">
+                effects.js
+              </a>
+            
+              
+              <a class="source" href="events.html">
+                events.js
+              </a>
+            
+              
+              <a class="source" href="filtrr2.html">
+                filtrr2.js
+              </a>
+            
+              
+              <a class="source" href="layers.html">
+                layers.js
+              </a>
+            
+              
+              <a class="source" href="util.html">
+                util.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>layers.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Copyright (C) 2012 Alex Michael</p>
+<h3>Licence</h3>
+<p>Permission is hereby granted, free of charge, to any person 
 obtaining a copy of this software and associated documentation 
-files (the "Software"), to deal in the Software without restriction, 
+files (the &quot;Software&quot;), to deal in the Software without restriction, 
 including without limitation the rights to use, copy, modify, 
 merge, publish, distribute, sublicense, and/or sell copies of 
 the Software, and to permit persons to whom the Software is 
 furnished to do so, subject to the following conditions:</p>
-
 <p>The above copyright notice and this permission notice shall be included 
 in all copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, 
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
 ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
-OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>Documentation</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h4>Filtrr2.Layers</h4>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>This object mimics the functionality of Photoshop layers. 
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>
+<h3>Documentation</h3>
+<h4>Filtrr2.Layers</h4>
+<p>This object mimics the functionality of Photoshop layers. 
 It provides a single method: <code>merge()</code>. This method takes
 a top and a bottom layer to merge together. <em>The top layer is 
 merged ontop of the bottom layer</em>.</p>
-
 <p>There are 7 pre-defined blending modes with which you can
-blend layers.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Layers</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">clamp</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">clamp</span><span class="p">;</span>
+blend layers.</p>
 
-    <span class="kd">var</span> <span class="nx">apply</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">bottomData</span> <span class="o">=</span> <span class="nx">bottom</span><span class="p">.</span><span class="nx">buffer</span><span class="p">().</span><span class="nx">data</span><span class="p">,</span>
-            <span class="nx">topData</span>    <span class="o">=</span> <span class="nx">top</span><span class="p">.</span><span class="nx">buffer</span><span class="p">().</span><span class="nx">data</span><span class="p">,</span>
-            <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="nx">h</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">bottom</span><span class="p">.</span><span class="nx">dims</span><span class="p">().</span><span class="nx">h</span><span class="p">,</span> <span class="nx">top</span><span class="p">.</span><span class="nx">dims</span><span class="p">().</span><span class="nx">h</span><span class="p">),</span>
-            <span class="nx">w</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">bottom</span><span class="p">.</span><span class="nx">dims</span><span class="p">().</span><span class="nx">w</span><span class="p">,</span> <span class="nx">top</span><span class="p">.</span><span class="nx">dims</span><span class="p">().</span><span class="nx">w</span><span class="p">),</span>
-            <span class="nx">index</span><span class="p">,</span> <span class="nx">brgba</span><span class="p">,</span> <span class="nx">trgba</span><span class="p">;</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.Layers = <span class="keyword">function</span>()
+{
+    <span class="keyword">var</span> clamp = Filtrr2.Util.clamp;
+
+    <span class="keyword">var</span> apply = <span class="keyword">function</span>(bottom, top, fn)
+    {
+        <span class="keyword">var</span> bottomData = bottom.buffer().data,
+            topData    = top.buffer().data,
+            i = <span class="number">0</span>, j = <span class="number">0</span>,
+            h = Math.min(bottom.dims().h, top.dims().h),
+            w = Math.min(bottom.dims().w, top.dims().w),
+            index, brgba, trgba;
         
-        <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">h</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">for</span> <span class="p">(</span><span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">w</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">index</span> <span class="o">=</span> <span class="p">(</span><span class="nx">i</span><span class="o">*</span><span class="nx">w</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">j</span><span class="o">*</span><span class="mi">4</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Create bottom/top rgbas.</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="nx">brgba</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="nx">r</span><span class="o">:</span> <span class="nx">bottomData</span><span class="p">[</span><span class="nx">index</span><span class="p">],</span>
-                    <span class="nx">g</span><span class="o">:</span> <span class="nx">bottomData</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
-                    <span class="nx">b</span><span class="o">:</span> <span class="nx">bottomData</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span>
-                    <span class="nx">a</span><span class="o">:</span> <span class="nx">bottomData</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
-                <span class="p">};</span>
-                <span class="nx">trgba</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="nx">r</span><span class="o">:</span> <span class="nx">topData</span><span class="p">[</span><span class="nx">index</span><span class="p">],</span>
-                    <span class="nx">g</span><span class="o">:</span> <span class="nx">topData</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
-                    <span class="nx">b</span><span class="o">:</span> <span class="nx">topData</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span>
-                    <span class="nx">a</span><span class="o">:</span> <span class="nx">topData</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
-                <span class="p">};</span>
-                </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Execute blend.</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="nx">fn</span><span class="p">(</span><span class="nx">brgba</span><span class="p">,</span> <span class="nx">trgba</span><span class="p">);</span>
-            </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Re-assign data.</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="nx">bottomData</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span>     <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">brgba</span><span class="p">.</span><span class="nx">r</span><span class="p">);</span>
-                <span class="nx">bottomData</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">brgba</span><span class="p">.</span><span class="nx">g</span><span class="p">);</span>
-                <span class="nx">bottomData</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">brgba</span><span class="p">.</span><span class="nx">b</span><span class="p">);</span>
-                <span class="nx">bottomData</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">brgba</span><span class="p">.</span><span class="nx">a</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">};</span>
-
-    <span class="kd">var</span> <span class="nx">layers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; h; i++) {
+            <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; w; j++) {
+                index = (i*w*<span class="number">4</span>) + (j*<span class="number">4</span>);</pre></div></div>
+            
+        </li>
         
-        <span class="nx">multiply</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">)</span> 
-        <span class="p">{</span>
-            <span class="nx">apply</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">r</span> <span class="o">*</span> <span class="nx">b</span><span class="p">.</span><span class="nx">r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">;</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">g</span> <span class="o">*</span> <span class="nx">b</span><span class="p">.</span><span class="nx">g</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">;</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">b</span> <span class="o">*</span> <span class="nx">b</span><span class="p">.</span><span class="nx">b</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">;</span>                
-            <span class="p">});</span>
-        <span class="p">},</span>
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Create bottom/top rgbas.</p>
 
-        <span class="nx">screen</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">)</span> 
-        <span class="p">{</span>
-            <span class="nx">apply</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="p">(((</span><span class="mi">255</span> <span class="o">-</span> <span class="nx">t</span><span class="p">.</span><span class="nx">r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">255</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">r</span><span class="p">))</span> <span class="o">/</span> <span class="mi">255</span><span class="p">);</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="p">(((</span><span class="mi">255</span> <span class="o">-</span> <span class="nx">t</span><span class="p">.</span><span class="nx">g</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">255</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">g</span><span class="p">))</span> <span class="o">/</span> <span class="mi">255</span><span class="p">);</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="p">(((</span><span class="mi">255</span> <span class="o">-</span> <span class="nx">t</span><span class="p">.</span><span class="nx">b</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">255</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">b</span><span class="p">))</span> <span class="o">/</span> <span class="mi">255</span><span class="p">);</span>
-            <span class="p">});</span>
-        <span class="p">},</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>brgba = {
+                    r: bottomData[index],
+                    g: bottomData[index + <span class="number">1</span>],
+                    b: bottomData[index + <span class="number">2</span>],
+                    a: bottomData[index + <span class="number">3</span>]
+                };
+                trgba = {
+                    r: topData[index],
+                    g: topData[index + <span class="number">1</span>],
+                    b: topData[index + <span class="number">2</span>],
+                    a: topData[index + <span class="number">3</span>]
+                };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Execute blend.</p>
 
-        <span class="nx">overlay</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">)</span> 
-        <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">return</span> <span class="p">(</span><span class="nx">b</span> <span class="o">&gt;</span> <span class="mi">128</span><span class="p">)</span> <span class="o">?</span> <span class="mi">255</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">255</span> <span class="o">-</span> <span class="nx">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">255</span> <span class="o">-</span> <span class="nx">b</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="o">:</span> <span class="p">(</span><span class="nx">b</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">;</span>
-            <span class="p">};</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>fn(brgba, trgba);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Re-assign data.</p>
 
-            <span class="nx">apply</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="nx">c</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">r</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nx">r</span><span class="p">);</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nx">c</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">g</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nx">g</span><span class="p">);</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nx">c</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nx">b</span><span class="p">)</span>
-            <span class="p">});</span>
-        <span class="p">},</span> </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Thanks to @olivierlesnicki for suggesting a better algoritm.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">softLight</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">)</span> 
-        <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">b</span> <span class="o">/=</span> <span class="mi">255</span><span class="p">;</span> 
-                <span class="nx">t</span> <span class="o">/=</span> <span class="mi">255</span><span class="p">;</span>
-                <span class="k">return</span> <span class="p">(</span><span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">?</span> <span class="mi">255</span><span class="o">*</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="nx">t</span><span class="p">)</span><span class="o">*</span><span class="nx">b</span><span class="o">*</span><span class="nx">b</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="nx">t</span><span class="o">*</span><span class="nx">b</span><span class="p">)</span> <span class="o">:</span> <span class="mi">255</span><span class="o">*</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nx">t</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="nx">b</span><span class="o">+</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nx">t</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">));</span>
-            <span class="p">};</span>
-            <span class="nx">apply</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="nx">c</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">r</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nx">r</span><span class="p">);</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nx">c</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">g</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nx">g</span><span class="p">);</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nx">c</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nx">b</span><span class="p">)</span> 
-            <span class="p">});</span>
-        <span class="p">},</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>bottomData[index]     = clamp(brgba.r);
+                bottomData[index + <span class="number">1</span>] = clamp(brgba.g);
+                bottomData[index + <span class="number">2</span>] = clamp(brgba.b);
+                bottomData[index + <span class="number">3</span>] = clamp(brgba.a);
+            }
+        }
+    };
 
-        <span class="nx">addition</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="nx">apply</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">r</span> <span class="o">+=</span> <span class="nx">t</span><span class="p">.</span><span class="nx">r</span><span class="p">;</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">g</span> <span class="o">+=</span> <span class="nx">t</span><span class="p">.</span><span class="nx">g</span><span class="p">;</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">b</span> <span class="o">+=</span> <span class="nx">t</span><span class="p">.</span><span class="nx">b</span><span class="p">;</span>
-            <span class="p">});</span>
-        <span class="p">},</span>
+    <span class="keyword">var</span> layers = {
+        
+        multiply: <span class="keyword">function</span>(bottom, top) 
+        {
+            apply(bottom, top, <span class="keyword">function</span>(b, t)
+            {
+                b.r = (t.r * b.r) / <span class="number">255</span>;
+                b.g = (t.g * b.g) / <span class="number">255</span>;
+                b.b = (t.b * b.b) / <span class="number">255</span>;                
+            });
+        },
 
-        <span class="nx">exclusion</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="nx">apply</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="mi">128</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">r</span> <span class="o">-</span> <span class="mi">128</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">r</span> <span class="o">-</span> <span class="mi">128</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">;</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="mi">128</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">g</span> <span class="o">-</span> <span class="mi">128</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">g</span> <span class="o">-</span> <span class="mi">128</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">;</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="mi">128</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">b</span> <span class="o">-</span> <span class="mi">128</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">b</span> <span class="o">-</span> <span class="mi">128</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">;</span>
-            <span class="p">});</span>
-        <span class="p">},</span>
+        screen: <span class="keyword">function</span>(bottom, top) 
+        {
+            apply(bottom, top, <span class="keyword">function</span>(b, t)
+            {
+                b.r = <span class="number">255</span> - (((<span class="number">255</span> - t.r) * (<span class="number">255</span> - b.r)) / <span class="number">255</span>);
+                b.g = <span class="number">255</span> - (((<span class="number">255</span> - t.g) * (<span class="number">255</span> - b.g)) / <span class="number">255</span>);
+                b.b = <span class="number">255</span> - (((<span class="number">255</span> - t.b) * (<span class="number">255</span> - b.b)) / <span class="number">255</span>);
+            });
+        },
 
-        <span class="nx">difference</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">abs</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">;</span>
-            <span class="nx">apply</span><span class="p">(</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="nx">abs</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">r</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">r</span><span class="p">);</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nx">abs</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">g</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">g</span><span class="p">);</span>
-                <span class="nx">b</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nx">abs</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">b</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">b</span><span class="p">);</span>
-            <span class="p">});</span>
-        <span class="p">}</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Merges two layers. Takes a <code>type</code> parameter and 
+        overlay: <span class="keyword">function</span>(bottom, top) 
+        {
+            <span class="keyword">var</span> c = <span class="keyword">function</span>(b, t) {
+                <span class="keyword">return</span> (b &gt; <span class="number">128</span>) ? <span class="number">255</span> - <span class="number">2</span> * (<span class="number">255</span> - t) * (<span class="number">255</span> - b) / <span class="number">255</span>: (b * t * <span class="number">2</span>) / <span class="number">255</span>;
+            };
+
+            apply(bottom, top, <span class="keyword">function</span>(b, t)
+            {
+                b.r = c(b.r, t.r);
+                b.g = c(b.g, t.g);
+                b.b = c(b.b, t.b)
+            });
+        },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Thanks to @olivierlesnicki for suggesting a better algoritm.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>softLight: <span class="keyword">function</span>(bottom, top) 
+        {
+            <span class="keyword">var</span> c = <span class="keyword">function</span>(b, t) {
+                b /= <span class="number">255</span>; 
+                t /= <span class="number">255</span>;
+                <span class="keyword">return</span> (t &lt; <span class="number">0.5</span>) ? <span class="number">255</span>*((<span class="number">1</span>-<span class="number">2</span>*t)*b*b + <span class="number">2</span>*t*b) : <span class="number">255</span>*((<span class="number">1</span>-(<span class="number">2</span>*t-<span class="number">1</span>))*b+(<span class="number">2</span>*t-<span class="number">1</span>)*Math.pow(b, <span class="number">0.5</span>));
+            };
+            apply(bottom, top, <span class="keyword">function</span>(b, t)
+            {
+                b.r = c(b.r, t.r);
+                b.g = c(b.g, t.g);
+                b.b = c(b.b, t.b) 
+            });
+        },
+
+        addition: <span class="keyword">function</span>(bottom, top)
+        {
+            apply(bottom, top, <span class="keyword">function</span>(b, t)
+            {
+                b.r += t.r;
+                b.g += t.g;
+                b.b += t.b;
+            });
+        },
+
+        exclusion: <span class="keyword">function</span>(bottom, top)
+        {
+            apply(bottom, top, <span class="keyword">function</span>(b, t)
+            {
+                b.r = <span class="number">128</span> - <span class="number">2</span> * (b.r - <span class="number">128</span>) * (t.r - <span class="number">128</span>) / <span class="number">255</span>;
+                b.g = <span class="number">128</span> - <span class="number">2</span> * (b.g - <span class="number">128</span>) * (t.g - <span class="number">128</span>) / <span class="number">255</span>;
+                b.b = <span class="number">128</span> - <span class="number">2</span> * (b.b - <span class="number">128</span>) * (t.b - <span class="number">128</span>) / <span class="number">255</span>;
+            });
+        },
+
+        difference: <span class="keyword">function</span>(bottom, top)
+        {
+            <span class="keyword">var</span> abs = Math.abs;
+            apply(bottom, top, <span class="keyword">function</span>(b, t)
+            {
+                b.r = abs(t.r - b.r);
+                b.g = abs(t.g - b.g);
+                b.b = abs(t.b - b.b);
+            });
+        }
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Merges two layers. Takes a <code>type</code> parameter and 
 a bottom and top layer. The <code>type</code> parameter specifies
-the blending mode.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">merge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">layers</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">layers</span><span class="p">[</span><span class="nx">type</span><span class="p">](</span><span class="nx">bottom</span><span class="p">,</span> <span class="nx">top</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">throw</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Unknown layer blend type &#39;&quot;</span> <span class="o">+</span> <span class="nx">type</span> <span class="o">+</span> <span class="s2">&quot;&#39;.&quot;</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">};</span>
+the blending mode.</p>
 
-<span class="p">};</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.merge = <span class="keyword">function</span>(type, bottom, top)
+    {
+        <span class="keyword">if</span> (layers[type] != <span class="literal">null</span>) {
+            layers[type](bottom, top);
+        } <span class="keyword">else</span> {
+            <span class="keyword">throw</span> Error(<span class="string">"Unknown layer blend type '"</span> + type + <span class="string">"'."</span>);
+        }
+    };
 
-</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+};</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,365 +1,930 @@
-<!DOCTYPE html>  <html> <head>   <title>effects.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="effects.html">                 effects.js               </a>                                           <a class="source" href="events.html">                 events.js               </a>                                           <a class="source" href="filtrr2.html">                 filtrr2.js               </a>                                           <a class="source" href="layers.html">                 layers.js               </a>                                           <a class="source" href="util.html">                 util.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               effects.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Copyright (C) 2012 Alex Michael</p>
+<!DOCTYPE html>
 
-<h3>Licence</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Permission is hereby granted, free of charge, to any person 
+<html>
+<head>
+  <title>effects.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="effects.html">
+                effects.js
+              </a>
+            
+              
+              <a class="source" href="events.html">
+                events.js
+              </a>
+            
+              
+              <a class="source" href="filtrr2.html">
+                filtrr2.js
+              </a>
+            
+              
+              <a class="source" href="layers.html">
+                layers.js
+              </a>
+            
+              
+              <a class="source" href="util.html">
+                util.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>effects.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Copyright (C) 2012 Alex Michael</p>
+<h3>Licence</h3>
+<p>Permission is hereby granted, free of charge, to any person 
 obtaining a copy of this software and associated documentation 
-files (the "Software"), to deal in the Software without restriction, 
+files (the &quot;Software&quot;), to deal in the Software without restriction, 
 including without limitation the rights to use, copy, modify, 
 merge, publish, distribute, sublicense, and/or sell copies of 
 the Software, and to permit persons to whom the Software is 
 furnished to do so, subject to the following conditions:</p>
-
 <p>The above copyright notice and this permission notice shall be included 
 in all copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, 
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
 ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
-OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>Documentation</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h4>Filtrr2.FxStore</h4>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>A placeholder object for all registered effects. Provides
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>
+<h3>Documentation</h3>
+<h4>Filtrr2.FxStore</h4>
+<p>A placeholder object for all registered effects. Provides
 an API for adding new effects and accessing them by
 name. All effects added via the <code>Filtrr2.fx()</code> method end up
-into the <code>FxStore</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">FxStore</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+into the <code>FxStore</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.FxStore = (<span class="keyword">function</span>() {
     
-    <span class="kd">var</span> <span class="nx">effects</span> <span class="o">=</span> <span class="p">{},</span>
-        <span class="nx">exports</span> <span class="o">=</span> <span class="p">{},</span>
-        <span class="nx">count</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="keyword">var</span> effects = {},
+        exports = {},
+        count   = <span class="number">0</span>;
 
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">add</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">def</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="nx">effects</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">def</span><span class="p">;</span>  
-        <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
-    <span class="p">};</span>
+    exports.add = <span class="keyword">function</span>(name, def)
+    {
+        effects[name] = def;  
+        count++;
+    };
 
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">count</span><span class="p">;</span>
-    <span class="p">};</span>
+    exports.count = <span class="keyword">function</span>()
+    {
+        <span class="keyword">return</span> count;
+    };
 
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">get</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">effects</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
-    <span class="p">};</span>
+    exports.get = <span class="keyword">function</span>(name)
+    {
+        <span class="keyword">return</span> effects[name];
+    };
 
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">getNames</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">n</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="nx">n</span> <span class="k">in</span> <span class="nx">effects</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">effects</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">n</span><span class="p">))</span> <span class="p">{</span>
-                <span class="nx">names</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="nx">names</span><span class="p">;</span>
-    <span class="p">};</span>
+    exports.getNames = <span class="keyword">function</span>()
+    {
+        <span class="keyword">var</span> names = [], n = <span class="literal">null</span>;
+        <span class="keyword">for</span> (n <span class="keyword">in</span> effects) {
+            <span class="keyword">if</span> (effects.hasOwnProperty(n)) {
+                names.push(n);
+            }
+        }
+        <span class="keyword">return</span> names;
+    };
 
-    <span class="k">return</span> <span class="nx">exports</span><span class="p">;</span>
+    <span class="keyword">return</span> exports;
 
-<span class="p">}());</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h4>Filtrr2.fx</h4>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Registers an effect. Registering an effect consists of a name
+}());</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h4>Filtrr2.fx</h4>
+<p>Registers an effect. Registering an effect consists of a name
 and a function which will execute the effect. All registered 
 effects will be available on any ImageProcessor instance.
 This method is merely a nice wrapper around the <code>Filtrr2.FxStore.add</code>
-method.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">def</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">FxStore</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">def</span><span class="p">);</span>
-<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <h4>Filtrr2.ImageProcessor</h4>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>The <em>meat</em> of the framework. This is the context of the callback function
+method.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx = <span class="keyword">function</span>(name, def)
+{
+    Filtrr2.FxStore.add(name, def);
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <h4>Filtrr2.ImageProcessor</h4>
+<p>The <em>meat</em> of the framework. This is the context of the callback function
 which you pass into the <code>Filttr2</code> constructor i.e</p>
-
-<pre><code>Filtrr2('#img', function() {
-    // 'this' will be an ImageProcessor instance.
-});
-</code></pre>
-
+<pre><code>Filtrr2(&#39;#img&#39;, function() {
+    // &#39;this&#39; will be an ImageProcessor instance.
+});</code></pre>
 <p>It is also the context of the update function and it always
 contains all preset and user-defined effects <em>up to the point
-of it's creation</em>.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">ImageProcessor</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">F</span><span class="p">)</span> 
-<span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">$canvas</span> <span class="o">=</span> <span class="nx">F</span><span class="p">.</span><span class="nx">canvas</span><span class="p">,</span> 
-        <span class="nx">canvas</span>  <span class="o">=</span> <span class="nx">$canvas</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+of it&#39;s creation</em>.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.ImageProcessor = <span class="keyword">function</span>(F) 
+{
+    <span class="keyword">var</span> $canvas = F.canvas, 
+        canvas  = $canvas[<span class="number">0</span>];
  
-    <span class="kd">var</span> <span class="nx">w</span>   <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span>
-        <span class="nx">h</span>   <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span><span class="p">,</span>
-        <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">&quot;2d&quot;</span><span class="p">);</span>
-    </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Returns a copy of the ImageData object passed 
-as a parameter.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">copyImageData</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">imageData</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">copy</span> <span class="o">=</span> <span class="nx">ctx</span><span class="p">.</span><span class="nx">createImageData</span><span class="p">(</span><span class="nx">imageData</span><span class="p">),</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Store some references for quicker processing.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="nx">cData</span> <span class="o">=</span> <span class="nx">copy</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span>
-            <span class="nx">imData</span> <span class="o">=</span> <span class="nx">imageData</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span>
-            <span class="nx">len</span> <span class="o">=</span> <span class="nx">imData</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
-            <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Copy over all pixel values to the copy buffer.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">cData</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">imData</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="nx">copy</span><span class="p">;</span>
-    <span class="p">};</span>  
-
-    <span class="kd">var</span> <span class="nx">clamp</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">clamp</span><span class="p">,</span></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Canvas image data buffer - all manipulations are applied
-here. Rendering the ImageProcessor object will save the buffer
-back to the canvas.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">buffer</span> <span class="o">=</span> <span class="nx">ctx</span><span class="p">.</span><span class="nx">getImageData</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">),</span></pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Save a clean copy of the buffer to enable resetting.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">originalBuffer</span> <span class="o">=</span> <span class="nx">copyImageData</span><span class="p">(</span><span class="nx">buffer</span><span class="p">),</span>
-        </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">_F</span> <span class="o">=</span> <span class="nx">F</span><span class="p">,</span>
-        <span class="nx">layers</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Layers</span><span class="p">();</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Copy over all registered effects and create
-proxy functions.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">FxStore</span><span class="p">.</span><span class="nx">getNames</span><span class="p">(),</span>
-        <span class="nx">len</span>   <span class="o">=</span> <span class="nx">names</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">n</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
-        <span class="nx">that</span>  <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-    
-    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">n</span> <span class="o">=</span> <span class="nx">names</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-        <span class="k">this</span><span class="p">[</span><span class="nx">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">_n</span><span class="p">,</span> <span class="nx">_f</span><span class="p">)</span> <span class="p">{</span>
-
-            <span class="k">return</span> <span class="nx">$</span><span class="p">.</span><span class="nx">proxy</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">fx</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">FxStore</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">_n</span><span class="p">);</span>
-                <span class="nx">_f</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="nx">_n</span> <span class="o">+</span> <span class="s2">&quot;:preprocess&quot;</span><span class="p">);</span>
-                <span class="nx">fx</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-                <span class="nx">_f</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="nx">_n</span> <span class="o">+</span> <span class="s2">&quot;:postprocess&quot;</span><span class="p">);</span>
-                <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-            <span class="p">},</span> <span class="nx">that</span><span class="p">);</span>
+    <span class="keyword">var</span> w   = canvas.width,
+        h   = canvas.height,
+        ctx = canvas.getContext(<span class="string">"2d"</span>);</pre></div></div>
+            
+        </li>
         
-        <span class="p">}(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">_F</span><span class="p">));</span>
-    <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Returns a new ImageProcessor instance. It's important to note
-that the new instance's buffer will be a different copy than
-this instance's buffer since getImageData() always returns a 
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Returns a copy of the ImageData object passed 
+as a parameter.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">var</span> copyImageData = <span class="keyword">function</span>(imageData)
+    {
+        <span class="keyword">var</span> copy = ctx.createImageData(imageData),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Store some references for quicker processing.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>cData = copy.data,
+            imData = imageData.data,
+            len = imData.length,
+            i = <span class="number">0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Copy over all pixel values to the copy buffer.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++) {
+            cData[i] = imData[i];
+        }
+        <span class="keyword">return</span> copy;
+    };  
+
+    <span class="keyword">var</span> clamp = Filtrr2.Util.clamp,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Canvas image data buffer - all manipulations are applied
+here. Rendering the ImageProcessor object will save the buffer
+back to the canvas.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>buffer = ctx.getImageData(<span class="number">0</span>, <span class="number">0</span>, w, h),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Save a clean copy of the buffer to enable resetting.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>originalBuffer = copyImageData(buffer),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>_F = F,
+        layers = <span class="keyword">new</span> Filtrr2.Layers();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Copy over all registered effects and create
+proxy functions.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">var</span> names = Filtrr2.FxStore.getNames(),
+        len   = names.length, i = <span class="number">0</span>, n = <span class="literal">null</span>,
+        that  = <span class="keyword">this</span>;
+    
+    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++) {
+        n = names[i];
+        <span class="keyword">this</span>[n] = (<span class="keyword">function</span>(_n, _f) {
+
+            <span class="keyword">return</span> $.proxy(<span class="keyword">function</span>() {
+                <span class="keyword">var</span> fx = Filtrr2.FxStore.get(_n);
+                _f.trigger(_n + <span class="string">":preprocess"</span>);
+                fx.apply(<span class="keyword">this</span>, arguments);
+                _f.trigger(_n + <span class="string">":postprocess"</span>);
+                <span class="keyword">return</span> <span class="keyword">this</span>;
+            }, that);
+        
+        }(n, _F));
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Returns a new ImageProcessor instance. It&#39;s important to note
+that the new instance&#39;s buffer will be a different copy than
+this instance&#39;s buffer since getImageData() always returns a 
 copy. But, any duplicate of this instance will share a reference
 to the canvas object, hence rendering a duplicate will alter
 the canvas element and potentially override any previous rendering
 by this instance (if called after a render() was already called on
-this instance).</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">dup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">ImageProcessor</span><span class="p">(</span><span class="nx">_F</span><span class="p">);</span>
-    <span class="p">};</span>
+this instance).</p>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">buffer</span><span class="p">;</span>
-    <span class="p">};</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.dup = <span class="keyword">function</span>()
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span> Filtrr2.ImageProcessor(_F);
+    };
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">dims</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="p">{</span><span class="nx">w</span><span class="o">:</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="o">:</span> <span class="nx">h</span><span class="p">};</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Resets the buffer to the original buffer by creating
-a copy of it.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">reset</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> 
-    <span class="p">{</span>
-        <span class="nx">buffer</span> <span class="o">=</span> <span class="nx">copyImageData</span><span class="p">(</span><span class="nx">originalBuffer</span><span class="p">);</span>
-        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Put another layer on top of this ImageProcessor. The other
+    <span class="keyword">this</span>.buffer = <span class="keyword">function</span>()
+    {
+        <span class="keyword">return</span> buffer;
+    };
+
+    <span class="keyword">this</span>.dims = <span class="keyword">function</span>()
+    {
+        <span class="keyword">return</span> {w: w, h: h};
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Resets the buffer to the original buffer by creating
+a copy of it.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.reset = <span class="keyword">function</span>() 
+    {
+        buffer = copyImageData(originalBuffer);
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Put another layer on top of this ImageProcessor. The other
 layer needs to be another ImageProcessor object, usually
-created by using the <code>dup()</code> method.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">layer</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">top</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="nx">layers</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">top</span><span class="p">);</span>
-        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Puts the modified context data buffer back
+created by using the <code>dup()</code> method.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.layer = <span class="keyword">function</span>(type, top)
+    {
+        layers.merge(type, <span class="keyword">this</span>, top);
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Puts the modified context data buffer back
 into the context which causes the image
 to be redrawn. This extra step exists for 
-performance reasons because we don't want to
+performance reasons because we don&#39;t want to
 be writing the data buffer on every effect 
 application in the case of chained effects.
 The render method takes a callback which is 
-called after it is finished.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">render</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="nx">_F</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">&quot;prerender&quot;</span><span class="p">);</span>
-        <span class="nx">ctx</span><span class="p">.</span><span class="nx">putImageData</span><span class="p">(</span><span class="nx">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-        <span class="nx">_F</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">&quot;postrender&quot;</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="nx">_F</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">&quot;finalize&quot;</span><span class="p">);</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Performs a pixel-by-pixel manipulation on the 
+called after it is finished.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.render = <span class="keyword">function</span>(callback)
+    {
+        _F.trigger(<span class="string">"prerender"</span>);
+        ctx.putImageData(buffer, <span class="number">0</span>, <span class="number">0</span>);
+        _F.trigger(<span class="string">"postrender"</span>);
+        <span class="keyword">if</span> (callback) {
+            callback.call(<span class="keyword">this</span>);
+        }
+        _F.trigger(<span class="string">"finalize"</span>);
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Performs a pixel-by-pixel manipulation on the 
 data buffer pixels. This means that <code>procfn</code> is 
 called <em>on every pixel</em> in the data buffer and its
 result is used to replace the existing valus in the 
 buffer in-place. 
 The values returned from <code>procfn</code> are clamped 
-so that they are in the range [0,255].</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">process</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">procfn</span><span class="p">)</span> 
-    <span class="p">{</span>    
-        <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">buffer</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
-        <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">h</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">for</span> <span class="p">(</span><span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">w</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                
-                <span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="p">(</span><span class="nx">i</span><span class="o">*</span><span class="nx">w</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">j</span><span class="o">*</span><span class="mi">4</span><span class="p">);</span>
-                </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Pass an rgba objects to the processing function.</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="kd">var</span> <span class="nx">rgba</span>  <span class="o">=</span> <span class="p">{</span>
-                    <span class="nx">r</span><span class="o">:</span> <span class="nx">data</span><span class="p">[</span><span class="nx">index</span><span class="p">],</span>
-                    <span class="nx">g</span><span class="o">:</span> <span class="nx">data</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
-                    <span class="nx">b</span><span class="o">:</span> <span class="nx">data</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span>
-                    <span class="nx">a</span><span class="o">:</span> <span class="nx">data</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
-                <span class="p">};</span>
-                </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Process the tuple.</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="nx">procfn</span><span class="p">(</span><span class="nx">rgba</span><span class="p">,</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Put back the data.</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="nx">data</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span>     <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">clamp</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span><span class="p">));</span>
-                <span class="nx">data</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">clamp</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span><span class="p">));</span>
-                <span class="nx">data</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">clamp</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span><span class="p">));</span>  
-                <span class="nx">data</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">clamp</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">a</span><span class="p">));</span>  
+so that they are in the range [0,255].</p>
 
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Performs a kerner convolution manipulation on the data
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.process = <span class="keyword">function</span>(procfn) 
+    {    
+        <span class="keyword">var</span> data = buffer.data;
+        <span class="keyword">var</span> i = <span class="number">0</span>, j = <span class="number">0</span>;
+        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; h; i++) {
+            <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; w; j++) {
+                
+                <span class="keyword">var</span> index = (i*w*<span class="number">4</span>) + (j*<span class="number">4</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Pass an rgba objects to the processing function.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">var</span> rgba  = {
+                    r: data[index],
+                    g: data[index + <span class="number">1</span>],
+                    b: data[index + <span class="number">2</span>],
+                    a: data[index + <span class="number">3</span>]
+                };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Process the tuple.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>procfn(rgba, j, i);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Put back the data.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>data[index]     = parseInt(clamp(rgba.r));
+                data[index + <span class="number">1</span>] = parseInt(clamp(rgba.g));
+                data[index + <span class="number">2</span>] = parseInt(clamp(rgba.b));  
+                data[index + <span class="number">3</span>] = parseInt(clamp(rgba.a));  
+
+            }
+        }
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Performs a kerner convolution manipulation on the data
 buffer. This is mostly used in masks i.e blurring or 
 sharpening. It is a <em>very</em> intensive operation and will
 be slow on big images! 
 It creates a temporary data buffer where it writes the
-new data. We can't modify the original buffer in-place 
+new data. We can&#39;t modify the original buffer in-place 
 because each new pixel value depends on the original
 neighbouring values of that pixel (i.e the values residing)
-inside the kernel.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">convolve</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">kernel</span><span class="p">)</span> 
-    <span class="p">{</span>    
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">createImageData</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">throw</span> <span class="s2">&quot;createImageData is not supported.&quot;</span>
-        <span class="p">}</span>
+inside the kernel.</p>
 
-        <span class="kd">var</span> <span class="nx">temp</span>  <span class="o">=</span> <span class="nx">ctx</span><span class="p">.</span><span class="nx">createImageData</span><span class="p">(</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">buffer</span><span class="p">.</span><span class="nx">height</span><span class="p">),</span>
-            <span class="nx">tempd</span> <span class="o">=</span> <span class="nx">temp</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span>
-            <span class="nx">bufferData</span> <span class="o">=</span> <span class="nx">buffer</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span>
-            <span class="nx">kh</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">kernel</span><span class="p">.</span><span class="nx">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
-            <span class="nx">kw</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
-            <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.convolve = <span class="keyword">function</span>(kernel) 
+    {    
+        <span class="keyword">if</span> (!ctx.createImageData) {
+            <span class="keyword">throw</span> <span class="string">"createImageData is not supported."</span>
+        }
+
+        <span class="keyword">var</span> temp  = ctx.createImageData(buffer.width, buffer.height),
+            tempd = temp.data,
+            bufferData = buffer.data,
+            kh = parseInt(kernel.length / <span class="number">2</span>),
+            kw = parseInt(kernel[<span class="number">0</span>].length / <span class="number">2</span>),
+            i = <span class="number">0</span>, j = <span class="number">0</span>, n = <span class="number">0</span>, m = <span class="number">0</span>;
         
-        <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">h</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">for</span> <span class="p">(</span><span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">w</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">outIndex</span> <span class="o">=</span> <span class="p">(</span><span class="nx">i</span><span class="o">*</span><span class="nx">w</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">j</span><span class="o">*</span><span class="mi">4</span><span class="p">);</span>
-                <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">g</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-                <span class="k">for</span> <span class="p">(</span><span class="nx">n</span> <span class="o">=</span> <span class="o">-</span><span class="nx">kh</span><span class="p">;</span> <span class="nx">n</span> <span class="o">&lt;=</span> <span class="nx">kh</span><span class="p">;</span> <span class="nx">n</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">for</span> <span class="p">(</span><span class="nx">m</span> <span class="o">=</span> <span class="o">-</span><span class="nx">kw</span><span class="p">;</span> <span class="nx">m</span> <span class="o">&lt;=</span> <span class="nx">kw</span><span class="p">;</span> <span class="nx">m</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="nx">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">+</span> <span class="nx">n</span> <span class="o">&lt;</span> <span class="nx">h</span><span class="p">)</span> <span class="p">{</span>
-                            <span class="k">if</span> <span class="p">(</span><span class="nx">j</span> <span class="o">+</span> <span class="nx">m</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">j</span> <span class="o">+</span> <span class="nx">m</span> <span class="o">&lt;</span> <span class="nx">w</span><span class="p">)</span> <span class="p">{</span>
-                                <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">kernel</span><span class="p">[</span><span class="nx">n</span> <span class="o">+</span> <span class="nx">kh</span><span class="p">][</span><span class="nx">m</span> <span class="o">+</span> <span class="nx">kw</span><span class="p">];</span>
-                                <span class="k">if</span> <span class="p">(</span><span class="nx">f</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="k">continue</span><span class="p">;}</span>
-                                <span class="kd">var</span> <span class="nx">inIndex</span> <span class="o">=</span> <span class="p">((</span><span class="nx">i</span><span class="o">+</span><span class="nx">n</span><span class="p">)</span><span class="o">*</span><span class="nx">w</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="nx">j</span><span class="o">+</span><span class="nx">m</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span><span class="p">);</span>
-                                <span class="nx">r</span> <span class="o">+=</span> <span class="nx">bufferData</span><span class="p">[</span><span class="nx">inIndex</span><span class="p">]</span> <span class="o">*</span> <span class="nx">f</span><span class="p">;</span>
-                                <span class="nx">g</span> <span class="o">+=</span> <span class="nx">bufferData</span><span class="p">[</span><span class="nx">inIndex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nx">f</span><span class="p">;</span>
-                                <span class="nx">b</span> <span class="o">+=</span> <span class="nx">bufferData</span><span class="p">[</span><span class="nx">inIndex</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="nx">f</span><span class="p">;</span>
-                            <span class="p">}</span>
-                        <span class="p">}</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-                <span class="nx">tempd</span><span class="p">[</span><span class="nx">outIndex</span><span class="p">]</span>     <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">r</span><span class="p">);</span>
-                <span class="nx">tempd</span><span class="p">[</span><span class="nx">outIndex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">g</span><span class="p">);</span>
-                <span class="nx">tempd</span><span class="p">[</span><span class="nx">outIndex</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span>
-                <span class="nx">tempd</span><span class="p">[</span><span class="nx">outIndex</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="nx">buffer</span> <span class="o">=</span> <span class="nx">temp</span><span class="p">;</span>
-        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-    <span class="p">};</span>
+        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; h; i++) {
+            <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; w; j++) {
+                <span class="keyword">var</span> outIndex = (i*w*<span class="number">4</span>) + (j*<span class="number">4</span>);
+                <span class="keyword">var</span> r = <span class="number">0</span>, g = <span class="number">0</span>, b = <span class="number">0</span>;
+                <span class="keyword">for</span> (n = -kh; n &lt;= kh; n++) {
+                    <span class="keyword">for</span> (m = -kw; m &lt;= kw; m++) {
+                        <span class="keyword">if</span> (i + n &gt;= <span class="number">0</span> &amp;&amp; i + n &lt; h) {
+                            <span class="keyword">if</span> (j + m &gt;= <span class="number">0</span> &amp;&amp; j + m &lt; w) {
+                                <span class="keyword">var</span> f = kernel[n + kh][m + kw];
+                                <span class="keyword">if</span> (f === <span class="number">0</span>) {<span class="keyword">continue</span>;}
+                                <span class="keyword">var</span> inIndex = ((i+n)*w*<span class="number">4</span>) + ((j+m)*<span class="number">4</span>);
+                                r += bufferData[inIndex] * f;
+                                g += bufferData[inIndex + <span class="number">1</span>] * f;
+                                b += bufferData[inIndex + <span class="number">2</span>] * f;
+                            }
+                        }
+                    }
+                }
+                tempd[outIndex]     = clamp(r);
+                tempd[outIndex + <span class="number">1</span>] = clamp(g);
+                tempd[outIndex + <span class="number">2</span>] = clamp(b);
+                tempd[outIndex + <span class="number">3</span>] = <span class="number">255</span>;
+            }
+        }
+        buffer = temp;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    };
 
-<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <h4>Pre-defined effects</h4>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p><code>Filtrr2</code> comes with 15 pre-defined effects. Reading the code
-below is a good tutorial on how to create your own effects.</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <h4>Adjust [No Range]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;adjust&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">pr</span><span class="p">,</span> <span class="nx">pg</span><span class="p">,</span> <span class="nx">pb</span><span class="p">)</span> <span class="p">{</span>   
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">*=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nx">pr</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">*=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nx">pg</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">*=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nx">pb</span><span class="p">;</span>
-    <span class="p">});</span>
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h4>Brighten [-100, 100]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;brighten&quot;</span><span class="p">,</span>  <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">p</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">normalize</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">+=</span> <span class="nx">p</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">+=</span> <span class="nx">p</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">+=</span> <span class="nx">p</span><span class="p">;</span>
-    <span class="p">});</span>
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <h4>Alpha [-100, 100]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">p</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">normalize</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">a</span> <span class="o">=</span> <span class="nx">p</span><span class="p">;</span>
-    <span class="p">});</span>
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <h4>Saturate [-100, 100]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;saturate&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">p</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">normalize</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">avg</span> <span class="o">=</span> <span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">+</span> <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">+</span> <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="nx">avg</span> <span class="o">+</span> <span class="nx">p</span> <span class="o">*</span> <span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">-</span> <span class="nx">avg</span><span class="p">);</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nx">avg</span> <span class="o">+</span> <span class="nx">p</span> <span class="o">*</span> <span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">-</span> <span class="nx">avg</span><span class="p">);</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nx">avg</span> <span class="o">+</span> <span class="nx">p</span> <span class="o">*</span> <span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">-</span> <span class="nx">avg</span><span class="p">);</span>
-    <span class="p">});</span>
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <h4>Invert</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;invert&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span><span class="p">;</span>
-    <span class="p">});</span>    
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <h4>Posterize [1, 255]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;posterize&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>    
-    <span class="nx">p</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">clamp</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">255</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">step</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mi">255</span> <span class="o">/</span> <span class="nx">p</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">/</span> <span class="nx">step</span><span class="p">)</span> <span class="o">*</span> <span class="nx">step</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">/</span> <span class="nx">step</span><span class="p">)</span> <span class="o">*</span> <span class="nx">step</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">/</span> <span class="nx">step</span><span class="p">)</span> <span class="o">*</span> <span class="nx">step</span><span class="p">;</span>
-    <span class="p">});</span>
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <h4>Gamma [-100, 100]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>    
-    <span class="nx">p</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">normalize</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span><span class="p">,</span> <span class="nx">p</span><span class="p">);</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span><span class="p">,</span> <span class="nx">p</span><span class="p">);</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span><span class="p">,</span> <span class="nx">p</span><span class="p">);</span>
-    <span class="p">});</span>
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <h4>Constrast [-100, 100]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;contrast&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">p</span> <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">normalize</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
-    <span class="kd">function</span> <span class="nx">c</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span> <span class="nx">c</span><span class="p">){</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nx">f</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="nx">c</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">*</span> <span class="nx">c</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="nx">p</span><span class="p">);</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">*</span> <span class="nx">c</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="nx">p</span><span class="p">);</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">*</span> <span class="nx">c</span><span class="p">(</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="nx">p</span><span class="p">);</span>
-    <span class="p">});</span>
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <h4>Sepia</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;sepia&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span><span class="p">,</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span> <span class="mf">0.393</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span> <span class="mf">0.769</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">b</span> <span class="o">*</span> <span class="mf">0.189</span><span class="p">);</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span> <span class="mf">0.349</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span> <span class="mf">0.686</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">b</span> <span class="o">*</span> <span class="mf">0.168</span><span class="p">);</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span> <span class="mf">0.272</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span> <span class="mf">0.534</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">b</span> <span class="o">*</span> <span class="mf">0.131</span><span class="p">);</span>
-    <span class="p">});</span>    
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <h4>Subtract [No Range]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;subtract&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">g</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span>
-    <span class="p">{</span>        
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">-=</span> <span class="nx">r</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">-=</span> <span class="nx">g</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">-=</span> <span class="nx">b</span><span class="p">;</span>
-    <span class="p">});</span> 
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <h4>Fill [No Range]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;fill&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">g</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="nx">r</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nx">g</span><span class="p">;</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nx">b</span><span class="p">;</span>
-    <span class="p">});</span>
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <h4>Blur ['simple', 'gaussian']</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;blur&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">t</span> <span class="o">=</span> <span class="nx">t</span> <span class="o">||</span> <span class="s2">&quot;simple&quot;</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">t</span> <span class="o">==</span> <span class="s2">&quot;simple&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">convolve</span><span class="p">([</span>
-            <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">9</span><span class="p">],</span>
-            <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">9</span><span class="p">],</span>
-            <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">9</span><span class="p">]</span>
-        <span class="p">]);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">t</span> <span class="o">==</span> <span class="s2">&quot;gaussian&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">convolve</span><span class="p">([</span>
-            <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">4</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">7</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">4</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">273</span><span class="p">],</span>
-            <span class="p">[</span><span class="mi">4</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">16</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">26</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">16</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">4</span><span class="o">/</span><span class="mi">273</span><span class="p">],</span>
-            <span class="p">[</span><span class="mi">7</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">26</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">41</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">26</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">7</span><span class="o">/</span><span class="mi">273</span><span class="p">],</span>
-            <span class="p">[</span><span class="mi">4</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">16</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">26</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">16</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">4</span><span class="o">/</span><span class="mi">273</span><span class="p">],</span>             
-            <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">4</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">7</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">4</span><span class="o">/</span><span class="mi">273</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">273</span><span class="p">]</span>
-        <span class="p">]);</span> 
-    <span class="p">}</span> 
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <h4>Sharpen</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;sharpen&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">convolve</span><span class="p">([</span>
-        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">]</span>
-    <span class="p">]);</span>
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <h4>Curves</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;curves&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">c1</span><span class="p">,</span> <span class="nx">c2</span><span class="p">,</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">bezier</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">Bezier</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">c1</span><span class="p">,</span> <span class="nx">c2</span><span class="p">,</span> <span class="nx">e</span><span class="p">),</span>
-        <span class="nx">points</span> <span class="o">=</span> <span class="nx">bezier</span><span class="p">.</span><span class="nx">genColorTable</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rgba</span><span class="p">)</span> 
-    <span class="p">{</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="nx">points</span><span class="p">[</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">r</span><span class="p">];</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nx">points</span><span class="p">[</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">g</span><span class="p">];</span>
-        <span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nx">points</span><span class="p">[</span><span class="nx">rgba</span><span class="p">.</span><span class="nx">b</span><span class="p">];</span>
-    <span class="p">});</span>    
-<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <h4>Expose [-100, 100]</h4>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">fx</span><span class="p">(</span><span class="s2">&quot;expose&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">p</span>  <span class="o">=</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">normalize</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
-        <span class="nx">c1</span> <span class="o">=</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">255</span> <span class="o">*</span> <span class="nx">p</span><span class="p">},</span>
-        <span class="nx">c2</span> <span class="o">=</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="mi">255</span> <span class="o">-</span> <span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="nx">p</span><span class="p">),</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">255</span><span class="p">};</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">curves</span><span class="p">(</span>
-        <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">0</span><span class="p">},</span> 
-        <span class="nx">c1</span><span class="p">,</span>
-        <span class="nx">c2</span><span class="p">,</span> 
-        <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="mi">255</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">255</span><span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-  
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <h4>Pre-defined effects</h4>
+<p><code>Filtrr2</code> comes with 15 pre-defined effects. Reading the code
+below is a good tutorial on how to create your own effects.</p>
+<h4>Adjust [No Range]</h4>
 
-</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"adjust"</span>, <span class="keyword">function</span>(pr, pg, pb) {   
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) {
+        rgba.r *= <span class="number">1</span> + pr;
+        rgba.g *= <span class="number">1</span> + pg;
+        rgba.b *= <span class="number">1</span> + pb;
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <h4>Brighten [-100, 100]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"brighten"</span>,  <span class="keyword">function</span>(p) {
+    p = Filtrr2.Util.normalize(p, -<span class="number">255</span>, <span class="number">255</span>, -<span class="number">100</span>, <span class="number">100</span>);
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) {
+        rgba.r += p;
+        rgba.g += p;
+        rgba.b += p;
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <h4>Alpha [-100, 100]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"alpha"</span>, <span class="keyword">function</span>(p) {
+    p = Filtrr2.Util.normalize(p, <span class="number">0</span>, <span class="number">255</span>, -<span class="number">100</span>, <span class="number">100</span>);
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) {
+        rgba.a = p;
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <h4>Saturate [-100, 100]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"saturate"</span>, <span class="keyword">function</span>(p) {
+    p = Filtrr2.Util.normalize(p, <span class="number">0</span>, <span class="number">2</span>, -<span class="number">100</span>, <span class="number">100</span>);
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) {
+        <span class="keyword">var</span> avg = (rgba.r + rgba.g + rgba.b) / <span class="number">3</span>;
+        rgba.r = avg + p * (rgba.r - avg);
+        rgba.g = avg + p * (rgba.g - avg);
+        rgba.b = avg + p * (rgba.b - avg);
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <h4>Invert</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"invert"</span>, <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) {
+        rgba.r = <span class="number">255</span> - rgba.r;
+        rgba.g = <span class="number">255</span> - rgba.g;
+        rgba.b = <span class="number">255</span> - rgba.b;
+    });    
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <h4>Posterize [1, 255]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"posterize"</span>, <span class="keyword">function</span>(p) {    
+    p = Filtrr2.Util.clamp(p, <span class="number">1</span>, <span class="number">255</span>);
+    <span class="keyword">var</span> step = Math.floor(<span class="number">255</span> / p);
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) {
+        rgba.r = Math.floor(rgba.r / step) * step;
+        rgba.g = Math.floor(rgba.g / step) * step;
+        rgba.b = Math.floor(rgba.b / step) * step;
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <h4>Gamma [-100, 100]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"gamma"</span>, <span class="keyword">function</span>(p) {    
+    p = Filtrr2.Util.normalize(p, <span class="number">0</span>, <span class="number">2</span>, -<span class="number">100</span>, <span class="number">100</span>);
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) {
+        rgba.r = Math.pow(rgba.r, p);
+        rgba.g = Math.pow(rgba.g, p);
+        rgba.b = Math.pow(rgba.b, p);
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <h4>Constrast [-100, 100]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"contrast"</span>, <span class="keyword">function</span>(p) {
+    p = Filtrr2.Util.normalize(p, <span class="number">0</span>, <span class="number">2</span>, -<span class="number">100</span>, <span class="number">100</span>);
+    <span class="function"><span class="keyword">function</span> <span class="title">c</span><span class="params">(f, c)</span>{</span>
+        <span class="keyword">return</span> (f - <span class="number">0.5</span>) * c + <span class="number">0.5</span>;
+    }
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) {
+        rgba.r = <span class="number">255</span> * c(rgba.r / <span class="number">255</span>, p);
+        rgba.g = <span class="number">255</span> * c(rgba.g / <span class="number">255</span>, p);
+        rgba.b = <span class="number">255</span> * c(rgba.b / <span class="number">255</span>, p);
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <h4>Sepia</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"sepia"</span>, <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) {
+        <span class="keyword">var</span> r = rgba.r, g = rgba.g, b = rgba.b;
+        rgba.r = (r * <span class="number">0.393</span>) + (g * <span class="number">0.769</span>) + (b * <span class="number">0.189</span>);
+        rgba.g = (r * <span class="number">0.349</span>) + (g * <span class="number">0.686</span>) + (b * <span class="number">0.168</span>);
+        rgba.b = (r * <span class="number">0.272</span>) + (g * <span class="number">0.534</span>) + (b * <span class="number">0.131</span>);
+    });    
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <h4>Subtract [No Range]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"subtract"</span>, <span class="keyword">function</span>(r, g, b) {
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba)
+    {        
+        rgba.r -= r;
+        rgba.g -= g;
+        rgba.b -= b;
+    }); 
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <h4>Fill [No Range]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"fill"</span>, <span class="keyword">function</span>(r, g, b) {
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba)
+    {
+        rgba.r = r;
+        rgba.g = g;
+        rgba.b = b;
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <h4>Blur [&#39;simple&#39;, &#39;gaussian&#39;]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"blur"</span>, <span class="keyword">function</span>(t) {
+    t = t || <span class="string">"simple"</span>;
+    <span class="keyword">if</span> (t == <span class="string">"simple"</span>) {
+        <span class="keyword">this</span>.convolve([
+            [<span class="number">1</span>/<span class="number">9</span>, <span class="number">1</span>/<span class="number">9</span>, <span class="number">1</span>/<span class="number">9</span>],
+            [<span class="number">1</span>/<span class="number">9</span>, <span class="number">1</span>/<span class="number">9</span>, <span class="number">1</span>/<span class="number">9</span>],
+            [<span class="number">1</span>/<span class="number">9</span>, <span class="number">1</span>/<span class="number">9</span>, <span class="number">1</span>/<span class="number">9</span>]
+        ]);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (t == <span class="string">"gaussian"</span>) {
+        <span class="keyword">this</span>.convolve([
+            [<span class="number">1</span>/<span class="number">273</span>, <span class="number">4</span>/<span class="number">273</span>, <span class="number">7</span>/<span class="number">273</span>, <span class="number">4</span>/<span class="number">273</span>, <span class="number">1</span>/<span class="number">273</span>],
+            [<span class="number">4</span>/<span class="number">273</span>, <span class="number">16</span>/<span class="number">273</span>, <span class="number">26</span>/<span class="number">273</span>, <span class="number">16</span>/<span class="number">273</span>, <span class="number">4</span>/<span class="number">273</span>],
+            [<span class="number">7</span>/<span class="number">273</span>, <span class="number">26</span>/<span class="number">273</span>, <span class="number">41</span>/<span class="number">273</span>, <span class="number">26</span>/<span class="number">273</span>, <span class="number">7</span>/<span class="number">273</span>],
+            [<span class="number">4</span>/<span class="number">273</span>, <span class="number">16</span>/<span class="number">273</span>, <span class="number">26</span>/<span class="number">273</span>, <span class="number">16</span>/<span class="number">273</span>, <span class="number">4</span>/<span class="number">273</span>],             
+            [<span class="number">1</span>/<span class="number">273</span>, <span class="number">4</span>/<span class="number">273</span>, <span class="number">7</span>/<span class="number">273</span>, <span class="number">4</span>/<span class="number">273</span>, <span class="number">1</span>/<span class="number">273</span>]
+        ]); 
+    } 
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <h4>Sharpen</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"sharpen"</span>, <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.convolve([
+        [<span class="number">0.0</span>, -<span class="number">0.2</span>,  <span class="number">0.0</span>],
+        [-<span class="number">0.2</span>, <span class="number">1.8</span>, -<span class="number">0.2</span>],
+        [<span class="number">0.0</span>, -<span class="number">0.2</span>,  <span class="number">0.0</span>]
+    ]);
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <h4>Curves</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"curves"</span>, <span class="keyword">function</span>(s, c1, c2, e) {
+    <span class="keyword">var</span> bezier = <span class="keyword">new</span> Filtrr2.Util.Bezier(s, c1, c2, e),
+        points = bezier.genColorTable();
+    <span class="keyword">this</span>.process(<span class="keyword">function</span>(rgba) 
+    {
+        rgba.r = points[rgba.r];
+        rgba.g = points[rgba.g];
+        rgba.b = points[rgba.b];
+    });    
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <h4>Expose [-100, 100]</h4>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.fx(<span class="string">"expose"</span>, <span class="keyword">function</span>(p) {
+    <span class="keyword">var</span> p  = Filtrr2.Util.normalize(p, -<span class="number">1</span>, <span class="number">1</span>, -<span class="number">100</span>, <span class="number">100</span>),
+        c1 = {x: <span class="number">0</span>, y: <span class="number">255</span> * p},
+        c2 = {x: <span class="number">255</span> - (<span class="number">255</span> * p), y: <span class="number">255</span>};
+    <span class="keyword">this</span>.curves(
+        {x: <span class="number">0</span>, y: <span class="number">0</span>}, 
+        c1,
+        c2, 
+        {x: <span class="number">255</span>, y: <span class="number">255</span>}
+    );
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

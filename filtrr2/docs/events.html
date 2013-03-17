@@ -1,89 +1,157 @@
-<!DOCTYPE html>  <html> <head>   <title>events.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="effects.html">                 effects.js               </a>                                           <a class="source" href="events.html">                 events.js               </a>                                           <a class="source" href="filtrr2.html">                 filtrr2.js               </a>                                           <a class="source" href="layers.html">                 layers.js               </a>                                           <a class="source" href="util.html">                 util.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               events.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Copyright (C) 2012 Alex Michael</p>
+<!DOCTYPE html>
 
-<h3>Licence</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Permission is hereby granted, free of charge, to any person 
+<html>
+<head>
+  <title>events.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="effects.html">
+                effects.js
+              </a>
+            
+              
+              <a class="source" href="events.html">
+                events.js
+              </a>
+            
+              
+              <a class="source" href="filtrr2.html">
+                filtrr2.js
+              </a>
+            
+              
+              <a class="source" href="layers.html">
+                layers.js
+              </a>
+            
+              
+              <a class="source" href="util.html">
+                util.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>events.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Copyright (C) 2012 Alex Michael</p>
+<h3>Licence</h3>
+<p>Permission is hereby granted, free of charge, to any person 
 obtaining a copy of this software and associated documentation 
-files (the "Software"), to deal in the Software without restriction, 
+files (the &quot;Software&quot;), to deal in the Software without restriction, 
 including without limitation the rights to use, copy, modify, 
 merge, publish, distribute, sublicense, and/or sell copies of 
 the Software, and to permit persons to whom the Software is 
 furnished to do so, subject to the following conditions:</p>
-
 <p>The above copyright notice and this permission notice shall be included 
 in all copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, 
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
 ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
-OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>Documentation</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h4>Filtrr2.Events</h4>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>A simplistic Pub/Sub mechanism inspired by <code>Backbone.js</code>. It 
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>
+<h3>Documentation</h3>
+<h4>Filtrr2.Events</h4>
+<p>A simplistic Pub/Sub mechanism inspired by <code>Backbone.js</code>. It 
 provides three API methods:</p>
-
 <p><code>on(ev, callback, ctx)</code></p>
-
 <p>Register a callback <code>callback</code> on an event <code>ev</code>. When the callback is 
 called, call it with the given context <code>ctx</code>.</p>
-
 <p><code>off(ev, callback)</code></p>
-
 <p>Unregister the callback <code>callback</code> for the given event <code>ev</code>.</p>
-
 <p><code>trigger(ev)</code></p>
+<p>Trigger all registered callbacks for event <code>ev</code>.</p>
 
-<p>Trigger all registered callbacks for event <code>ev</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Events</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">registry</span> <span class="o">=</span> <span class="p">{};</span>        
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>Filtrr2.Events = <span class="keyword">function</span>()
+{
+    <span class="keyword">var</span> registry = {};        
     
-    <span class="k">this</span><span class="p">.</span><span class="nx">on</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">ctx</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">registry</span><span class="p">[</span><span class="nx">ev</span><span class="p">])</span> <span class="p">{</span>
-            <span class="nx">registry</span><span class="p">[</span><span class="nx">ev</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
-        <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">ctx</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">ctx</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="nx">registry</span><span class="p">[</span><span class="nx">ev</span><span class="p">].</span><span class="nx">push</span><span class="p">({</span>
-            <span class="nx">cback</span><span class="o">:</span> <span class="nx">callback</span><span class="p">,</span>
-            <span class="nx">ctx</span><span class="o">:</span> <span class="nx">ctx</span>
-        <span class="p">});</span>
-    <span class="p">};</span>
+    <span class="keyword">this</span>.on = <span class="keyword">function</span>(ev, callback, ctx)
+    {
+        <span class="keyword">if</span> (!registry[ev]) {
+            registry[ev] = [];
+        }
+        <span class="keyword">if</span> (ctx === <span class="literal">undefined</span>) {
+            ctx = <span class="literal">null</span>;
+        }
+        registry[ev].push({
+            cback: callback,
+            ctx: ctx
+        });
+    };
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">off</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">cbacks</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">cb</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">offs</span> <span class="o">=</span> <span class="p">[];</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">registry</span><span class="p">[</span><span class="nx">ev</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">registry</span><span class="p">[</span><span class="nx">ev</span><span class="p">].</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">registry</span><span class="p">[</span><span class="nx">ev</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">cbacks</span> <span class="o">=</span> <span class="nx">registry</span><span class="p">[</span><span class="nx">ev</span><span class="p">];</span>
-                <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">cbacks</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="nx">cbacks</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span> <span class="p">{</span>
-                        <span class="nx">cb</span> <span class="o">=</span> <span class="nx">cbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="nx">cb</span><span class="p">.</span><span class="nx">cback</span> <span class="o">===</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-                            <span class="k">delete</span> <span class="nx">cbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-                        <span class="p">}</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">};</span>
+    <span class="keyword">this</span>.off = <span class="keyword">function</span>(ev, callback)
+    {
+        <span class="keyword">var</span> i = <span class="number">0</span>, cbacks = [], cb = <span class="literal">null</span>, offs = [];
+        <span class="keyword">if</span> (registry[ev] &amp;&amp; registry[ev].length &gt; <span class="number">0</span>) {
+            <span class="keyword">if</span> (!callback) {
+                registry[ev] = [];
+            } <span class="keyword">else</span> {
+                cbacks = registry[ev];
+                <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; cbacks.length; i++) {
+                    <span class="keyword">if</span> (cbacks.hasOwnProperty(i)) {
+                        cb = cbacks[i];
+                        <span class="keyword">if</span> (cb.cback === callback) {
+                            <span class="keyword">delete</span> cbacks[i];
+                        }
+                    }
+                }
+            }
+        }
+    };
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">trigger</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">cbacks</span> <span class="o">=</span> <span class="nx">registry</span><span class="p">[</span><span class="nx">ev</span><span class="p">],</span>
-            <span class="nx">i</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">cb</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
-            <span class="nx">args</span> <span class="o">=</span> <span class="p">[].</span><span class="nx">slice</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
-        <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="k">in</span> <span class="nx">cbacks</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">cbacks</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span> <span class="p">{</span>
-                <span class="nx">cb</span> <span class="o">=</span> <span class="nx">cbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="nx">cb</span><span class="p">.</span><span class="nx">cback</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">cb</span><span class="p">.</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">args</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">};</span>
-<span class="p">};</span>
-     
-
-</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+    <span class="keyword">this</span>.trigger = <span class="keyword">function</span>(ev)
+    {
+        <span class="keyword">var</span> cbacks = registry[ev],
+            i = <span class="literal">null</span>, cb = <span class="literal">null</span>,
+            args = [].slice.apply(arguments);
+        <span class="keyword">for</span> (i <span class="keyword">in</span> cbacks) {
+            <span class="keyword">if</span> (cbacks.hasOwnProperty(i)) {
+                cb = cbacks[i];
+                <span class="keyword">if</span> (cb) {
+                    cb.cback.apply(cb.ctx, args.slice(<span class="number">1</span>));
+                }
+            }
+        }
+    };
+};</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

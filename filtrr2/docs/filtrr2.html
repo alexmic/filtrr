@@ -1,184 +1,573 @@
-<!DOCTYPE html>  <html> <head>   <title>filtrr2.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="effects.html">                 effects.js               </a>                                           <a class="source" href="events.html">                 events.js               </a>                                           <a class="source" href="filtrr2.html">                 filtrr2.js               </a>                                           <a class="source" href="layers.html">                 layers.js               </a>                                           <a class="source" href="util.html">                 util.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               filtrr2.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Copyright (C) 2012 Alex Michael</p>
+<!DOCTYPE html>
 
-<h3>Licence</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Permission is hereby granted, free of charge, to any person 
-obtaining a copy of this software and associated documentation 
-files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, 
-merge, publish, distribute, sublicense, and/or sell copies of 
-the Software, and to permit persons to whom the Software is 
+<html>
+<head>
+  <title>filtrr2.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="effects.html">
+                effects.js
+              </a>
+            
+              
+              <a class="source" href="events.html">
+                events.js
+              </a>
+            
+              
+              <a class="source" href="filtrr2.html">
+                filtrr2.js
+              </a>
+            
+              
+              <a class="source" href="layers.html">
+                layers.js
+              </a>
+            
+              
+              <a class="source" href="util.html">
+                util.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>filtrr2.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Copyright (C) 2012 Alex Michael</p>
+<h3>Licence</h3>
+<p>Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the &quot;Software&quot;), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify,
+merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:</p>
-
-<p>The above copyright notice and this permission notice shall be included 
+<p>The above copyright notice and this permission notice shall be included
 in all copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
-ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
-OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>Documentation</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h4>F</h4>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>The F object is created and returned by the <code>Filtrr2</code> 
-constructor. Users can save a reference to this object to 
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+<h3>Documentation</h3>
+<h4>F</h4>
+<p>The F object is created and returned by the <code>Filtrr2</code>
+constructor. Users can save a reference to this object to
 manually update the state of the image later on.
 It provides a simple API which allows one to save the image,
-provide callbacks to be called when the image is ready and 
+provide callbacks to be called when the image is ready and
 update the image with new effects manually, instead of one-off
-in the constructor callback.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">F</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">)</span>
-<span class="p">{</span>   
-    <span class="kd">var</span> <span class="nx">name</span>   <span class="o">=</span> <span class="nx">el</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">nodeName</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">(),</span>
-        <span class="nx">offset</span> <span class="o">=</span> <span class="nx">el</span><span class="p">.</span><span class="nx">position</span><span class="p">(),</span>
-        <span class="nx">events</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
-        <span class="nx">_ready</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-        <span class="nx">_callback</span> <span class="o">=</span> <span class="nx">callback</span> <span class="o">||</span> <span class="kc">null</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Replaces an image with a canvas element.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">repl</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">pic</span><span class="p">)</span> 
-    <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
+in the constructor callback.</p>
 
-        <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">el</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">);</span>
-        <span class="nx">img</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">proxy</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;canvas&gt;&quot;</span><span class="p">,</span> <span class="p">{</span>
-                        <span class="s1">&#39;id&#39;</span>   <span class="o">:</span> <span class="s2">&quot;filtrr2-&quot;</span> <span class="o">+</span> <span class="nx">el</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">),</span>
-                        <span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">),</span> 
-                        <span class="s1">&#39;style&#39;</span><span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;style&#39;</span><span class="p">)</span>
-                    <span class="p">})</span>
-                    <span class="p">.</span><span class="nx">css</span><span class="p">({</span>
-                        <span class="nx">width</span>   <span class="o">:</span> <span class="nx">img</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span>
-                        <span class="nx">height</span>  <span class="o">:</span> <span class="nx">img</span><span class="p">.</span><span class="nx">height</span><span class="p">,</span>
-                        <span class="nx">top</span>     <span class="o">:</span> <span class="nx">offset</span><span class="p">.</span><span class="nx">top</span><span class="p">,</span>
-                        <span class="nx">left</span>    <span class="o">:</span> <span class="nx">offset</span><span class="p">.</span><span class="nx">left</span>
-                    <span class="p">}),</span>
-                <span class="nx">canv</span> <span class="o">=</span> <span class="nx">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">ctx</span><span class="p">;</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">var</span> F = <span class="keyword">function</span>(el, callback, timestamp)
+{
+    <span class="keyword">var</span> name   = el[<span class="number">0</span>].nodeName.toLowerCase(),
+        offset = el.position(),
+        events = <span class="literal">null</span>,
+        _ready = <span class="literal">false</span>,
+        _callback = callback || <span class="literal">null</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Replaces an image with a canvas element.</p>
 
-            <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span>  <span class="o">=</span> <span class="nx">c</span><span class="p">;</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">var</span> repl = <span class="keyword">function</span>(pic)
+    {
+        <span class="keyword">var</span> img = <span class="keyword">new</span> Image();
 
-            <span class="nx">canv</span><span class="p">.</span><span class="nx">width</span>  <span class="o">=</span> <span class="nx">img</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
-            <span class="nx">canv</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">img</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+        img.src = el.attr(<span class="string">"src"</span>);
+        img.onload = $.proxy(<span class="keyword">function</span>()
+        {
+            <span class="keyword">var</span> c = $(<span class="string">"&lt;canvas&gt;"</span>, {
+                        <span class="string">'id'</span>   : <span class="string">"filtrr2-"</span> + el.attr(<span class="string">'id'</span>),
+                        <span class="string">'class'</span>: el.attr(<span class="string">'class'</span>),
+                        <span class="string">'style'</span>: el.attr(<span class="string">'style'</span>)
+                    })
+                    .css({
+                        width: el.width(),
+                        height: el.height(),
+                        top : offset.top,
+                        left: offset.left
+                    }),
+                canv = c[<span class="number">0</span>], ctx;
 
-            <span class="nx">canv</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">&quot;2d&quot;</span><span class="p">).</span><span class="nx">drawImage</span><span class="p">(</span><span class="nx">img</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-            </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Replace with canvas.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="nx">el</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
-            <span class="nx">el</span><span class="p">.</span><span class="nx">parent</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>All done - call callback with a new 
-ImageProcessor object as context.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="k">this</span><span class="p">.</span><span class="nx">processor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">ImageProcessor</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">_callback</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">_callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">processor</span><span class="p">);</span>
-            <span class="p">}</span>
-            <span class="nx">_ready</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="keyword">this</span>.canvas  = c;
 
-        <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Original element, usually a picture.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">el</span> <span class="o">=</span> <span class="nx">el</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>When was this created? Mainly for testing purposes.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">created</span> <span class="o">=</span> <span class="nx">timestamp</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Reference to the image processor.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">processor</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Reference to the canvas element.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Setup proxies for the event methods. The <code>on()</code>
+            canv.width  = img.width;
+            canv.height = img.height;
+
+            canv.getContext(<span class="string">"2d"</span>).drawImage(img, <span class="number">0</span>, <span class="number">0</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Replace with canvas.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>el.hide();
+            el.parent().append(c);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>All done - call callback with a new
+ImageProcessor object as context.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.processor = <span class="keyword">new</span> Filtrr2.ImageProcessor(<span class="keyword">this</span>);
+            <span class="keyword">if</span> (_callback) {
+                _callback.call(<span class="keyword">this</span>.processor);
+            }
+            _ready = <span class="literal">true</span>;
+
+        }, <span class="keyword">this</span>);
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Original element, usually a picture.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.el = el;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>When was this created? Mainly for testing purposes.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.created = timestamp;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Reference to the image processor.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.processor = <span class="literal">null</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Reference to the canvas element.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.canvas = <span class="literal">null</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Setup proxies for the event methods. The <code>on()</code>
 method is replaced with a proxy method which sets
-the context of all events to <code>this</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">events</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">Events</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">on</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">proxy</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">events</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="nx">ev</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
-    <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">off</span> <span class="o">=</span> <span class="nx">events</span><span class="p">.</span><span class="nx">off</span><span class="p">;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">trigger</span> <span class="o">=</span> <span class="nx">events</span><span class="p">.</span><span class="nx">trigger</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Register a callback to be called when <code>Filtrr2</code> is ready. If
-it's already ready by the time of this call, the callback
+the context of all events to <code>this</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>events = <span class="keyword">new</span> Filtrr2.Events();
+    <span class="keyword">this</span>.on = $.proxy(<span class="keyword">function</span>(ev, callback) {
+        events.on(ev, callback, <span class="keyword">this</span>);
+    }, <span class="keyword">this</span>);
+    <span class="keyword">this</span>.off = events.off;
+    <span class="keyword">this</span>.trigger = events.trigger;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Register a callback to be called when <code>Filtrr2</code> is ready. If
+it&#39;s already ready by the time of this call, the callback
 will immediately fire. If a callback was passed through
 the <code>Filtrr2</code> constructor, then any callback passed through
-this method will override that.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">ready</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">_ready</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="nx">_callback</span> <span class="o">=</span> <span class="nx">callback</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_ready</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">_callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">ip</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Update <code>Filtrr2</code> through a callback. The callback
-is given the ImageProcessor as context. Used to 
-dynamically update the image with new filters. 
+this method will override that.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.ready = <span class="keyword">function</span>(callback)
+    {
+        <span class="keyword">if</span> (!callback) {
+            <span class="keyword">return</span> _ready;
+        }
+        _callback = callback;
+        <span class="keyword">if</span> (_ready) {
+            _callback.call(<span class="keyword">this</span>.ip);
+        }
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Update <code>Filtrr2</code> through a callback. The callback
+is given the ImageProcessor as context. Used to
+dynamically update the image with new filters.
 This method will only execute if <code>Filtrr2</code> is ready,
-otherwise the callback is ignored.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">_ready</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">processor</span><span class="p">);</span>        
-            <span class="p">}</span>
-        <span class="p">};</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>'Forces' a download of the current image. If the 
-canvas is not ready this is a noop.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">save</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">type</span> <span class="o">||</span> <span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="nx">mimetype</span> <span class="o">=</span> <span class="s2">&quot;image/&quot;</span> <span class="o">+</span> <span class="nx">type</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_ready</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">data</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">toDataURL</span><span class="p">(</span><span class="nx">mimetype</span><span class="p">);</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">mimetype</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">mimetype</span> <span class="o">=</span> <span class="s2">&quot;image/png&quot;</span><span class="p">;</span>
-            <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Force octet-stream.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="nx">data</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">mimetype</span><span class="p">,</span> <span class="s2">&quot;image/octet-stream&quot;</span><span class="p">)</span>
-            <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">data</span>
-        <span class="p">}</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Resets the internal buffer of the object. This doesn't
+otherwise the callback is ignored.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.update = <span class="keyword">function</span>(callback)
+    {
+        <span class="keyword">if</span> (callback) {
+            <span class="keyword">if</span> (_ready) {
+                callback.call(<span class="keyword">this</span>.processor);
+            }
+        };
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>&#39;Forces&#39; a download of the current image. If the
+canvas is not ready this is a noop.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.save = <span class="keyword">function</span>(type)
+    {
+        <span class="keyword">var</span> data, type = type || <span class="string">"png"</span>, mimetype = <span class="string">"image/"</span> + type;
+        <span class="keyword">if</span> (_ready) {
+            data = <span class="keyword">this</span>.canvas[<span class="number">0</span>].toDataURL(mimetype);
+            <span class="keyword">if</span> (data.indexOf(mimetype) == -<span class="number">1</span>) {
+                mimetype = <span class="string">"image/png"</span>;
+            }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Force octet-stream.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>data = data.replace(mimetype, <span class="string">"image/octet-stream"</span>)
+            window.location.href = data
+        }
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Resets the internal buffer of the object. This doesn&#39;t
 reset the actual canvas. Therefore, you need to call
-render() for the reset to take place. </p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">reset</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_ready</span><span class="p">)</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">processor</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
-    <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>If this is an image we need to replace it with
-a canvas element.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">==</span> <span class="s2">&quot;img&quot;</span><span class="p">)</span> <span class="p">{</span>
-    
-        <span class="nx">repl</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">el</span><span class="p">);</span>  
-    </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>If this is a canvas element then create the processor 
-immediately.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">==</span> <span class="s2">&quot;canvas&quot;</span><span class="p">)</span> <span class="p">{</span>
-    
-        <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span> <span class="o">=</span> <span class="nx">el</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">processor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Filtrr2</span><span class="p">.</span><span class="nx">ImageProcessor</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_callback</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">_callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">processor</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="nx">_ready</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Only images and canvas elements are supported.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;&#39; is an invalid object.&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-    
-    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <h4>Filtrr2</h4>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>The constructor almighty. Performs checks for canvas support 
-and gets the element if it's a selector. Also maintains an 
+render() for the reset to take place.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">this</span>.reset = <span class="keyword">function</span>()
+    {
+        <span class="keyword">if</span> (_ready) <span class="keyword">return</span> <span class="keyword">this</span>.processor.reset();
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>If this is an image we need to replace it with
+a canvas element.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">if</span> (name == <span class="string">"img"</span>) {
+
+        repl.call(<span class="keyword">this</span>, el);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>If this is a canvas element then create the processor
+immediately.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>} <span class="keyword">else</span> <span class="keyword">if</span> (name == <span class="string">"canvas"</span>) {
+
+        <span class="keyword">this</span>.canvas = el;
+        <span class="keyword">this</span>.processor = <span class="keyword">new</span> Filtrr2.ImageProcessor(<span class="keyword">this</span>);
+        <span class="keyword">if</span> (_callback) {
+            _callback.call(<span class="keyword">this</span>.processor);
+        }
+        _ready = <span class="literal">true</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Only images and canvas elements are supported.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>} <span class="keyword">else</span> {
+        <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"'"</span> + name + <span class="string">"' is an invalid object."</span>);
+    }
+
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h4">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <h4>Filtrr2</h4>
+<p>The constructor almighty. Performs checks for canvas support
+and gets the element if it&#39;s a selector. Also maintains an
 internal cache of F instances keyd on selector. The timestamp
-on the cache entries serves no particular purpose - it's mainly
+on the cache entries serves no particular purpose - it&#39;s mainly
 for testing.
 The constructor can take an array of options. The only one supported
-so far is 'store' which if false, will not cache this</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">Filtrr2</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> 
-<span class="p">{</span>   
-    <span class="kd">var</span> <span class="nx">store</span> <span class="o">=</span> <span class="p">{};</span></pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Check for canvas compatibility.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;canvas/&gt;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">&quot;2d&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Canvas is not supported in this browser.&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+so far is &#39;store&#39; which if false, will not cache this</p>
 
-    <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">_el</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
-
-        <span class="kd">var</span> <span class="nx">t</span><span class="p">,</span> <span class="nx">el</span><span class="p">,</span> <span class="nx">isSelector</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">inst</span><span class="p">;</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="nx">options</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span><span class="nx">store</span><span class="o">:</span> <span class="kc">true</span><span class="p">};</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">_el</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">||</span> <span class="nx">_el</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;The element you gave Filtrr2 was not defined.&quot;</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="nx">t</span>  <span class="o">=</span> <span class="k">typeof</span> <span class="nx">_el</span><span class="p">;</span>
-        <span class="nx">el</span> <span class="o">=</span> <span class="nx">_el</span><span class="p">;</span> </pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Is this a string i.e a jQuery selector?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">isSelector</span> <span class="o">=</span> <span class="p">(</span><span class="nx">t</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span> 
-            <span class="o">||</span> <span class="nx">t</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">_el</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;String&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">var</span> Filtrr2 = (<span class="keyword">function</span>()
+{
+    <span class="keyword">var</span> store = {};</pre></div></div>
+            
+        </li>
         
-        <span class="k">if</span> <span class="p">(</span><span class="nx">isSelector</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">key</span> <span class="o">=</span> <span class="nx">_el</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nx">key</span> <span class="o">=</span> <span class="nx">_el</span><span class="p">.</span><span class="nx">selector</span><span class="p">;</span>
-        <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If cached return cached F instance.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">])</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">F</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">isSelector</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">el</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">_el</span><span class="p">);</span>
-            <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Bad selector!</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="k">if</span> <span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Element not found.&quot;</span><span class="p">);</span>
-            <span class="p">}</span>
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Check for canvas compatibility.</p>
 
-            <span class="nx">timestamp</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">();</span>
-            <span class="nx">inst</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">F</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">);</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">store</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="nx">timestamp</span><span class="o">:</span> <span class="nx">timestamp</span><span class="p">,</span>
-                    <span class="nx">F</span><span class="o">:</span> <span class="nx">inst</span>
-                <span class="p">};</span>
-            <span class="p">}</span>
-            <span class="k">return</span> <span class="nx">inst</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">};</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">if</span> ($(<span class="string">"&lt;canvas/&gt;"</span>)[<span class="number">0</span>].getContext(<span class="string">"2d"</span>) == <span class="literal">null</span>) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Canvas is not supported in this browser."</span>);
+    }
 
-<span class="p">}());</span>
+    <span class="keyword">return</span> <span class="keyword">function</span>(_el, callback, options) {
 
-</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+        <span class="keyword">var</span> t, el, isSelector, timestamp, key, inst;
+
+        <span class="keyword">if</span> (options == <span class="literal">null</span>) options = {store: <span class="literal">true</span>};
+
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> _el === <span class="string">'undefined'</span> || _el === <span class="literal">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"The element you gave Filtrr2 was not defined."</span>);
+        }
+
+        t  = <span class="keyword">typeof</span> _el;
+        el = _el;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Is this a string i.e a jQuery selector?</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>isSelector = (t === <span class="string">'string'</span>
+            || t === <span class="string">'object'</span> &amp;&amp; _el.constructor.toString().indexOf(<span class="string">"String"</span>) &gt; -<span class="number">1</span>);
+
+        <span class="keyword">if</span> (isSelector) {
+            key = _el;
+        } <span class="keyword">else</span> {
+            key = _el.selector;
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>If cached return cached F instance.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">if</span> (store[key]) {
+            <span class="keyword">return</span> store[key].F;
+        } <span class="keyword">else</span> {
+            <span class="keyword">if</span> (isSelector) {
+                el = $(_el);
+            }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Bad selector!</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">if</span> (el.length === <span class="number">0</span>) {
+                <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Element not found."</span>);
+            }
+
+            timestamp = <span class="keyword">new</span> Date().getTime();
+            inst = <span class="keyword">new</span> F(el, callback, timestamp);
+            <span class="keyword">if</span> (options.store) {
+                store[key] = {
+                    timestamp: timestamp,
+                    F: inst
+                };
+            }
+            <span class="keyword">return</span> inst;
+        }
+    };
+
+}());</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

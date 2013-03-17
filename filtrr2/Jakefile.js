@@ -1,5 +1,5 @@
 /*
- * Filtrr2 build script. 
+ * Filtrr2 build script.
  *
  * Builds and tests filtrr2. To use this you need to have
  * node.js and jake installed on your machine.
@@ -9,9 +9,9 @@ var exec  = require('child_process').exec,
     fs    = require('fs');
 
 // Increment this version number for new builds.
-FILTRR2_VERSION = "0.6.2"
+FILTRR2_VERSION = "0.6.3"
 
-// Generates Docco documentation. Navigate into the filtrr2 
+// Generates Docco documentation. Navigate into the filtrr2
 // directory first and run this task. The newly created
 // documentation will be in docs/.
 task('docs', [], function(params) {
@@ -59,7 +59,7 @@ task('build', [], function(params) {
         }
     }
     console.log("Removed old builds.")
-    
+
     // Create new build.
     exec(cmd, function(error, stdout, stderr) {
         if (error === null) {

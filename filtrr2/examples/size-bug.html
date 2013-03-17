@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/></script>
+        <script type="text/javascript" src="../src/filtrr2.js"></script>
+        <script type="text/javascript" src="../src/layers.js"></script>
+        <script type="text/javascript" src="../src/effects.js"></script>
+        <script type="text/javascript" src="../src/events.js"></script>
+        <script type="text/javascript" src="../src/util.js"></script>
+    </head>
+    <body>
+        <img src="megan_fox.jpg"/>
+        <img id="img" width=50 height=50  src="megan_fox.jpg"/>
+        <script type="text/javascript">
+            Filtrr2("#img", function() {
+                this.reset().render();
+            });
+        </script>
+    </body>
+</html>
