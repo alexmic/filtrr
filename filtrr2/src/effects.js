@@ -471,4 +471,15 @@ Filtrr2.fx("expose", function(p) {
         {x: 255, y: 255}
     );
 });
-  
+
+// #### Luminance
+Filtrr2.fx('luminance', function() {
+    this.process(function(rgba) {
+        // Y = 0.2126 r + 0.7152 g + 0.0722 * b
+        var y = (0.2126 * rgba.r) + (0.7152 * rgba.g) + (0.0722 * rgba.b);
+
+        rgba.r = y | 0;
+        rgba.g = y | 0;
+        rgba.b = y | 0;
+    });
+});

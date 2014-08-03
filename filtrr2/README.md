@@ -111,6 +111,7 @@ or the ```docs/``` directory for information on these.
 13. Posterize
 14. Invert
 15. Alpha
+16. Luminance (black & white)
 
 ### Blending modes
 
